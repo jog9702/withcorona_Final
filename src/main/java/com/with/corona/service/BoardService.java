@@ -10,5 +10,5 @@ public interface BoardService {
 	List<BoardVO> qnaSelect();
 	
 	// 게시판 등록
-	int qnaInsert();
+	int qnaInsert(BoardVO boardVO);
 }

@@ -38,22 +38,16 @@ public class LoginController {
 		
 		userVO.setUserId(userId);
 		userVO.setUserPassword(userPassword);
-		System.out.println(userVO.getUserId());
-		System.out.println(userVO.getUserPassword());
 		
 		UserVO result = loginService.login(userVO);
-		
-		System.out.println(result.getUserId());
-		System.out.println(result.getUserPassword());
-		System.out.println(result.getUserAuth());
 		
 		if(result.getUserAuth() != null) {
 			System.out.println("로그인 성공");
 			request.getSession().setAttribute("userId", result.getUserId());
 			request.getSession().setAttribute("userVO", result);
-			System.out.println(result.getUserId());
-			System.out.println(result.getUserPassword());
-			System.out.println(result.getUserAuth());
+			System.out.println("아이디 : " + result.getUserId());
+			System.out.println("비밀번호 : " + result.getUserPassword());
+			System.out.println("권한 : " + result.getUserAuth());
 			login = "redirect:/qna";
 		} else {
 			System.out.println("로그인 실패");

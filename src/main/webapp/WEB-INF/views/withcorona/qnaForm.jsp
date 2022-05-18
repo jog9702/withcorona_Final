@@ -87,10 +87,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ vo.userAuth == null }">
+        	<c:if test="${ userVO.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ vo.userAuth != null }">
+        	<c:if test="${ userVO.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>
@@ -104,19 +104,19 @@
     </div>
     </header>
     <section>
-		<c:if test="${ vo.userAuth == null }">
+		<c:if test="${ userVO.userAuth == null }">
     		<script>
     			alert("로그인을 해야합니다.");
     			location.href="/withcorona/login";
     		</script>
     		
     	</c:if>
-    	<c:if test="${ vo.userAuth != null }">
+    	<c:if test="${ userVO.userAuth != null }">
     		<h1 class="mgt">새글 쓰기</h1>
-			<form name="qnaForm" method="post" action="${ contextPath }/withcorona/qnaInsert">
-			제목 : <input type="text" placeholder="제목을 입력하세요" name="title" required><br>
+			<form name="qnaInsert" method="post" action="${ contextPath }/withcorona/qnaInsert">
+			제목 : <input type="text" placeholder="제목을 입력하세요" name="boardTitle" required><br>
 			내용 : <br>
-			<textarea name="desc" rows=10 cols=65 maxlength="4000" placeholder="내용을 입력하세요" required></textarea>
+			<textarea name="boardDesc" rows=10 cols=65 maxlength="4000" placeholder="내용을 입력하세요" required></textarea>
 			<br><br>
 			<input type="submit" value="글쓰기">
 			<input type="button" value="목록보기" onclick="goList();">

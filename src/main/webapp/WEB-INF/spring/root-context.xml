@@ -13,6 +13,7 @@
          value="classpath*:mybatis/withcorona/*.xml" />
       <!-- mapper에서 사용할 DTO들의 기본 패키지를 등록한다. -->
       <property name="typeAliasesPackage" value="com.with.corona.vo"></property>
+      <property name="configLocation" value="classpath:mybatis/config/mybatis-config.xml"></property>
    	</bean>
    
 </beans>

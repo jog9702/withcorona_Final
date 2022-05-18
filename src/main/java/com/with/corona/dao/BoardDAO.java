@@ -10,8 +10,8 @@ public interface BoardDAO {
 	//게시판 조회
 	List<BoardVO> qnaSelect();
 	
-	// 게시판 입력
-	int qnaInsert();
+	// 게시판 등록
+	int qnaInsert(BoardVO boardVO);
 	
 	// 게시판 상세 조회
 	BoardVO qnaView();

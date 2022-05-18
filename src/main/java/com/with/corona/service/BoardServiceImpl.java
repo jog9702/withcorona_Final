@@ -21,10 +21,11 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.qnaSelect();
 	}
 
+	// 게시판 등록
 	@Override
-	public int qnaInsert() {
+	public int qnaInsert(BoardVO boardVO) {
 
-		return boardDAO.qnaInsert();
+		return boardDAO.qnaInsert(boardVO);
 	}
 
 

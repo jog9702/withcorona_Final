@@ -25,9 +25,11 @@ public class BoardDAOImpl implements BoardDAO{
 		return qnaList;
 	}
 
+	// 게시판 등록
 	@Override
-	public int qnaInsert() {
-		int qnaInsert = sqlSession.insert("mapper.withcorona.qnaInsert");
+	public int qnaInsert(BoardVO boardVO) {
+		System.out.println(boardVO.getUserId());
+		int qnaInsert = sqlSession.insert("mapper.withcorona.qnaInsert", boardVO);
 		
 		return qnaInsert;
 	}
