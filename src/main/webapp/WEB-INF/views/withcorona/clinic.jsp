@@ -169,7 +169,7 @@
 						"action" : "clinic"
 					}
 					
-				let url = "http://localhost:8080/corona/result";
+				let url = "http://localhost:8080/withcorona/result";
 					
 				$.ajax({
 					"url": url,
