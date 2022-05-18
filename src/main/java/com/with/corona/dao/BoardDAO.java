@@ -6,7 +6,7 @@ import com.with.corona.vo.BoardVO;
 import com.with.corona.vo.CommentVO;
 
 public interface BoardDAO {
-
+	
 	//게시판 조회
 	List<BoardVO> qnaSelect();
 	
@@ -37,5 +37,5 @@ public interface BoardDAO {
 	// 댓글 삭제
 	int commentDelete();
 	
-
+	
 }

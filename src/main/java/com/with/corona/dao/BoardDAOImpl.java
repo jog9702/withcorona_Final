@@ -17,7 +17,7 @@ public class BoardDAOImpl implements BoardDAO{
 	@Autowired
 	SqlSession sqlSession;
 	
-	// qnaList에 게시판 조회 셀렉트리스트를 넣어줌
+	// qnaList에 게시판 조회 셀렉트리스트를 넣음
 	@Override
 	public List<BoardVO> qnaSelect() {
 		List<BoardVO> qnaList = sqlSession.selectList("mapper.withcorona.qnaSelect");
@@ -79,4 +79,6 @@ public class BoardDAOImpl implements BoardDAO{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 }
