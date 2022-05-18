@@ -85,10 +85,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ vo.userAuth == null }">
+        	<c:if test="${ userVO.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ vo.userAuth != null }">
+        	<c:if test="${ userVO.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>
@@ -103,9 +103,9 @@
     </header>
     <section>
     	<div class="mgt">
-	    	<form action="/withcorona/loginCheck" method="post">
-	    		<input class="size" type="text" name="id" placeholder="아이디" required><br>
-	    		<input class="size" type="password" name="pwd" placeholder="비밀번호" required><br>
+	    	<form action="/withcorona/login" method="post">
+	    		<input class="size" type="text" name="userId" placeholder="아이디" required><br>
+	    		<input class="size" type="password" name="userPassword" placeholder="비밀번호" required><br>
 	    		<input type="submit" value="로그인">
 	    		<input type="reset" value="다시입력"><br><br><br>
 	    	</form>

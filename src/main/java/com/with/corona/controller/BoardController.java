@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.with.corona.service.BoardService;
 import com.with.corona.vo.BoardVO;
+import com.with.corona.vo.UserVO;
 
 @Controller
 public class BoardController {
@@ -25,6 +28,7 @@ public class BoardController {
 		return "qna";
 	}
 	
+	// 게시판 등록 
 	@RequestMapping("/qnaForm")
 	public String qnaInsert(Model model) {
 		int qnaInsert = boardService.qnaInsert();
@@ -33,7 +37,6 @@ public class BoardController {
 		return "qna";
 	}
 	
-//	@RequestMapping("/login")
-//	public 
+
 	
 }
