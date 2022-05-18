@@ -12,7 +12,7 @@ public class BoardVO {
 	private String boardDesc;
 	private Date boardTime;
 	private int boardParentno;
-	
+	  
 	public BoardVO() {
 		
 	}
@@ -71,5 +71,11 @@ public class BoardVO {
 	}
 	public void setBoardParentno(int boardParentno) {
 		this.boardParentno = boardParentno;
+	}
+	
+	@Override
+	public String toString() {
+		return "BoardVO [level=" + level + ", boardId=" + boardId + ", userId=" + userId + ", boardTitle=" + boardTitle
+				+ ", boardDesc=" + boardDesc + ", boardTime=" + boardTime + ", boardParentno=" + boardParentno + "]";
 	}
 }

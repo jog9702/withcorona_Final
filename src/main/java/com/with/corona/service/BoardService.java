@@ -7,4 +7,6 @@ import com.with.corona.vo.BoardVO;
 public interface BoardService {
 	
 	List<BoardVO> qnaSelect();
+	
+	int qnaInsert();
 }

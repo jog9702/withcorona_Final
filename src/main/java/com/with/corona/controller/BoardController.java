@@ -18,10 +18,22 @@ public class BoardController {
 	
 	// qna 주소 입력시 서비스에서 게시판조회를 가져와 모델에 넣음
 	@RequestMapping("/qna")
-	public String memberList(Model model) {
+	public String qnaList(Model model) {
 		List<BoardVO> qnaList = boardService.qnaSelect();
 		model.addAttribute("qnaList", qnaList);
 		
 		return "qna";
 	}
+	
+	@RequestMapping("/qnaForm")
+	public String qnaInsert(Model model) {
+		int qnaInsert = boardService.qnaInsert();
+		model.addAttribute("qnaInsert", qnaInsert);
+		
+		return "qna";
+	}
+	
+//	@RequestMapping("/login")
+//	public 
+	
 }

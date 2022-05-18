@@ -17,6 +17,13 @@ public class BoardServiceImpl implements BoardService{
 	// DAO에서 게시판 조회를 가져옴
 	@Override
 	public List<BoardVO> qnaSelect(){
+		
 		return boardDAO.qnaSelect();
+	}
+
+	@Override
+	public int qnaInsert() {
+
+		return boardDAO.qnaInsert();
 	}
 }

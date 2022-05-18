@@ -1,6 +1,9 @@
 package com.with.corona.dao;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,9 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public int qnaInsert() {
-		// TODO Auto-generated method stub
-		return 0;
+		int qnaInsert = sqlSession.insert("mapper.withcorona.qnaInsert");
+		
+		return qnaInsert;
 	}
 
 	@Override
