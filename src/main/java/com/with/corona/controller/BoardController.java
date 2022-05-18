@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.with.corona.service.BoardService;
 import com.with.corona.vo.BoardVO;
+import com.with.corona.vo.CommentVO;
 
 @Controller
 public class BoardController {
@@ -52,6 +53,24 @@ public class BoardController {
 		return "redirect:qna";
 	}
 	
+	// 게시판 상세 조회
+	@RequestMapping("/qnaView")
+	public String qnaView(
+			Model model,
+			HttpServletRequest request
+			) {
+		BoardVO	boardVO = new BoardVO();
+		//CommentVO commentVo = new CommentVO();
+		
+		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
+		
+		System.out.println(boardVO.getBoardId());
+		BoardVO qnaView = boardService.qnaView(boardVO.getBoardId());
+		model.addAttribute("qnaView", qnaView);
+		
+		return "qnaView";
+	}
 
 	
 }

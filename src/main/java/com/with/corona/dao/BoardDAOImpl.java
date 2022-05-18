@@ -28,16 +28,17 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 등록
 	@Override
 	public int qnaInsert(BoardVO boardVO) {
-		System.out.println(boardVO.getUserId());
 		int qnaInsert = sqlSession.insert("mapper.withcorona.qnaInsert", boardVO);
 		
 		return qnaInsert;
 	}
 
+	// 게시판 상세 조회
 	@Override
-	public BoardVO qnaView() {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardVO qnaView(int boardId) {
+		BoardVO qnaView = sqlSession.selectOne("mapper.withcorona.qnaView", boardId);
+		
+		return qnaView;
 	}
 
 	@Override

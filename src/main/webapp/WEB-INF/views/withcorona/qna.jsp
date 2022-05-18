@@ -145,10 +145,10 @@
 											<span style="padding-right:10px"></span>
 										</c:forEach>
 										<span style="font-size:12px">[답변]</span>
-										<a href="${ contextPath }/withcorona/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
+										<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
 									</c:when>
 									<c:otherwise>
-										<a href="${ contextPath }/withcorona/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
+										<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
 									</c:otherwise>
 								</c:choose>
 							</td>

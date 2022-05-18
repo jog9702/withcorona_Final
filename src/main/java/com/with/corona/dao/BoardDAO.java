@@ -14,7 +14,9 @@ public interface BoardDAO {
 	int qnaInsert(BoardVO boardVO);
 	
 	// 게시판 상세 조회
-	BoardVO qnaView();
+	BoardVO qnaView(int boardId);
+	
+	
 	
 	// 게시판 수정
 	int qnaUpdate();

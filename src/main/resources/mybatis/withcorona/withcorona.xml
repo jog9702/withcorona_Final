@@ -25,7 +25,13 @@
 		insert into board_info (board_id, user_id, board_parentno, board_title, board_desc, board_time)
 		values(board_info_seq.nextval, #{userId}, #{boardParentno}, #{boardTitle}, #{boardDesc}, sysdate)
 	</select>
-	
+		
+	<!-- 게시판 상세 조회 쿼리문 -->
+	<select id="qnaView" resultType="boardVO" parameterType="boardVO">
+		select b.*, u.user_id
+		from board_info b, user_info u
+		where b.board_id = #{boardId} and b.user_id = u.user_id
+	</select>
 	
 	
 	

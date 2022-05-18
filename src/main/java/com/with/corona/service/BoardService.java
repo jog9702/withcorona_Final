@@ -11,4 +11,7 @@ public interface BoardService {
 	
 	// 게시판 등록
 	int qnaInsert(BoardVO boardVO);
+	
+	// 게시판 상세 조회
+	BoardVO qnaView(int boardId);
 }

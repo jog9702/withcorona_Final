@@ -28,5 +28,11 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.qnaInsert(boardVO);
 	}
 
+	@Override
+	public BoardVO qnaView(int boardId) {
+		
+		return boardDAO.qnaView(boardId);
+	}
+
 
 }
