@@ -4,12 +4,6 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.withcorona">
 
-	<!-- 로그인시 db에 있는 정보와 비교하는 쿼리문 -->
-	<select id="login" resultType="userVO" parameterType="userVO">
-		select user_id userId, user_password userPassword, user_auth userAuth from user_info
-		where user_id = #{userId} and user_password = #{userPassword}
-	</select>
-
 	<!-- 게시판 조회 쿼리문 -->
 	<select id="qnaSelect" resultType="boardVO">
 			select level, board_id boardId, board_parentno boardParentno, board_title boardTitle, board_desc boardDesc, board_time boardTime, u.user_id userId

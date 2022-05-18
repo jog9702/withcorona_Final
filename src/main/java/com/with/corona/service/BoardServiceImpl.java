@@ -26,6 +26,4 @@ public class BoardServiceImpl implements BoardService{
 
 		return boardDAO.qnaInsert();
 	}
-
-
 }
