@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.with.corona.dao.BoardDAO;
 import com.with.corona.vo.BoardVO;
+import com.with.corona.vo.PagingVO;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -16,11 +17,18 @@ public class BoardServiceImpl implements BoardService{
 	
 	// DAO에서 게시판 조회를 가져옴
 	@Override
-	public List<BoardVO> qnaSelect(){
+	public List<BoardVO> qnaSelect(PagingVO pagingVO){
 		
-		return boardDAO.qnaSelect();
+		return boardDAO.qnaSelect(pagingVO);
 	}
-
+	
+	// 페이징 처리 (글 전체 개수)
+	@Override
+	public int qnaTotal() {
+		
+		return boardDAO.qnaTotal();
+	}
+	
 	// 게시판 등록
 	@Override
 	public int qnaInsert(BoardVO boardVO) {
@@ -33,6 +41,8 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardDAO.qnaView(boardId);
 	}
+
+
 
 
 }

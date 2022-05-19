@@ -54,7 +54,15 @@ public class LoginController {
 			login = "/withcorona/login";
 		}
 
-		
 		return login;
+	}
+	
+	// 로그아웃 세션을 삭제해서 처리
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		return "redirect:qna";
 	}
 }
