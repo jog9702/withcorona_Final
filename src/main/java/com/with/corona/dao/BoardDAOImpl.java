@@ -64,4 +64,11 @@ public class BoardDAOImpl implements BoardDAO{
 		return qnaDelete;
 	}
 
+	@Override
+	public int qnaReply(BoardVO boardVO) {
+		int qnaReply = sqlSession.insert("mapper.board.qnaInsert", boardVO);
+				
+		return qnaReply;
+	}
+
 }
