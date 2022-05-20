@@ -129,10 +129,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ vo.userAuth == null }">
+        	<c:if test="${ userVO.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ vo.userAuth != null }">
+        	<c:if test="${ userVO.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>
@@ -156,7 +156,7 @@
         </div>
         
         <div class= "center update">
-	        <c:if test="${ vo.userAuth eq '1' }">
+	        <c:if test="${ userVO.userAuth eq '1' }">
 		        <button type="button" id="tableReset">테이블 초기화</button>
 	        </c:if>
         </div>
