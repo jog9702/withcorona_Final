@@ -14,7 +14,7 @@ public class LoginDAOImpl implements LoginDAO{
 	// 로그인할때 아이디와 비밀번호를 db와 비교
 	@Override
 	public UserVO login(UserVO userVO) {
-		UserVO login = sqlSession.selectOne("mapper.withcorona.login", userVO);
+		UserVO login = sqlSession.selectOne("mapper.login.login", userVO);
 		
 		return login;
 	}

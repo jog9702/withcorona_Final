@@ -109,13 +109,7 @@
 	    		<input type="submit" value="로그인">
 	    		<input type="reset" value="다시입력"><br><br><br>
 	    	</form>
-<<<<<<< Updated upstream
-	    	<a href="/withcorona/signup">회원 가입</a>
-=======
-	    	<a href="/withcorona/signUp">회원 가입</a><br>
-	    	<a href="/withcorona/member/testLoginId">아이디 찾기</a> |
-	    	<a href="/withcorona/member/testLoginPasswd">비밀번호 찾기</a>
->>>>>>> Stashed changes
+	    	<a href="/withcorona/signUp">회원 가입</a>
     	</div>
     </section>
     </div>

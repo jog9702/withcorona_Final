@@ -19,7 +19,7 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<BoardVO> qnaSelect(PagingVO pagingVO) {
 		System.out.println("111 : "+pagingVO.getStart()+","+pagingVO.getEnd());
-		List<BoardVO> qnaList = sqlSession.selectList("mapper.withcorona.qnaSelect", pagingVO);
+		List<BoardVO> qnaList = sqlSession.selectList("mapper.board.qnaSelect", pagingVO);
 		
 		return qnaList;
 	}
@@ -27,7 +27,7 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 페이징 처리 (전체 글 개수)
 	@Override
 	public int qnaTotal() {
-		int qnaTotal = sqlSession.selectOne("mapper.withcorona.qnaTotal");
+		int qnaTotal = sqlSession.selectOne("mapper.board.qnaTotal");
 		
 		return qnaTotal;
 	}
@@ -35,7 +35,7 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 등록
 	@Override
 	public int qnaInsert(BoardVO boardVO) {
-		int qnaInsert = sqlSession.insert("mapper.withcorona.qnaInsert", boardVO);
+		int qnaInsert = sqlSession.insert("mapper.board.qnaInsert", boardVO);
 		
 		return qnaInsert;
 	}
@@ -43,7 +43,7 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 상세 조회
 	@Override
 	public BoardVO qnaView(int boardId) {
-		BoardVO qnaView = sqlSession.selectOne("mapper.withcorona.qnaView", boardId);
+		BoardVO qnaView = sqlSession.selectOne("mapper.board.qnaView", boardId);
 		
 		return qnaView;
 	}
@@ -51,7 +51,7 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 수정
 	@Override
 	public int qnaUpdate(BoardVO boardVO) {
-		int qnaUpdate = sqlSession.update("mapper.withcorona.qnaUpdate", boardVO);
+		int qnaUpdate = sqlSession.update("mapper.board.qnaUpdate", boardVO);
 		
 		return qnaUpdate;
 	}
@@ -59,36 +59,9 @@ public class BoardDAOImpl implements BoardDAO{
 	// 게시판 삭제
 	@Override
 	public int qnaDelete(int boardId) {
-		int qnaDelete = sqlSession.delete("mapper.withcorona.qnaDelete", boardId);
+		int qnaDelete = sqlSession.delete("mapper.board.qnaDelete", boardId);
 		
 		return qnaDelete;
 	}
-
-	@Override
-	public List<CommentVO> commentSelect() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int commentInsert() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int commentUpdate() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int commentDelete() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
-
 
 }

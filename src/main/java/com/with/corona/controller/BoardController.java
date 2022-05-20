@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.with.corona.service.BoardService;
+import com.with.corona.service.CommentService;
 import com.with.corona.vo.BoardVO;
 import com.with.corona.vo.CommentVO;
 import com.with.corona.vo.PagingVO;
@@ -22,9 +23,12 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
+	@Autowired
+	CommentService commentService;
+	
 	// 게시판과 댓글 VO 생성
 	BoardVO boardVO = new BoardVO();
-	CommentVO commentVo = new CommentVO();
+	CommentVO commentVO = new CommentVO();
 	
 	// qna 주소 입력시 서비스에서 게시판조회를 가져와 모델에 넣음
 	@RequestMapping("/qna")
@@ -116,7 +120,7 @@ public class BoardController {
 		return "redirect:qna";
 	}
 	
-	// 게시판 상세 조회
+	// 게시판 상세 조회 및 댓글 조회
 	@RequestMapping("/qnaView")
 	public String qnaView(
 			Model model,
@@ -132,6 +136,13 @@ public class BoardController {
 		System.out.println(boardVO.getBoardId());
 		BoardVO qnaView = boardService.qnaView(boardVO.getBoardId());
 		model.addAttribute("qnaView", qnaView);
+		
+		commentVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		System.out.println("commnet boardId : " + commentVO.getBoardId());
+		int id = commentVO.getBoardId();
+		List<CommentVO> commentList = commentService.commentList(id);
+		model.addAttribute("commentList", commentList);
+		
 		
 		return "qnaView";
 	}
@@ -186,7 +197,7 @@ public class BoardController {
 		
 		int qnaDelete = boardService.qnaDelete(boardVO.getBoardId());
 		
-		return "redirect:qna"; 
+		return "redirect:qna";
 	}
 	
 

@@ -225,10 +225,8 @@
 								</tr>
 							</c:when>
 							<c:when test="${! empty commentList }">
-								<c:forEach var="comment" items="${ commentList }"
-									varStatus="commentNum">
+								<c:forEach var="comment" items="${ commentList }" varStatus="commentNum">
 									<tr align="center">
-										<td width="5%">${ commentNum.count }</td>
 										<td width="10%">${ comment.userId }</td>
 										<td align="left" width="35%"><span
 											style="padding-right: 30px"></span> <c:choose>
