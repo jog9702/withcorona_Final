@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.with.corona.service.BoardService;
 import com.with.corona.vo.BoardVO;
+import com.with.corona.vo.CommentVO;
 import com.with.corona.vo.PagingVO;
 
 @Controller
@@ -19,6 +21,10 @@ public class BoardController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	// 게시판과 댓글 VO 생성
+	BoardVO boardVO = new BoardVO();
+	CommentVO commentVo = new CommentVO();
 	
 	// qna 주소 입력시 서비스에서 게시판조회를 가져와 모델에 넣음
 	@RequestMapping("/qna")
@@ -96,7 +102,7 @@ public class BoardController {
 	// 게시판 등록 request에 받아 boardVO에 넣고 인서트 
 	@RequestMapping(value="/qnaInsert", method=RequestMethod.POST)
 	public String qnaInsert(HttpServletRequest request) {
-		BoardVO boardVO = new BoardVO();
+//		BoardVO boardVO = new BoardVO();
 		boardVO.setBoardTitle(request.getParameter("boardTitle"));
 		boardVO.setBoardDesc(request.getParameter("boardDesc"));
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
@@ -116,8 +122,9 @@ public class BoardController {
 			Model model,
 			HttpServletRequest request
 			) {
-		BoardVO	boardVO = new BoardVO();
-		//CommentVO commentVo = new CommentVO();
+//		BoardVO	boardVO = new BoardVO();
+//		CommentVO commentVo = new CommentVO();
+		System.out.println("req : " + request.getParameter("boardId"));
 		
 		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
@@ -128,6 +135,48 @@ public class BoardController {
 		
 		return "qnaView";
 	}
+	
+	// 게시판 수정 페이지로 이동
+	@RequestMapping("/qnaUpdateForm")
+	public String qnaUpdateFormPage(
+			Model model,
+			HttpServletRequest request
+			) {
+//		BoardVO boardVO = new BoardVO();
+		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
+		
+		System.out.println("boardId : " + boardVO.getBoardId());
+		System.out.println("userId : " + boardVO.getUserId());
+		boardVO = boardService.qnaView(boardVO.getBoardId());
+		model.addAttribute("qna", boardVO);
+		
+		return "qnaUpdateForm";
+	}
+	
+	// 게시판 수정
+	@RequestMapping("/qnaUpdate")
+	public String qnaUpdate(
+			RedirectAttributes redirectAttributes,
+			HttpServletRequest request
+			) {
+		
+//		BoardVO boardVO = new BoardVO();
+		boardVO.setBoardTitle(request.getParameter("boardTitle"));
+		boardVO.setBoardDesc(request.getParameter("boardDesc"));
+		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
+		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		redirectAttributes.addAttribute("boardId", boardVO.getBoardId());
+				
+		int qnaUpdate = boardService.qnaUpdate(boardVO);
+		
+		System.out.println("작성 아이디 : " + request.getSession().getAttribute("userId"));
+		System.out.println("작성 제목 : " + request.getSession().getAttribute("boardTitle"));
+		System.out.println("작성 내용 : " + request.getSession().getAttribute("boardDesc"));
+		
+		return "redirect:qnaView";
+	}
+	
 
 	
 }

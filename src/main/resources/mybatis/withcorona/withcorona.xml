@@ -41,6 +41,11 @@
 		where b.board_id = #{boardId} and b.user_id = u.user_id
 	</select>
 	
-	
+	<!-- 게시판 수정 쿼리문 -->
+	<select id="qnaUpdate" resultType="boardVO" parameterType="boardVO">
+		update board_info set
+		board_title = #{boardTitle}, board_desc = #{boardDesc}
+		where board_id = #{boardId}
+	</select>
 	
 </mapper>

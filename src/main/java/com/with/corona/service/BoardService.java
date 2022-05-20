@@ -20,4 +20,7 @@ public interface BoardService {
 	
 	// 게시판 상세 조회
 	BoardVO qnaView(int boardId);
+	
+	// 게시판 수정
+	int qnaUpdate(BoardVO boardVO);
 }

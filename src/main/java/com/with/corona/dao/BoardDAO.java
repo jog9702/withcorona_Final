@@ -20,10 +20,8 @@ public interface BoardDAO {
 	// 게시판 상세 조회
 	BoardVO qnaView(int boardId);
 	
-	
-	
 	// 게시판 수정
-	int qnaUpdate();
+	int qnaUpdate(BoardVO boardVO);
 	
 	// 게시판 삭제
 	int qnaDelete();

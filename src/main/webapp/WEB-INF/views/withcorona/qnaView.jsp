@@ -16,18 +16,18 @@
 	}
 
 	function goUpdate() {
-		location.href = "${ contextPath }/qnaUpdate?boardId=${qna.boardId}";
+		location.href = "${ contextPath }/qnaUpdateForm?boardId=${qnaView.boardId}";
 	}
 
 	function goDelete() {
 		var isDel = window.confirm("정말 삭제하시겠습니까?");
 		if (isDel) {
-			location.href = "${ contextPath }/qnaDelete?boardId=${qna.boardId}";
+			location.href = "${ contextPath }/qnaDelete?boardId=${qnaView.boardId}";
 		}
 	}
 
 	function goReply() {
-		location.href = "${ contextPath }/qnaReply?boardParentno=${qna.boardId}";
+		location.href = "${ contextPath }/qnaReply?boardParentno=${qnaView.boardId}";
 	}
 </script>
 <style>

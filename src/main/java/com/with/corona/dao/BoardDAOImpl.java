@@ -48,10 +48,12 @@ public class BoardDAOImpl implements BoardDAO{
 		return qnaView;
 	}
 
+	// 게시판 수정
 	@Override
-	public int qnaUpdate() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int qnaUpdate(BoardVO boardVO) {
+		int qnaUpdate = sqlSession.update("mapper.withcorona.qnaUpdate", boardVO);
+		
+		return qnaUpdate;
 	}
 
 	@Override
