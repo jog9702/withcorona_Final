@@ -6,6 +6,7 @@ public class KoreaVO {
 	private int koreaId;
 	private String koreaLocal;
 	private int koreaLocalInfo;
+	private int koreaAccumulate;
 	private int koreaDeath;
 	private String koreaTime;
 	
@@ -39,6 +40,12 @@ public class KoreaVO {
 	}
 	public void setKoreaTime(String koreaTime) {
 		this.koreaTime = koreaTime;
+	}
+	public int getKoreaAccumulate() {
+		return koreaAccumulate;
+	}
+	public void setKoreaAccumulate(int koreaAccumulate) {
+		this.koreaAccumulate = koreaAccumulate;
 	}
 	
 }
