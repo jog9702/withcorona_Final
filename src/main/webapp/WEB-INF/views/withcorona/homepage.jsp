@@ -151,7 +151,7 @@
         </div>
         
         <div class= "center update">
-	        <c:if test="${ vo.userAuth eq '1' }">
+	        <c:if test="${ userVO.userAuth eq '1' }">
 		        <button type="button" id="tableReset">테이블 초기화</button>
 	        </c:if>
         </div>
