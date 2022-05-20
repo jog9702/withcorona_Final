@@ -186,7 +186,7 @@ public class BoardController {
 		
 		int qnaDelete = boardService.qnaDelete(boardVO.getBoardId());
 		
-		return "redirect:qna";
+		return "redirect:qna"; 
 	}
 	
 
