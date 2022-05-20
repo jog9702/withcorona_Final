@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>COVID-19 | 로그인 페이지</title>
+<title>COVID-19 | 찾기 페이지</title>
 <style>
     #main_view{
         max-width: 100%;
@@ -85,10 +85,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ userVO.userAuth == null }">
+        	<c:if test="${ vo.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ userVO.userAuth != null }">
+        	<c:if test="${ vo.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>
@@ -103,19 +103,9 @@
     </header>
     <section>
     	<div class="mgt">
-	    	<form action="/withcorona/login" method="post">
-	    		<input class="size" type="text" name="userId" placeholder="아이디" required><br>
-	    		<input class="size" type="password" name="userPassword" placeholder="비밀번호" required><br>
-	    		<input type="submit" value="로그인">
-	    		<input type="reset" value="다시입력"><br><br><br>
-	    	</form>
-<<<<<<< Updated upstream
-	    	<a href="/withcorona/signup">회원 가입</a>
-=======
-	    	<a href="/withcorona/signUp">회원 가입</a><br>
-	    	<a href="/withcorona/member/testLoginId">아이디 찾기</a> |
-	    	<a href="/withcorona/member/testLoginPasswd">비밀번호 찾기</a>
->>>>>>> Stashed changes
+    	     ${ findvo.userPassword } <br>
+	    	<a href="/withcorona/covidHomepage">메인으로</a> | <a href="/withcorona/login"> 로그인 하러가기</a> |
+	    	<a href="/withcorona/signUp">회원 가입</a>
     	</div>
     </section>
     </div>
