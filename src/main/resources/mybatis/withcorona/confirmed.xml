@@ -121,7 +121,7 @@
 	
 	<insert id="kUpdateToAuto" parameterType="com.with.corona.vo.KoreaVO">
 		insert into korea_info (korea_id, korea_death, korea_local, korea_local_info, korea_time, korea_accumulate)
-		values (korea_seq.nextval, #{koreaDeath},#{koreaLocal},#{koreaLocalInfo},#{koreaTime},#{koreaAccumulate})
+		values (korea_info_seq.nextval, #{koreaDeath},#{koreaLocal},#{koreaLocalInfo},#{koreaTime},#{koreaAccumulate})
 	</insert>
 	
 	<insert id="fUpdateToAuto" parameterType="com.with.corona.vo.ForeignVO">
