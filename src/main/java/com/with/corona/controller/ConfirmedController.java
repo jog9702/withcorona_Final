@@ -26,24 +26,41 @@ public class ConfirmedController {
 	@RequestMapping(value="/covidHomepage", method=RequestMethod.GET)
 	String homePage(Model model, HttpServletRequest request, HttpServletResponse response) {
 		
-		confirmedService.kUpdateToAuto();
+		try {
+			confirmedService.kUpdateToAuto();
+			
+			DecimalFormat fmt = new DecimalFormat("###,###");
+			model.addAttribute("todayCount", fmt.format(confirmedService.kConfirm().get("today")));
+			model.addAttribute("monthCount", fmt.format(confirmedService.kConfirm().get("month")));
+			model.addAttribute("yearCount", fmt.format(confirmedService.kConfirm().get("year")));
+			model.addAttribute("todayDeath", fmt.format(confirmedService.kConfirm().get("death")));
+		}catch(Exception e) {
+			model.addAttribute("todayCount", -999);
+			model.addAttribute("monthCount", -999);
+			model.addAttribute("yearCount", -999);
+			model.addAttribute("todayDeath", -999);
+			model.addAttribute("glgl", "테이블을 초기화 하거나 관리자에게 문의해주세요 박정희 : 010-2373-6719");
+		}
 		
-		DecimalFormat fmt = new DecimalFormat("###,###");
-		model.addAttribute("todayCount", fmt.format(confirmedService.kConfirm().get("today")));
-		model.addAttribute("monthCount", fmt.format(confirmedService.kConfirm().get("month")));
-		model.addAttribute("yearCount", fmt.format(confirmedService.kConfirm().get("year")));
-		model.addAttribute("todayDeath", fmt.format(confirmedService.kConfirm().get("death")));
 		
 		return "homepage";
 	}
 	
 	@RequestMapping(value="/covidKorea", method=RequestMethod.GET)
 	String korea(Model model) {
-		DecimalFormat fmt = new DecimalFormat("###,###");
-		model.addAttribute("todayCount", fmt.format(confirmedService.kConfirm().get("today")));
-		model.addAttribute("monthCount", fmt.format(confirmedService.kConfirm().get("month")));
-		model.addAttribute("yearCount", fmt.format(confirmedService.kConfirm().get("year")));
-		model.addAttribute("todayDeath", fmt.format(confirmedService.kConfirm().get("death")));
+		try {
+			DecimalFormat fmt = new DecimalFormat("###,###");
+			model.addAttribute("todayCount", fmt.format(confirmedService.kConfirm().get("today")));
+			model.addAttribute("monthCount", fmt.format(confirmedService.kConfirm().get("month")));
+			model.addAttribute("yearCount", fmt.format(confirmedService.kConfirm().get("year")));
+			model.addAttribute("todayDeath", fmt.format(confirmedService.kConfirm().get("death")));
+		}catch(Exception e) {
+			model.addAttribute("todayCount", -999);
+			model.addAttribute("monthCount", -999);
+			model.addAttribute("yearCount", -999);
+			model.addAttribute("todayDeath", -999);
+			model.addAttribute("glgl", "테이블을 초기화 하거나 관리자에게 문의해주세요 박정희 : 010-2373-6719");
+		}
 		
 		
 		return "covidKorea";
@@ -69,11 +86,18 @@ public class ConfirmedController {
 	
 	@RequestMapping(value="/covidForeign", method=RequestMethod.GET)
 	String foreign(Model model,  HttpServletRequest request) {
-		confirmedService.fUpdateToAuto();
-		DecimalFormat fmt = new DecimalFormat("###,###");
-		model.addAttribute("kor", fmt.format(confirmedService.fLocCon("한국").getForeignLocalInfo()));
-		model.addAttribute("chi", fmt.format(confirmedService.fLocCon("중국").getForeignLocalInfo()));
-		model.addAttribute("jap", fmt.format(confirmedService.fLocCon("일본").getForeignLocalInfo()));
+		try {
+			confirmedService.fUpdateToAuto();
+			DecimalFormat fmt = new DecimalFormat("###,###");
+			model.addAttribute("kor", fmt.format(confirmedService.fLocCon("한국").getForeignLocalInfo()));
+			model.addAttribute("chi", fmt.format(confirmedService.fLocCon("중국").getForeignLocalInfo()));
+			model.addAttribute("jap", fmt.format(confirmedService.fLocCon("일본").getForeignLocalInfo()));
+		}catch(Exception e) {
+			model.addAttribute("kor", -999);
+			model.addAttribute("chi", -999);
+			model.addAttribute("jap", -999);
+			model.addAttribute("glgl", "테이블을 초기화 하거나 관리자에게 문의해주세요 박정희 : 010-2373-6719");
+		}
 		
 		return "covidForeign";
 	}

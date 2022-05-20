@@ -9,8 +9,13 @@
 <head>
 	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script>
+		let glgl = "${glgl}";
+	
 		$(function(){
 			bind();
+			if(glgl.length != 0){
+				alert(glgl);
+			}
 		})	
 		
 		function bind(){
