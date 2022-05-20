@@ -24,7 +24,7 @@
 				let checked = $("#loc").val();
 				console.log(checked);
 				
-				let url = "http://127.0.0.1:8080/withcorona/covidForeignDetail";
+				let url = "http://localhost:8080/withcorona/covidForeignDetail";
 				let data = {
 					loc : checked
 				};
@@ -42,7 +42,7 @@
 	            
 	            let loc = $(this).attr("value");
 	            console.log(loc);
-				let url = "http://127.0.0.1:8080/withcorona/covidForeignDetail";
+				let url = "http://localhost:8080/withcorona/covidForeignDetail";
 				let data = {
 					loc : loc
 				};
@@ -168,10 +168,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ userVO.userAuth == null }">
+        	<c:if test="${ vo.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ userVO.userAuth != null }">
+        	<c:if test="${ vo.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>

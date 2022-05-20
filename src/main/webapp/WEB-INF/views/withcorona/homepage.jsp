@@ -21,7 +21,7 @@
 		function bind(){
 			
 			$("#tableReset").off("click").on("click", function(){
-				let url = "http://127.0.0.1:8080/corona/reset";
+				let url = "http://localhost:8080/corona/reset";
 				let data=null;
 				
 				api(url, "get", data, getListSuccess);
@@ -129,10 +129,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ userVO.userAuth == null }">
+        	<c:if test="${ vo.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ userVO.userAuth != null }">
+        	<c:if test="${ vo.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>
@@ -156,7 +156,7 @@
         </div>
         
         <div class= "center update">
-	        <c:if test="${ userVO.userAuth eq '1' }">
+	        <c:if test="${ vo.userAuth eq '1' }">
 		        <button type="button" id="tableReset">테이블 초기화</button>
 	        </c:if>
         </div>
