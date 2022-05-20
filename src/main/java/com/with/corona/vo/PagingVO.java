@@ -4,7 +4,7 @@ public class PagingVO {
 	
 	private int total;				// 글 전체
 	private int pageNum = 1;		// 현재 페이지
-	private int countPerPage = 3;	// 한페이지에 보여줄 글 개수
+	private int countPerPage = 5;	// 한페이지에 보여줄 글 개수
 	private int section = 2;		// 묶음
 	private int postion;			// 묶음의 묶음
 	private int prev;				// 이전

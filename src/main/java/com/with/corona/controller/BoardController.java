@@ -53,7 +53,7 @@ public class BoardController {
 		pagingVO.setStart(start);
 		
 		// 쿼리문 2번	조건
-		int end = start + pagingVO.getCountPerPage();
+		int end = start + pagingVO.getCountPerPage() - 1;
 		pagingVO.setEnd(end);
 		System.out.println("start : " + start);
 		System.out.println("end : " + end);
