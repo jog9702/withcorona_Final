@@ -7,6 +7,50 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script>
+		$(function(){
+			bind();
+		})	
+		
+		function bind(){
+			
+			$("#tableReset").off("click").on("click", function(){
+				let url = "http://127.0.0.1:8080/corona/reset";
+				let data=null;
+				
+				api(url, "get", data, getListSuccess);
+			})
+		}
+	
+	
+	
+		function api(url, method, data, fnSucc, fnFail, fnComplete){
+			
+			let option = {
+				url: url,
+				type: method
+			}
+			
+			if(data != undefined) {
+				option.data = data;
+			}
+			if(fnSucc) {
+				option.success = fnSucc;
+			}
+			if(fnFail) option.fail = fnFail;
+			if(fnComplete) option.complete = fnComplete;
+			
+			$.ajax(option);
+		}
+		
+		function getListSuccess(data){
+			console.log("success", data);
+// 			$("html").html(data);
+		}
+			
+		
+	</script>
 <meta charset="UTF-8">
 <title>COVID-19 | 메인페이지</title>
 <style>
@@ -80,10 +124,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ userVO.userAuth == null }">
+        	<c:if test="${ vo.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ userVO.userAuth != null }">
+        	<c:if test="${ vo.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>
@@ -104,6 +148,12 @@
                 <div class="mglr">월간 확진자수 : ${ monthCount }</div>
                 <div class="mglr">사망자수 : ${ todayDeath }</div>
             </div>
+        </div>
+        
+        <div class= "center update">
+	        <c:if test="${ vo.userAuth eq '1' }">
+		        <button type="button" id="tableReset">테이블 초기화</button>
+	        </c:if>
         </div>
 
         
