@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.confirmed">
+	
+	<select id="kTodayConfirmedCase" resultType="Integer">
+		select korea_local_info
+		from korea_info
+		where korea_time = (SELECT Max(korea_time) as korea_time FROM korea_info)
+                and korea_local = '합계'
+	</select>
+	
+	<select id="fTodayConfirmedCase" resultType="Integer" parameterType="String">
+		select (select foreign_local_info foreignLocalInfo
+				from foreign_info
+				where foreign_time = (SELECT Max(foreign_time) as foreign_time FROM foreign_info)
+		                and foreign_local_i = #{loc}) - 
+		        (select foreign_local_info foreignLocalInfo
+				from foreign_info
+				where foreign_time = (SELECT Max(foreign_time) as foreign_time FROM foreign_info where foreign_time != (SELECT Max(foreign_time) as foreign_time FROM foreign_info))
+		                and foreign_local_i = #{loc}) as foreignLocalInfo
+		from dual
+	</select>
+	
+	<select id="fTodayDeathCase" resultType="Integer" parameterType="String">
+		select (select foreign_death foreignDeath
+				from foreign_info
+				where foreign_time = (SELECT Max(foreign_time) as foreign_time FROM foreign_info)
+		                and foreign_local_i = #{loc}) - 
+		        (select foreign_death foreignDeath
+				from foreign_info
+				where foreign_time = (SELECT Max(foreign_time) as foreign_time FROM foreign_info where foreign_time != (SELECT Max(foreign_time) as foreign_time FROM foreign_info))
+		                and foreign_local_i = #{loc}) as foreignDeath
+		from dual
+	</select>
+	
+	<select id="kTodayDeathCase" resultType="Integer">
+		select (select korea_death
+				from korea_info
+				where korea_time = (SELECT Max(korea_time) as korea_time FROM korea_info)
+		                and korea_local = '합계')
+		        -(select korea_death
+				from korea_info
+				where korea_time = (SELECT Max(korea_time) as korea_time FROM korea_info where korea_time != (SELECT Max(korea_time) as korea_time FROM korea_info))
+		                and korea_local = '합계') as korea_death from dual
+	</select>
+	
+	<select id="kMYConfirmedCase" resultType="Integer" parameterType="String">
+		select 
+		    ((select korea_accumulate
+				from korea_info
+				where korea_time = (SELECT Max(korea_time) as korea_time FROM korea_info)
+		                and korea_local = '합계'))
+		    - (select korea_accumulate from korea_info where korea_time = #{date} and korea_local = '합계')
+		    as korea_accumulate
+		    from dual
+	</select>
+	
+	
+	<select id="kLocConfirmedCase" resultType="com.with.corona.vo.KoreaVO" parameterType="String">
+		select korea_local_info koreaLocalInfo, korea_death koreaDeath from korea_info 
+		where korea_time = (SELECT Max(korea_time) as korea_time FROM korea_info)
+		                and korea_local = #{loc}
+	</select>
+	
+<!-- 	<select id="graph" resultType="Integer" parameterType="String"> -->
+<!-- 		select korea_local_info from korea_info  -->
+<!-- 		where korea_time = (SELECT Max(korea_time) as korea_time FROM korea_info) -->
+<!-- 		                and korea_local = #{loc} -->
+<!-- 	</select> -->
+	
+	<select id="graph" resultType="com.with.corona.vo.KoreaVO">
+		<![CDATA[
+			select korea_local_info, korea_time from korea_info where korea_local = '합계' and rownum <= 7 order by korea_time desc
+		]]>
+	</select>
+	
+	
+	
+	
+	<update id="truncateTable" parameterType="String">
+		truncate table ${_parameter}
+	</update>
+	<update id="dropSequence" parameterType="java.lang.String">
+		drop sequence #{_seq}
+	</update>
+	
+	<update id="createSequence" parameterType="java.lang.String">
+		create sequence #{_seq} nocycle
+	</update>
+	
+	<update id="dropTable" parameterType="java.lang.String">
+		drop table ${_parameter}
+	</update>
+	
+	
+	<update id="createKtable">
+		CREATE TABLE korea_info (
+			korea_id	    NUMBER		    NOT NULL,
+			korea_local	    VARCHAR(255)	NULL,
+		    korea_local_info    NUMBER		NULL,
+			korea_death	    NUMBER		    NULL,
+			korea_time	    VARCHAR(255)	NULL,
+		    korea_accumulate NUMBER		NULL
+		)
+	</update>
+	
+	<update id="createFtable">
+		CREATE TABLE korea_info (
+			korea_id	    NUMBER		    NOT NULL,
+			korea_local	    VARCHAR(255)	NULL,
+		    korea_local_info    NUMBER		NULL,
+			korea_death	    NUMBER		    NULL,
+			korea_time	    VARCHAR(255)	NULL,
+		    korea_accumulate NUMBER		NULL
+		)
+	</update>
+	
+	
+	
+	<insert id="kUpdateToAuto" parameterType="com.with.corona.vo.KoreaVO">
+		insert into korea_info (korea_id, korea_death, korea_local, korea_local_info, korea_time, korea_accumulate)
+		values (korea_seq.nextval, #{koreaDeath},#{koreaLocal},#{koreaLocalInfo},#{koreaTime},#{koreaAccumulate})
+	</insert>
+	
+	<insert id="fUpdateToAuto" parameterType="com.with.corona.vo.ForeignVO">
+		insert into foreign_info (foreign_id, foreign_death, foreign_local_o, foreign_local_i,foreign_local_info, foreign_time)
+		values (foreign_info_seq.nextval, #{foreignDeath},#{foreignLocalO},#{foreignLocalI},#{foreignLocalInfo},#{foreignTime})
+	</insert>
+</mapper>
