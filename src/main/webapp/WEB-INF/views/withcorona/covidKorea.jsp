@@ -49,7 +49,7 @@
 		let data = {};
 
 		api(url, "get", data, function(data) {
-			let list = data.vo;
+			let list = data.userVO;
 			let listDis = data.dis;
 			let listHeight = data.height;
 			console.log(listDis);
@@ -257,10 +257,10 @@ h3{
 				<a href="/withcorona/covidHomepage">COVID-19</a>
 			</div>
 			<div class="login">
-				<c:if test="${ vo.userAuth == null }">
+				<c:if test="${ userVO.userAuth == null }">
 					<a href="/withcorona/login"><input type="button" value="로그인"></a>
 				</c:if>
-				<c:if test="${ vo.userAuth != null }">
+				<c:if test="${ userVO.userAuth != null }">
 					<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 				</c:if>
 			</div>
