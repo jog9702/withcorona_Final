@@ -14,7 +14,7 @@ public class CoronaController {
 	@Autowired
 	CoronaService coronaService;
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value="/covidHomepage", method=RequestMethod.GET)
 	String memberList(Model model) {
 		return "homepage";
 	}
