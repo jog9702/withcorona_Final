@@ -177,6 +177,18 @@ public class BoardController {
 		return "redirect:qnaView";
 	}
 	
+	// 게시판 삭제
+	@RequestMapping("/qnaDelete")
+	public String qnaDelete(HttpServletRequest request) {
+//		BoardVO boardVO = new BoardVO();
+		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		System.out.println("boadrId : " + boardVO.getBoardId());
+		
+		int qnaDelete = boardService.qnaDelete(boardVO.getBoardId());
+		
+		return "redirect:qna";
+	}
+	
 
 	
 }

@@ -56,10 +56,12 @@ public class BoardDAOImpl implements BoardDAO{
 		return qnaUpdate;
 	}
 
+	// 게시판 삭제
 	@Override
-	public int qnaDelete() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int qnaDelete(int boardId) {
+		int qnaDelete = sqlSession.delete("mapper.withcorona.qnaDelete", boardId);
+		
+		return qnaDelete;
 	}
 
 	@Override

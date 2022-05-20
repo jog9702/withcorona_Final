@@ -109,7 +109,7 @@
 	    		<input type="submit" value="로그인">
 	    		<input type="reset" value="다시입력"><br><br><br>
 	    	</form>
-	    	<a href="/withcorona/signup">회원 가입</a>
+	    	<a href="/withcorona/signUp">회원 가입</a>
     	</div>
     </section>
     </div>

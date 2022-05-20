@@ -23,4 +23,7 @@ public interface BoardService {
 	
 	// 게시판 수정
 	int qnaUpdate(BoardVO boardVO);
+	
+	// 게시판 삭제
+	int qnaDelete(int boardId);
 }

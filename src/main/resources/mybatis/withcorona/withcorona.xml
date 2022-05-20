@@ -48,4 +48,10 @@
 		where board_id = #{boardId}
 	</select>
 	
+	<!-- 게시판 삭제 쿼리문 -->
+	<select id="qnaDelete" resultType="boardVO">
+		delete from board_info
+		where board_id = #{boardId}
+	</select>
+	
 </mapper>

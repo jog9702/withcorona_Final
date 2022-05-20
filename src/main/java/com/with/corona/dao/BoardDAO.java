@@ -24,7 +24,8 @@ public interface BoardDAO {
 	int qnaUpdate(BoardVO boardVO);
 	
 	// 게시판 삭제
-	int qnaDelete();
+	int qnaDelete(int boardId);
+	
 	
 	// 댓글 조회
 	List<CommentVO> commentSelect();

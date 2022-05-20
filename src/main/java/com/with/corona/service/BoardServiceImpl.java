@@ -50,6 +50,13 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.qnaUpdate(boardVO);
 	}
 
+	// 게시판 삭제
+	@Override
+	public int qnaDelete(int boardId) {
+		
+		return boardDAO.qnaDelete(boardId);
+	}
+
 
 
 
