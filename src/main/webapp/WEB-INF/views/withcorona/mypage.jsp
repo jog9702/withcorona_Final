@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>COVID-19 | 회원가입 페이지</title>
+<title>COVID-19 | 회원정보 페이지</title>
 <style>
     #main_view{
         max-width: 100%;
@@ -93,6 +93,10 @@
 	{
 		text-align: center;
 	}
+	#delete{
+		text-align: center;
+		margin-top: 50px;
+	}
 
 </style>
 <script
@@ -111,14 +115,12 @@
 		        <div class="login">
 		        	<c:if test="${ userVO.userAuth == null }">
 						<a href="/withcorona/login"><input type="button" value="로그인"></a>
-						<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
 					</c:if>
 		        	<c:if test="${ userVO.userAuth != null }">
 						<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
-						<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
 					</c:if>
 		        </div>
-				<div class="flex">
+		        <div class="flex">
 		            <div><a href="/withcorona/covidKorea">국내 상세</a></div>
 		            <div><a href="/withcorona/covidForeign">해외 상세</a></div>
 		            <div><a href="/withcorona/search">가까운 검사소 찾기</a></div>
@@ -128,71 +130,98 @@
 		    </div>
 	    </header>
 	    <section>
-	    	<form>
-		    	<table class="tb_size">
-		    		<tr class="text_center">
-		    			<td colspan=2><h1>회원가입</h1></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2><div class="red fs_12">*는 필수입니다.</div></td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>아이디</td>
-		    			<td><input type="text" id="id" placeholder="아이디를 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">아이디를 꼭 입력하세요</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>비밀번호</td>
-		    			<td><input type="password" id="pwd" placeholder="비밀번호를 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">비밀번호는 필수입니다</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>이름</td>
-		    			<td><input type="text" id="name" placeholder="이름을 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">이름은 필수입니다</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>이메일</td>
-		    			<td><input type="email" id="email" placeholder="이메일을 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">이메일은 필수입니다</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>성별</td>
-		    			<td>
-		    				<input type="radio" class="gender" name="gender" value="male" checked>남자<br>
-		    				<input type="radio" class="gender" name="gender" value="female">여자
-		    			</td>
-		    		</tr>
-	    		</table>
-	    		<div class="text_center">
-		    		<button type="button" id="btn_signup">가입하기</button>
-			    	<input type="reset" value="다시입력">
-		    	</div>
-	    	</form>
+	    	<c:if test="${ userVO.userAuth == null }">
+	    		<script>
+	    			alert("로그인을 해야합니다.");
+	    			location.href="/withcorona/login";
+	    		</script>
+	    	</c:if>
+	    	<c:if test="${ userVO.userAuth != null }">
+		    	<% String name = (String)session.getAttribute("userName"); %>
+		    	<% String pw = (String)session.getAttribute("userPassword"); %>
+		    	<% String email = (String)session.getAttribute("userEmail"); %>
+		    	<form>
+			    	<table class="tb_size">
+			    		<tr class="text_center">
+			    			<td colspan=2><h1>회원정보수정</h1></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan=2><div class="red fs_12">*는 필수입니다.</div></td>
+			    		</tr>
+			    		<tr>
+			    			<td>아이디 </td>
+			    			<td><c:out value="${userVO.userId}"></c:out></td>
+			    		</tr>
+			    		<tr>
+			    			<td><span class="red">* </span>비밀번호</td>
+			    			<td><input type="password" id="pwd" placeholder="비밀번호를 입력하세요" value="<%=pw%>"></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan=2 class="hide red fs_12">비밀번호는 필수입니다</td>
+			    		</tr>
+			    		<tr>
+			    			<td><span class="red">* </span>이름</td>
+			    			<td><input type="text" id="name" placeholder="이름을 입력하세요" value="<%=name %>"></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan=2 class="hide red fs_12">이름은 필수입니다</td>
+			    		</tr>
+			    		<tr>
+			    			<td><span class="red">* </span>이메일</td>
+			    			<td><input type="email" id="email" placeholder="이메일을 입력하세요" value="<%=email %>"></td>
+			    		</tr>
+			    		<tr>
+			    			<td colspan=2 class="hide red fs_12">이메일은 필수입니다</td>
+			    		</tr>
+			    		<tr>
+			    			<td><span class="red">* </span>성별</td>
+			    			<td>
+			    				<input type="radio" id="male" class="gender" name="gender" value="male">남자<br>
+			    				<input type="radio" id="female" class="gender" name="gender" value="female">여자
+			    			</td>
+			    		</tr>
+		    		</table>
+		    		<div class="text_center">
+			    		<button type="button" id="btn_edit">수정하기</button>
+				    	<input type="reset" value="다시입력">
+			    	</div>
+		    	</form>
+	    	</c:if>
 	    </section>
+	   	<div id="delete">
+	   		<button type="button" id="btn_userDelete">탈퇴하기</button>
+	   	</div>
     </div>
     
     <script>
     	
     	$(function(){
+    		init();
     		bind();
     	});
     	
+    	function init(){
+    		
+    		let gender = '<%=(String)session.getAttribute("userGender")%>'
+    		console.log(gender);
+    		if(gender == "male"){
+    			console.log("male");
+    			$("#male").attr("checked", true);
+    		} else{
+    			console.log("female");
+    			$("#female").attr("checked", true);
+    		}
+    		
+    	}
+    	
     	function bind(){
     		
-    		$("#btn_signup").off("click").on("click", function(){
+    		$("#btn_edit").off("click").on("click", function(){
     			
-    			console.log("btn_signup")
+    			console.log("btn_edit")
+    			let id = '<%=(String)session.getAttribute("userId") %>'
+				console.log(id);
     			
-    			let id = $("#id").val();
     			let pwd = $("#pwd").val();
     			let name = $("#name").val();
     			let gender = $(".gender:checked").val();
@@ -200,14 +229,14 @@
     			console.log("id:", id , "pwd:", pwd , "name:", name , "gender:", gender , "email:", email);
     			
     			let data = {
-						"id" : id,
-						"pwd" : pwd,
-						"name" : name,
-						"gender" : gender,
-						"email" : email,
+						id : id,
+						pwd : pwd,
+						name : name,
+						gender : gender,
+						email : email
 					}
 					
-				let url = "http://localhost:8080/withcorona/signupCheck";
+				let url = "http://localhost:8080/withcorona/edit";
     			
     			$.ajax({
 					url: url,
@@ -215,16 +244,7 @@
 					data: data,
 					contentType: 'application/json; charset=UTF-8',
 					success : function(data){
-						let result = data;
-						console.log("ajax result: ", result);
-						
-						if(result){
-							alert(id + " 님 가입을 축하드립니다.");
-							let page = "http://localhost:8080/withcorona/login"
-							location.replace(page);
-						} else {
-							alert("동일한 id가 있습니다.");
-						}
+						console.log("ajax - mypage");
 					},
 					fail : function(data){
 						console.log("fail, "+data);
@@ -303,6 +323,59 @@
     			}
     			
     		});
+    		
+    		$("#btn_userDelete").off("click").on("click", function(){
+
+    			let id = '<%=(String)session.getAttribute("userId") %>'
+    			let pwd = '<%=(String)session.getAttribute("userPassword") %>'
+	    		console.log("pwd", pwd);
+    			
+	    		let checkPw = prompt('비밀번호를 입력하세요');
+	    		console.log("checkPw", checkPw);
+	    		
+	    		if(checkPw == pwd){
+	    			
+	    			let checkText = prompt('탈퇴하시려면 "정말 탈퇴하겠습니다" 를 입력하세요.')
+	    			
+	    			if(checkText == '정말 탈퇴하겠습니다'){
+	    				
+	    				let url = "http://localhost:8080/withcorona/userDelete";
+	    				
+	    				let data = {
+	    						id : id
+	    				}
+	    				
+	    				$.ajax({
+	    					url: url,
+	    					type: "get",
+	    					data: data,
+	    					contentType: 'application/json; charset=UTF-8',
+	    					success : function(data){
+	    						console.log("ajax - mypage");
+	    						alert("탈퇴완료");
+	    						
+	    						let page = "http://localhost:8080/withcorona/covidHomepage"
+	    						location.replace(page);
+	    					},
+	    					fail : function(data){
+	    						console.log("fail, "+data);
+	    					},
+	    					complete: function(data){
+	    						console.log("comp", data);
+	    					}
+	    				})
+	    				
+	    			} else {
+		    			alert("잘못 입력하셨습니다")
+	    			}
+	    			
+	    		} else {
+
+	    			alert("비밀번호가 틀립니다.");
+	    			
+	    		}
+    			
+    		})
     		
     	}
     
