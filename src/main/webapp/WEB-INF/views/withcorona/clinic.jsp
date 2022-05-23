@@ -143,7 +143,6 @@
     </header>
     
     <section>
-    <c:out value="${userVO.userAuth }"></c:out>
 		<div class="mgt">
 			<input type="text" id="searchClinic" placeholder="지역을 입력하세요" name="loc">
 			<button type=button id="btnClinic">검색</button>
