@@ -1,16 +1,17 @@
 package com.with.corona.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.with.corona.service.LoginService;
 import com.with.corona.vo.UserVO;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -27,7 +28,7 @@ public class LoginController {
 	
 	// 로그인 기능, 포스트방식으로 보내게 설정
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(
+	public @ResponseBody String login(
 			@RequestParam("userId") String userId,
 			@RequestParam("userPassword") String userPassword,
 			HttpServletRequest request
@@ -41,7 +42,6 @@ public class LoginController {
 		
 		UserVO result = loginService.login(userVO);
 		
-		if(result.getUserAuth() != null) {
 			System.out.println("로그인 성공");
 			request.getSession().setAttribute("userId", result.getUserId());
 			request.getSession().setAttribute("userPassword", result.getUserPassword());
@@ -52,13 +52,8 @@ public class LoginController {
 			System.out.println("아이디 : " + result.getUserId());
 			System.out.println("비밀번호 : " + result.getUserPassword());
 			System.out.println("권한 : " + result.getUserAuth());
-			login = "redirect:/qna";
-		} else {
-			System.out.println("로그인 실패");
-			login = "/withcorona/login";
-		}
 
-		return login;
+			return "SUCC";
 	}
 	
 	// 로그아웃 세션을 삭제해서 처리
@@ -69,4 +64,5 @@ public class LoginController {
 		
 		return "redirect:qna";
 	}
+	
 }

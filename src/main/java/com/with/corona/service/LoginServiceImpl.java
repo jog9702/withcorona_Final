@@ -16,4 +16,14 @@ public class LoginServiceImpl implements LoginService{
 	public UserVO login(UserVO userVO) {
 		return loginDAO.login(userVO);
 	}
+
+	@Override
+	public boolean loginCheck(UserVO userVO) {
+		
+		boolean check = loginDAO.loginCheck(userVO);
+		
+		return check;
+	}
+	
+	
 }

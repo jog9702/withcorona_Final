@@ -7,4 +7,7 @@ public interface LoginDAO {
 	// 로그인 
 	UserVO login(UserVO userVO);
 	
+	//로그인 체크
+	boolean loginCheck(UserVO userVO);
+	
 }
