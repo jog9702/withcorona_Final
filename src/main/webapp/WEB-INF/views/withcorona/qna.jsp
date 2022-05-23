@@ -74,22 +74,77 @@
    		margin: auto;
     	width: 1000px;
     	text-align:right;
+    	margin-top : -102px;
+    	margin-right:72px;
    }
    .bgcg{
    		background-color:rgba(225, 225, 225, 0.5);
    }
 
-	table {
-	border: 2px solid;
-	width: 1000px;
-	margin : auto;
-   	border-radius: 10px;
-   	margin-top : 45px;
-	}
-	
-	th, td {
-		border: 1px solid;
-	}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+section.notice {
+  padding: 80px 0;
+}
+
+.board-table {
+  font-size: 13px;
+  width: 100%;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.th-title{
+	text-align:left;
+}
+
+.board-table a {
+  color: #333;
+  display: inline-block;
+  line-height: 1.4;
+  word-break: break-all;
+  vertical-align: middle;
+}
+.board-table a:hover {
+  text-decoration: underline;
+}
+.board-table th {
+  text-align: center;
+}
+
+.board-table .th-num {
+  width: 100px;
+  text-align: center;
+}
+
+.board-table .th-date {
+  width: 200px;
+}
+
+.board-table th, .board-table td {
+  padding: 14px 0;
+}
+
+.al{
+	text-align: left;
+}
+
+
+.board-table tbody th {
+  padding-left: 28px;
+  padding-right: 14px;
+  border-top: 1px solid #e7e7e7;
+  text-align: left;
+}
+
+.board-table tbody th p{
+  display: none;
+}
+#board-list{
+	    margin-top: 100px;
+}
+
 </style>
 </head>
 <body>
@@ -115,52 +170,60 @@
         <hr>
     </div>
     </header>
-    <section>
-    	<table>
-			<thred>
-				<tr class="bgcg">
-					<td>글 번호</td>
-					<td>작성자</td>
-					<td>제목</td>
-					<td>작성일</td>
-				</tr>
-			</thred>
-			<tbody>
-			<c:choose>
-				<c:when test="${ empty qnaList }">
-					<tr height="10">
-						<td colspan="5">등록된 글이 없습니다</td>
-					</tr>
-				</c:when>
-				<c:when test="${! empty qnaList }">
-					<c:forEach var="qna" items="${ qnaList }" varStatus="qnaNum">
-						<tr align="center">
-							<td width="5%">${ qnaNum.count }</td>
-							<td width="10%">${ qna.userId }</td>
-							<td align="left" width="35%" class="level_${ qna.level }">
-								<span style="padding-right:30px"></span>
-								<c:choose>
-									<c:when test="${ qna.level > 1 }">
-										<c:forEach begin="1" end="${ qna.level }" step="1">
-											<span style="padding-right:10px"></span>
-										</c:forEach>
-										<span style="font-size:12px">[답변]</span>
-										<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
-									</c:when>
-									<c:otherwise>
-										<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td width="10%">
-								<fmt:formatDate value="${ qna.boardTime }"/>
-							</td>
+    <section class="notice">
+    <div id="board-list">
+        <div class="container">
+            <table class="board-table">
+                <thead>
+                <tr>
+                    <th scope="col" class="th-num">번호</th>
+                    <th scope="col" class="th-id">작성자</th>
+                    <th scope="col" class="th-title">제목</th>
+                    <th scope="col" class="th-date">등록일</th>
+                </tr>
+                </thead>
+				<tbody>
+				<c:choose>
+					<c:when test="${ empty qnaList }">
+						<tr height="10">
+							<td colspan="5">등록된 글이 없습니다</td>
 						</tr>
-					</c:forEach>
-				</c:when>
-			</c:choose>
-		</tbody>
+					</c:when>
+					<c:when test="${! empty qnaList }">
+						<c:forEach var="qna" items="${ qnaList }" varStatus="qnaNum">
+							<tr class="reply" align="center" data-lev="level_${ qna.level }">
+								<c:if test="${qna.boardParentno == 0}">
+									<td width="5%">${ qna.boardId }</td>
+								</c:if>
+								<c:if test="${qna.boardParentno != 0}">
+									<td width="5%"></td>
+								</c:if>
+								<td width="10%">${ qna.userId }</td>
+								<td align="left" width="35%" class="level_${ qna.level }">
+									<span style="padding-right:30px"></span>
+									<c:choose>
+										<c:when test="${ qna.level > 1 }">
+											<c:forEach begin="1" end="${ qna.level }" step="1">
+												<span style="padding-right:10px"></span>
+											</c:forEach>
+											<span style="font-size:12px">[답변]</span>
+											<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
+										</c:otherwise>
+									</c:choose>
+								</td class="al">
+								<td width="10%">
+									<fmt:formatDate value="${ qna.boardTime }"/>
+								</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+			</tbody>
     	</table>
+    	<br>
     	<div style="text-align:center">
 		<c:if test="${ paging.prev != 1 }">
 			<a href="${ contextPath }/qna?pageNum=${ paging.prev - 1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[이전]</a>
