@@ -27,7 +27,7 @@
 	}
 
 	function goReply() {
-		location.href = "${ contextPath }/qnaReply?boardParentno=${qnaView.boardId}";
+		location.href = "${ contextPath }/qnaReplyForm?boardParentno=${qnaView.boardId}";
 	}
 </script>
 <style>

@@ -96,6 +96,15 @@
 		text-align: center;
 		line-height: 350px;
 	}
+	#searchClinic{
+		width: 300px;
+		height: 25px;
+		font-size: 18px;
+		color: #4a4a4a;
+	}
+	#btnClinic{
+		height: 30px;
+	}
 </style>
 
 <script
@@ -114,11 +123,13 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ vo.userAuth == null }">
+        	<c:if test="${ userVO.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
+				<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
 			</c:if>
-        	<c:if test="${ vo.userAuth != null }">
+        	<c:if test="${ userVO.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
+				<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
 			</c:if>
         </div>
         <div class="flex">
@@ -132,12 +143,12 @@
     </header>
     
     <section>
+    <c:out value="${userVO.userAuth }"></c:out>
 		<div class="mgt">
 			<input type="text" id="searchClinic" placeholder="지역을 입력하세요" name="loc">
-			<button type=button id="btnClinic">조회</button>
+			<button type=button id="btnClinic">검색</button>
 	    </div>
 	    <div id="clinicResult">
-	     	<h2>지역을 입력하세요</h2>
 	    </div>
 	    <div class="flex-container">
 		    <div id="table" class="flex-item">
@@ -157,75 +168,98 @@
 	    
 	    function bind(){
 			
+			$("#searchClinic").off("keydown").on("keydown", function(evt){
+				
+				if(evt.keyCode == 13){
+					$("#btnClinic").click();
+				}
+				
+			});
+			
+			
 	    	$("#btnClinic").off("click").on("click", function(){
 	
-	    		let searchClinic = $("#searchClinic").val();
-	    		console.log("clinic.jsp: ",searchClinic);
-	    		
-	    		$("#clinicResult").html("<div>'"+searchClinic+"' 검색 결과 입니다.</div>");
-	    		
-	    		let data1 = {
-						"searchClinic" : searchClinic,
-						"action" : "clinic"
-					}
+	    		let tt = $("#searchClinic").val();
+	    		console.log("tt: ", tt);
+	    		console.log("tt.length: ", tt.length);
+				if(tt.length < 2){
 					
-				let url = "http://localhost:8080/withcorona/result";
+					alert("2글자 이상만 검색 가능합니다.");
 					
-				$.ajax({
-					"url": url,
-					type: "get",
-					"data": data1,
-					contentType: 'application/json; charset=UTF-8',
-					success : function(data2){
-						let obj = JSON.parse(data2);
-						console.log("ajax", obj[0].clinicName);
-						if(obj.length != 0){
-	
-							$("#table").html("");
-							for(let i=0; i<obj.length; i++){
-								let html = "";
-									
-								html += "<table>";
-								html += "<thead>";
-								html += "	<tr>";
-								html += "		<th>보건소</th>";
-								html += "		<th>주소</th>";
-								html += "		<th>번호</th>";
-								html += "		<th>지도</th>";
-								html += "	</tr>";
-								html += "</thead>";
-								html += "<tbody>";
-								html += "	<tr>";
-								html += "		<td>"+obj[i].clinicName+"</td>";
-								html += "		<td>"+obj[i].clinicInfo+"</td>";
-								html += "		<td>"+obj[i].clinicTel+"</td>";
-								html += "		<td><button type='button' id='clinicMap"+[i]+"' class='clinicMap' value='"+obj[i].clinicInfo+"' data-name='"+obj[i].clinicName+"'>위치</button></td>";
-								html += "	</tr>";
-								html += "</tbody>"
-								html += "</table>"
-								
-								$("#table").append(html);
-							}
-							
-						} else {
-							let html = "";
-							
-							html += '<tr>';
-							html += '	<td>';
-							html += '		표시할 내용이 없습니다.';
-							html += '	</td>';
-							html += '</tr>';
-	
-							$("#clinicTable").append(html);
+				} else {
+					
+					let searchClinic = $("#searchClinic").val();
+		    		console.log("clinic.jsp: ",searchClinic);
+		    		
+		    		$("#clinicResult").html("<div>'"+searchClinic+"' 검색 결과 입니다.</div>");
+		    		
+		    		let data1 = {
+							"searchClinic" : searchClinic,
+							"action" : "clinic"
 						}
-					},
-					fail : function(data){
-						console.log("fail, "+data);
-					},
-					complete: function(data){
-						console.log("comp", data);
-					}
-				})
+						
+					let url = "http://localhost:8080/withcorona/result";
+						
+					$.ajax({
+						"url": url,
+						type: "get",
+						"data": data1,
+						contentType: 'application/json; charset=UTF-8',
+						success : function(data){
+							let obj = JSON.parse(data);
+							console.log("ajax", obj[0].clinicName);
+							if(obj.length != 0){
+		
+								$("#table").html("");
+								for(let i=0; i<obj.length; i++){
+									let html = "";
+										
+									html += "<table>";
+									html += "<thead>";
+									html += "	<tr>";
+									html += "		<th>보건소</th>";
+									html += "		<th>주소</th>";
+									html += "		<th>번호</th>";
+									html += "		<th>지도</th>";
+									html += "	</tr>";
+									html += "</thead>";
+									html += "<tbody>";
+									html += "	<tr>";
+									html += "		<td>"+obj[i].clinicName+"</td>";
+									html += "		<td>"+obj[i].clinicInfo+"</td>";
+									html += "		<td>"+obj[i].clinicTel+"</td>";
+									html += "		<td><button type='button' id='clinicMap"+[i]+"' class='clinicMap' value='"+obj[i].clinicInfo+"' data-name='"+obj[i].clinicName+"'>위치</button></td>";
+									html += "	</tr>";
+									html += "</tbody>"
+									html += "</table>"
+									
+									$("#table").append(html);
+								}
+								
+							} else {
+								let html = "";
+								
+								html += '<tr>';
+								html += '	<td>';
+								html += '		표시할 내용이 없습니다.';
+								html += '	</td>';
+								html += '</tr>';
+		
+								$("#clinicTable").append(html);
+							}
+						},
+						fail : function(data){
+							console.log("fail, "+data);
+						},
+						complete: function(data){
+							console.log("comp", data);
+						}
+					});
+					
+				}
+				
+	    		
+	    		
 	    		
 	    	});
 	    	

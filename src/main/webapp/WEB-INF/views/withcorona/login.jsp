@@ -76,6 +76,11 @@
     height: 20px;
    }
 </style>
+<script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous">
+</script>
 </head>
 <body>
 	<div id="main_view">
@@ -103,15 +108,87 @@
     </header>
     <section>
     	<div class="mgt">
-	    	<form action="/withcorona/login" method="post">
-	    		<input class="size" type="text" name="userId" placeholder="아이디" required><br>
-	    		<input class="size" type="password" name="userPassword" placeholder="비밀번호" required><br>
-	    		<input type="submit" value="로그인">
+	    	<form>
+	    		<input class="size" type="text" id="userId" name="userId" placeholder="아이디" required><br>
+	    		<input class="size" type="password" id="userPassword" name="userPassword" placeholder="비밀번호" required><br>
+	    		<input type="button" id="btn_login" value="로그인">
 	    		<input type="reset" value="다시입력"><br><br><br>
 	    	</form>
 	    	<a href="/withcorona/signup">회원 가입</a>
     	</div>
     </section>
     </div>
+    
+    
+    <script>
+	    $(function(){
+			bind();
+		});
+	    
+	    function bind(){
+	    	
+	    	$("#btn_login").off("click").on("click", function(){
+	    		
+	    		let id = $("#userId").val();
+	    		let pw = $("#userPassword").val();
+	    		console.log("test", userId, userPassword)
+	    		
+	    		let data = {
+						userId : id,
+						userPassword : pw
+					}
+					
+				let url = "http://localhost:8080/withcorona/loginCheck";
+    			
+    			$.ajax({
+					url: url,
+					type: "post",
+					data: data,
+					contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+					success : function(data2){
+						
+						let check = data2;
+						
+						if(check){
+							alert("로그인 성공");
+							
+							url = "http://localhost:8080/withcorona/login";
+			    			
+			    			$.ajax({
+								url: url,
+								type: "post",
+								data: data,
+								contentType:"application/x-www-form-urlencoded; charset=UTF-8",
+								success : function(data){
+									
+									location.href = "http://localhost:8080/withcorona/covidHomepage"
+									
+								},
+								fail : function(data){
+									console.log("fail, "+data);
+								},
+								complete: function(data){
+									console.log("comp", data);
+								}
+							})
+							
+							
+						} else {
+							alert("정보가 일치하지 않습니다.");
+						}
+						
+					},
+					fail : function(data){
+						console.log("fail, "+data);
+					},
+					complete: function(data){
+						console.log("comp", data);
+					}
+				})
+	    		
+	    	});
+	    	
+	    }
+    </script>
 </body>
 </html>

@@ -18,4 +18,28 @@ public class LoginDAOImpl implements LoginDAO{
 		
 		return login;
 	}
+
+	@Override
+	public boolean loginCheck(UserVO userVO) {
+		
+		boolean check = false;
+		
+		try {
+			UserVO result = sqlSession.selectOne("mapper.login.loginCheck", userVO);
+			System.out.println("LoginDAO: " + result.getUserAuth());
+			
+			if(result == null) {
+				check = false;
+			} else {
+				check = true;
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+	
+	
 }

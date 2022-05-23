@@ -27,8 +27,6 @@ public class BoardController {
 	CommentService commentService;
 	
 	// 게시판과 댓글 VO 생성
-	BoardVO boardVO = new BoardVO();
-	CommentVO commentVO = new CommentVO();
 	
 	// qna 주소 입력시 서비스에서 게시판조회를 가져와 모델에 넣음
 	@RequestMapping("/qna")
@@ -106,7 +104,7 @@ public class BoardController {
 	// 게시판 등록 request에 받아 boardVO에 넣고 인서트 
 	@RequestMapping(value="/qnaInsert", method=RequestMethod.POST)
 	public String qnaInsert(HttpServletRequest request) {
-//		BoardVO boardVO = new BoardVO();
+		BoardVO boardVO = new BoardVO();
 		boardVO.setBoardTitle(request.getParameter("boardTitle"));
 		boardVO.setBoardDesc(request.getParameter("boardDesc"));
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
@@ -126,8 +124,8 @@ public class BoardController {
 			Model model,
 			HttpServletRequest request
 			) {
-//		BoardVO	boardVO = new BoardVO();
-//		CommentVO commentVo = new CommentVO();
+		BoardVO	boardVO = new BoardVO();
+		CommentVO commentVO = new CommentVO();
 		System.out.println("req : " + request.getParameter("boardId"));
 		
 		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
@@ -139,8 +137,8 @@ public class BoardController {
 		
 		commentVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
 		System.out.println("commnet boardId : " + commentVO.getBoardId());
-		int id = commentVO.getBoardId();
-		List<CommentVO> commentList = commentService.commentList(id);
+		int boardId = commentVO.getBoardId();
+		List<CommentVO> commentList = commentService.commentList(boardId);
 		model.addAttribute("commentList", commentList);
 		
 		
@@ -153,7 +151,7 @@ public class BoardController {
 			Model model,
 			HttpServletRequest request
 			) {
-//		BoardVO boardVO = new BoardVO();
+		BoardVO boardVO = new BoardVO();
 		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
 		
@@ -166,13 +164,13 @@ public class BoardController {
 	}
 	
 	// 게시판 수정
-	@RequestMapping("/qnaUpdate")
+	@RequestMapping(value="/qnaUpdate", method=RequestMethod.POST)
 	public String qnaUpdate(
 			RedirectAttributes redirectAttributes,
 			HttpServletRequest request
 			) {
 		
-//		BoardVO boardVO = new BoardVO();
+		BoardVO boardVO = new BoardVO();
 		boardVO.setBoardTitle(request.getParameter("boardTitle"));
 		boardVO.setBoardDesc(request.getParameter("boardDesc"));
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
@@ -189,9 +187,9 @@ public class BoardController {
 	}
 	
 	// 게시판 삭제
-	@RequestMapping("/qnaDelete")
+	@RequestMapping(value="/qnaDelete", method=RequestMethod.GET)
 	public String qnaDelete(HttpServletRequest request) {
-//		BoardVO boardVO = new BoardVO();
+		BoardVO boardVO = new BoardVO();
 		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
 		System.out.println("boadrId : " + boardVO.getBoardId());
 		
@@ -200,6 +198,37 @@ public class BoardController {
 		return "redirect:qna";
 	}
 	
+	// 게시판 답글 등록 페이지로 이동
+	@RequestMapping("/qnaReplyForm")
+	public String qnaReplyFormPage(
+			Model model,
+			HttpServletRequest request
+			) {
+		BoardVO boardVO = new BoardVO();
+		
+		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
+		boardVO.setBoardParentno(Integer.parseInt(request.getParameter("boardParentno")));
+		System.out.println("해당 페이지 parentno : " + boardVO.getBoardParentno());
+		model.addAttribute("qnaReply", boardVO);
+		
+		return "qnaReplyForm";
+	}
+	
+	// 게시판 답글 등록
+	@RequestMapping(value="/qnaReply", method=RequestMethod.POST)
+	public String qnaReply(HttpServletRequest request) {
+		BoardVO boardVO = new BoardVO();
+		
+		boardVO.setBoardTitle(request.getParameter("boardTitle"));
+		boardVO.setBoardDesc(request.getParameter("boardDesc"));
+		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
+		boardVO.setBoardParentno(Integer.parseInt(request.getParameter("boardParentno")));
+		System.out.println("boardParentno : " + boardVO.getBoardParentno());
+		
+		int qnaReply = boardService.qnaReply(boardVO);
+		
+		return "redirect:qna";
+	}
 
 	
 }

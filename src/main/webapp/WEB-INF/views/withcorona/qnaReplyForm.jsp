@@ -1,74 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script>
-		let glgl = "${glgl}";
-		
-		$(function(){
-			bind();
-			if(glgl.length != 0){
-				alert(glgl);
-			}
-		})	
-		
-		function bind(){
-			
-			$("#tableReset").off("click").on("click", function(){
-				let url = "http://localhost:8080/withcorona/reset";
-				let data=null;
-				
-				api(url, "get", data, function(){
-					alert("테이블이 초기화 되었습니다 페이지를 새로고침 해주세요");
-					console.log("테이블이 초기화 되었습니다 페이지를 새로고침 해주세요");
-				});
-			})
-		}
-	
-	
-	
-		function api(url, method, data, fnSucc, fnFail, fnComplete){
-			
-			let option = {
-				url: url,
-				type: method
-			}
-			
-			if(data != undefined) {
-				option.data = data;
-			}
-			if(fnSucc) {
-				option.success = fnSucc;
-			}
-			if(fnFail) option.fail = fnFail;
-			if(fnComplete) option.complete = fnComplete;
-			
-			$.ajax(option);
-		}
-		
-		function getListSuccess(data){
-			console.log("success", data);
-// 			$("html").html(data);
-		}
-			
-		
-	</script>
 <meta charset="UTF-8">
-<title>COVID-19 | 메인페이지</title>
+<title>COVID-19 | 답글 작성 페이지</title>
+<script>
+	function goList(){
+		location.href="${ contextPath }/withcorona/qnaView?boardId=${qna.boardId}";
+	}
+</script>
 <style>
+	section{
+		width: 491px;
+    	margin: auto;
+	}
     #main_view{
         max-width: 100%;
         width: 100%;
     }
     
     .mgt{
-        margin-top: 240px;
+            margin-top: 130px;
      }
     .mglr{
         margin: 0px 30px;
@@ -132,13 +89,11 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ userVO.userAuth == null }">
+        	<c:if test="${ vo.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
-				<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
 			</c:if>
-        	<c:if test="${ userVO.userAuth != null }">
+        	<c:if test="${ vo.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
-				<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
 			</c:if>
         </div>
         <div class="flex">
@@ -150,24 +105,19 @@
         <hr>
     </div>
     </header>
+    <div class="mgt">
     <section>
-        <div class="mgt">
-            <div class="fs1">일일 확진자수 : ${ todayCount }</div>
-            <div class="flex1">
-                <div class="mglr">연간 확진자수 : ${ yearCount }</div>
-                <div class="mglr">월간 확진자수 : ${ monthCount }</div>
-                <div class="mglr">사망자수 : ${ todayDeath }</div>
-            </div>
-        </div>
-        
-        <div class= "center update">
-	        <c:if test="${ userVO.userAuth eq '1' }">
-		        <button type="button" id="tableReset">테이블 초기화</button>
-	        </c:if>
-        </div>
-
-        
+    	<h1>답글 쓰기</h1>
+    	<form name="qnaReplyForm" method="post" action="${contextPath}/qnaReply">
+		제목 : <input type="text" name="boardTitle"><br>
+		내용 : <br>
+		<textarea name="boardDesc" rows=10 cols=65 maxlength="4000"></textarea>
+		<br><br>
+		<input type="hidden" name="boardParentno" value="${qnaReply.boardParentno}">
+		<input type="submit" value="글쓰기">
+		<input type="button" value="목록보기" onclick="goList();">
     </section>
+    </div>
     </div>
 </body>
 </html>
