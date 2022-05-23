@@ -29,6 +29,19 @@
 	function goReply() {
 		location.href = "${ contextPath }/qnaReplyForm?boardParentno=${qnaView.boardId}";
 	}
+	function CommentUpdate(_commentId) {
+		let boardId = $("[data-id^=boardId_"+ _commentId +"]").val();
+		let commentId = $("[data-id^=commentId_"+ _commentId +"]").val();
+		let commentText = $("[data-id^=commentText_"+ _commentId +"]").val();
+		location.href = "${ contextPath }/CommentUpdate?boardId="+ boardId +"&commentId="+ commentId +"&commentDesc="+ commentText;
+//		let temp = "${ contextPath }/CommentUpdate?commentId="+ commentId +"&commentText="+ commentText;
+//		console.log(temp)
+	}
+	function CommentDelete(_commentId) {
+		let boardId = $("[data-id^=boardId_"+ _commentId +"]").val();
+		let commentId = $("[data-id^=commentId_"+ _commentId +"]").val();
+		location.href = "${ contextPath }/CommentDelete?boardId="+ boardId +"&commentId="+ commentId;
+	}
 </script>
 <style>
     #main_view{
@@ -199,9 +212,9 @@
 			<thred>
 			<tr>
 				<div class="center">
-				<form action="/withcorona/comment">
-					<input type="hidden" name="comment" value="${qnaView.boardId }"></input>
-					<textarea class="ta" name="commentText" rows=5 cols=65 maxlength="4000"
+				<form action="/withcorona/CommentInsert">
+					<input type="hidden" name="boardId" value="${qnaView.boardId }"></input>
+					<textarea class="ta" name="commentDesc" rows=5 cols=65 maxlength="4000"
 						required></textarea>
 					<div class="width492">
 					<input class="right" type="submit" value="댓글 작성">
@@ -235,23 +248,29 @@
 														<span style="padding-right: 10px"></span>
 													</c:forEach>
 													<span style="font-size: 12px">[댓글]</span>
-										${ comment.commentDesc }
-										<form action="/withcorona/comment">
+													${ comment.commentDesc }
+													<form action="/withcorona/comment">
 														<input type="hidden" name="comment"
 															value="${qna.boardId }"></input> <input type="hidden"
 															name="commentId" value="${comment.commentId }"></input> <input
 															type="text" name="commentText" required> <input
 															type="submit" value="댓글 작성">
+															
 													</form>
 												</c:when>
 												<c:otherwise>
-										${ comment.commentDesc }
-										<form action="/withcorona/comment">
-														<input type="hidden" name="comment"
-															value="${qna.boardId }"></input> <input type="hidden"
-															name="commentId" value="${comment.commentId }"></input> <input
-															type="text" name="commentText" required> <input
-															type="submit" value="댓글 작성">
+													${ comment.commentDesc }
+													<form action="/withcorona/comment">
+														<input type="hidden" data-id="boardId_${comment.commentId}" name="comment" value="${qnaView.boardId }"></input>
+														<input type="hidden" data-id="commentId_${comment.commentId}" name="commentId" value="${comment.commentId }"></input> 
+														<c:if test="${ comment.userId eq userVO.userId || userVO.userAuth eq '1'}">
+															<input type="text" data-id="commentText_${comment.commentId}" name="commentText" required> 
+															<input type="button" value="수정하기" onclick="CommentUpdate('${comment.commentId }');"></input>
+															<input type="button" value="삭제하기" onclick="CommentDelete('${comment.commentId }');"></input>
+														</c:if>
+														<c:if test="${ !(qnaView.userId eq userVO.userId) && userVO.userAuth eq '0'}">
+														</c:if>
+														
 													</form>
 												</c:otherwise>
 											</c:choose></td>

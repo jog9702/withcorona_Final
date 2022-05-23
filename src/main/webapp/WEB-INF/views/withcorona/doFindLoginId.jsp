@@ -17,7 +17,7 @@
         width: 350px;
     	margin: auto;
     	text-align: center;
-        margin-top: 240px;
+        margin-top: 50px;
      }
     .mglr{
         margin: 0px 30px;
@@ -35,9 +35,12 @@
         margin-top: 30px;
     }
     .fs{
-        font-size: 40px;
-        width: 100%;
-        text-align: center;
+    font-size: 40px;
+    width: 200px;
+    text-align: center;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
     }
     .fs1{
         font-size: 50px;
@@ -104,7 +107,7 @@
     <section>
     	<div class="mgt">
     		본인 아이디는 ${ findvo.userId } 입니다 <br>
-    		<a href="/withcorona/covidHomepage">메인으로</a> |
+    		<a href="/withcorona/covidHomepage">메인으로</a> | 
 	    	<a href="/withcorona/signUp">회원 가입</a>
     	</div>
     </section>

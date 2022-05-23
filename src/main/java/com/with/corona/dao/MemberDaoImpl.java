@@ -15,7 +15,7 @@ public class MemberDaoImpl implements MemberDao{
 	//Name Email 조회(id찾을 때)
 	@Override
 	public UserVO findId(UserVO userVO) {
-		UserVO userInfo = sqlSession.selectOne("mapper.withcorona.findByNameAndEmail", userVO);
+		UserVO userInfo = sqlSession.selectOne("mapper.member.findByNameAndEmail", userVO);
 		
 		return userInfo;
 	}
@@ -23,7 +23,7 @@ public class MemberDaoImpl implements MemberDao{
 	//Id Name Email 조회 (pw 찾을 때)
 	@Override
 	public UserVO findPw(UserVO userVO) {
-		UserVO userInfo = sqlSession.selectOne("mapper.withcorona.findByLoginIdAndNameAndEmail", userVO);
+		UserVO userInfo = sqlSession.selectOne("mapper.member.findByLoginIdAndNameAndEmail", userVO);
 		
 		return userInfo;
 	}
