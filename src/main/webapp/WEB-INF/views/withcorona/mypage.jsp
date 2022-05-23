@@ -34,12 +34,9 @@
         margin-top: 30px;
     }
     .fs{
-    font-size: 40px;
-    width: 200px;
-    text-align: center;
-    margin: auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
+        font-size: 40px;
+        width: 100%;
+        text-align: center;
     }
     .fs1{
         font-size: 50px;
@@ -76,11 +73,7 @@
     section{
    	    margin: auto;
     	width: 260px;
-    	margin-top: 120px;
-    	background-color: rgba(225, 225, 225, 0.5);
-	    padding: 20px;
-	    border-radius: 16px;
-	    border: 1px solid black;
+    	margin-top: 80px;
     }
 	.fs_12{
    		font-size: 12px;
@@ -100,7 +93,39 @@
 		text-align: center;
 		margin-top: 50px;
 	}
-
+	.textForm {
+		border-bottom: 2px solid #adadad;
+		margin: 30px;
+		padding: 10px 0px 10px 0px;
+	}
+	.input_text {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:25px;
+		background: none;
+	}
+	.btn {
+		position:relative;
+		left:40%;
+		transform: translateX(-50%);
+		margin-bottom: 20px;
+		width:80%;
+		height:40px;
+		background: rgba(225, 225, 225, 0.5);
+		background-position: left;
+		background-size: 200%;
+		font-weight: bold;
+		border:none;
+		cursor:pointer;
+		transition: 0.4s;
+		display:inline;
+	}
+	.t_c{
+		text-align: center;
+	}
 </style>
 <script
     src="https://code.jquery.com/jquery-3.6.0.js"
@@ -115,16 +140,14 @@
 		        <div class="fs">
 		            <a href="/withcorona/covidHomepage">COVID-19</a>
 		        </div>
-	        <div class="login">
-	        	<c:if test="${ userVO.userAuth == null }">
-					<a href="/withcorona/login"><input type="button" value="로그인"></a>
-					<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
-				</c:if>
-	        	<c:if test="${ userVO.userAuth != null }">
-					<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
-					<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
-				</c:if>
-	        </div>
+		        <div class="login">
+		        	<c:if test="${ userVO.userAuth == null }">
+						<a href="/withcorona/login"><input type="button" value="로그인"></a>
+					</c:if>
+		        	<c:if test="${ userVO.userAuth != null }">
+						<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
+					</c:if>
+		        </div>
 		        <div class="flex">
 		            <div><a href="/withcorona/covidKorea">국내 상세</a></div>
 		            <div><a href="/withcorona/covidForeign">해외 상세</a></div>
@@ -142,53 +165,39 @@
 	    		</script>
 	    	</c:if>
 	    	<c:if test="${ userVO.userAuth != null }">
+		    	<% String id = (String)session.getAttribute("userId"); %>
 		    	<% String name = (String)session.getAttribute("userName"); %>
 		    	<% String pw = (String)session.getAttribute("userPassword"); %>
 		    	<% String email = (String)session.getAttribute("userEmail"); %>
 		    	<form>
-			    	<table class="tb_size">
-			    		<tr class="text_center">
-			    			<td colspan=2><h1>회원정보수정</h1></td>
-			    		</tr>
-			    		<tr>
-			    			<td colspan=2><div class="red fs_12">*는 필수입니다.</div></td>
-			    		</tr>
-			    		<tr>
-			    			<td>아이디 </td>
-			    			<td><c:out value="${userVO.userId}"></c:out></td>
-			    		</tr>
-			    		<tr>
-			    			<td><span class="red">* </span>비밀번호</td>
-			    			<td><input type="password" id="pwd" placeholder="비밀번호를 입력하세요" value="<%=pw%>"></td>
-			    		</tr>
-			    		<tr>
-			    			<td colspan=2 class="hide red fs_12">비밀번호는 필수입니다</td>
-			    		</tr>
-			    		<tr>
-			    			<td><span class="red">* </span>이름</td>
-			    			<td><input type="text" id="name" placeholder="이름을 입력하세요" value="<%=name %>"></td>
-			    		</tr>
-			    		<tr>
-			    			<td colspan=2 class="hide red fs_12">이름은 필수입니다</td>
-			    		</tr>
-			    		<tr>
-			    			<td><span class="red">* </span>이메일</td>
-			    			<td><input type="email" id="email" placeholder="이메일을 입력하세요" value="<%=email %>"></td>
-			    		</tr>
-			    		<tr>
-			    			<td colspan=2 class="hide red fs_12">이메일은 필수입니다</td>
-			    		</tr>
-			    		<tr>
-			    			<td><span class="red">* </span>성별</td>
-			    			<td>
-			    				<input type="radio" id="male" class="gender" name="gender" value="male">남자<br>
-			    				<input type="radio" id="female" class="gender" name="gender" value="female">여자
-			    			</td>
-			    		</tr>
-		    		</table>
+			    	<div class="t_c"><h1>회원정보수정</h1></div>
+			    	<div class="red fs_12">*는 필수입니다.</div>
+			    	<div class="textForm">
+			    		<input type="text" class="input_text" id="id" value="<%=id%>" readonly>
+			    	</div>
+			    	<div class="textForm">
+			    		<span class="red">*비밀번호 </span>
+			    		<input type="password" class="input_text" id="pwd" value="<%=pw%>">
+			    	</div>
+			    	<div class="hide red fs_12">비밀번호는 필수입니다</div>
+			    	<div class="textForm">
+			    		<span class="red">*이름 </span>
+			    		<input type="text" class="input_text" id="name" value="<%=name%>">
+			    	</div>
+			    	<div class="hide red fs_12">이름은 필수입니다</div>
+			    	<div class="textForm">
+			    		<span class="red">*이메일 </span>
+			    		<input type="email" class="input_text" id="email" value="<%=email%>">
+			    	</div>
+			    	<div class="hide red fs_12">이메일은 필수입니다</div>
+			    	<div class="t_c input_text">
+			    		성별
+			    		<input type="radio" id="male" class="gender" name="gender" value="male">남자
+			    		<input type="radio" id="female" class="gender" name="gender" value="female">여자
+			    	</div>
 		    		<div class="text_center">
-			    		<button type="button" id="btn_edit">수정하기</button>
-				    	<input type="reset" value="다시입력">
+			    		<button type="button" class="btn" id="btn_edit">수정하기</button>
+				    	<input type="reset" class="btn" value="다시입력">
 			    	</div>
 		    	</form>
 	    	</c:if>
@@ -250,6 +259,9 @@
 					contentType: 'application/json; charset=UTF-8',
 					success : function(data){
 						console.log("ajax - mypage");
+						alert("회원정보가 수정되었습니다.");
+						
+						location.href = "http://localhost:8080/withcorona/covidHomepage";
 					},
 					fail : function(data){
 						console.log("fail, "+data);
@@ -283,14 +295,14 @@
     			if(evt.keyCode == 13){
     				$("#name").trigger("focus");
     			} else {
-    				$(this).parent().parent().next().children().addClass("hide");
+    				$(this).parent().next().addClass("hide");
     			}
     		});
     		
     		$("#pwd").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
-    				$(this).parent().parent().next().children().removeClass("hide");
+    				$(this).parent().next().removeClass("hide");
     			}
     			
     		});
@@ -300,14 +312,14 @@
     			if(evt.keyCode == 13){
     				$("#email").trigger("focus");
     			} else {
-    				$(this).parent().parent().next().children().addClass("hide");
+    				$(this).parent().next().addClass("hide");
     			}
     		});
     		
     		$("#name").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
-    				$(this).parent().parent().next().children().removeClass("hide");
+    				$(this).parent().next().removeClass("hide");
     			}
     			
     		});
@@ -317,14 +329,14 @@
     			if(evt.keyCode == 13){
     				$(".gender").trigger("focus");
     			} else {
-    				$(this).parent().parent().next().children().addClass("hide");
+    				$(this).parent().next().addClass("hide");
     			}
     		});
     		
     		$("#email").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
-    				$(this).parent().parent().next().children().removeClass("hide");
+    				$(this).parent().next().removeClass("hide");
     			}
     			
     		});

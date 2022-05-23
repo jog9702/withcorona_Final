@@ -54,7 +54,7 @@ public class UserController {
 		request.getSession().setAttribute("userEmail", returnUserVO.getUserEmail());
 		request.getSession().setAttribute("userVO", returnUserVO);
 		
-		return "mypage";
+		return "homepage";
 		
 	}
 	
