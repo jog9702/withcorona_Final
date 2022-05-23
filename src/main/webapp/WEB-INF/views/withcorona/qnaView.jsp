@@ -31,114 +31,176 @@
 	}
 </script>
 <style>
-    #main_view{
-        max-width: 100%;
-        width: 100%;
-    }
-    
-    .mgt{
-        margin: auto;
-        width:1000px;
-        border: 1px solid gray;
-        border-radius: 14px;
-	    padding: 10px;
-     }
-    .mglr{
-        margin: 0px 30px;
-    }
-    .flex{
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        margin-top: 45px;
-    }
-    .flex1{
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin-top: 30px;
-    }
-    .fs{
-        font-size: 40px;
-        width: 100%;
-        text-align: center;
-    }
-    .fs1{
-        font-size: 50px;
-        width: 100%;
-        text-align: center;
-    }
-    a:link {
-       text-decoration: none;
-       color: black;
-   }
-   
-   a:visited {
-       text-decoration: none;
-       color: black;
-   }
-   
-   a:hover {
-       text-decoration: none;
-       color: blue;
-   }
-   
-   a:active {
-       text-decoration: none;
-   }
-   .mg{
-      margin-top: 100px;
-      font-size: 10px;
-      width:100%;
-      text-align: right;
-   }
-   .login{
-      float: right;
-   }
-   
-   .center{
-   		width:800px;
-   		margin:auto;
-   }
-   .right{
-   		text-align:right;
-   }
-   .bright{
-   	    width: 1000px;
-    	text-align: right;
-   }
-   
-   .width492{
-   	width: 800px;
-    text-align: right;
-   }
-   
-   .ta{
-   		width:800px;
-   		border-radius: 14px;
-   }
-   .mh{
-   	min-height: 300px;
-   	border-radius: 14px;
-   }
-   
-   table {
-	border: 2px solid;
+#main_view {
+	max-width: 100%;
+	width: 100%;
+}
+
+.mgt {
+	margin: auto;
 	width: 1000px;
-	margin : auto;
-	}
-	
-	th, td {
-		border: 1px solid;
-	}
-	section{
-		width: 1000px;
-		margin: auto;
-	}
+	border: 1px solid #ccc;
+	border-radius: 14px;
+	padding: 10px;
+}
+
+.mglr {
+	margin: 0px 30px;
+}
+
+.flex {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	margin-top: 45px;
+}
+
+.flex1 {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	margin-top: 30px;
+}
+
+.fs {
+	font-size: 40px;
+	width: 100%;
+	text-align: center;
+}
+
+.fs1 {
+	font-size: 50px;
+	width: 100%;
+	text-align: center;
+}
+
+a:link {
+	text-decoration: none;
+	color: black;
+}
+
+a:visited {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	text-decoration: none;
+	color: blue;
+}
+
+a:active {
+	text-decoration: none;
+}
+
+.mg {
+	margin-top: 100px;
+	font-size: 10px;
+	width: 100%;
+	text-align: right;
+}
+
+.login {
+	float: right;
+}
+
+.center {
+	width: 800px;
+	margin: auto;
+}
+
+.right {
+	text-align: right;
+}
+
+.bright {
+	width: 1000px;
+	text-align: right;
+}
+
+.width492 {
+	width: 800px;
+	text-align: right;
+}
+
+.ta {
+	width: 800px;
+	border-radius: 14px;
+}
+
+.mh {
+	min-height: 300px;
+	border-radius: 14px;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+section.notice {
+	padding: 80px 0;
+}
+
+.board-table {
+	font-size: 13px;
+	width: 100%;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.th-comment {
+	text-align: left;
+}
+
+.board-table a {
+	color: #333;
+	display: inline-block;
+	line-height: 1.4;
+	word-break: break-all;
+	vertical-align: middle;
+}
+
+.board-table a:hover {
+	text-decoration: underline;
+}
+
+.board-table th {
+	text-align: center;
+}
+
+.board-table .th-num {
+	width: 100px;
+	text-align: center;
+}
+
+.board-table .th-date {
+	width: 200px;
+}
+
+.board-table th, .board-table td {
+	padding: 14px 0;
+}
+
+.al {
+	text-align: left;
+}
+
+.board-table tbody th {
+	padding-left: 28px;
+	padding-right: 14px;
+	border-top: 1px solid #e7e7e7;
+	text-align: left;
+}
+
+.board-table tbody th p {
+	display: none;
+}
+
 </style>
 </head>
 <body>
-	
+
 	<header>
 		<div class="fixed">
 			<div class="fs">
@@ -177,93 +239,93 @@
 			</c:if>
 			<c:if test="${ userVO.userAuth != null }">
 			작성자 : ${ qnaView.userId }<br> 제목 : ${ qnaView.boardTitle }<br> 내용 :
-				<div class="mh" style="border: 1px black solid; padding: 10px;">${ qnaView.boardDesc }
+				<div class="mh" style="border: 1px #ccc solid; padding: 10px;">${ qnaView.boardDesc }
 				</div>
 				<br>
 				<div class="bright">
-					<c:if test="${ qnaView.userId eq userVO.userId || userVO.userAuth eq '1'}">
+					<c:if
+						test="${ qnaView.userId eq userVO.userId || userVO.userAuth eq '1'}">
 						<input type="button" value="수정하기" onclick="goUpdate();">
 						<input type="button" value="삭제하기" onclick="goDelete();">
 						<input type="button" value="답글쓰기" onclick="goReply();">
 						<input type="button" value="목록보기" onclick="goList();">
 					</c:if>
-					<c:if test="${ !(qnaView.userId eq userVO.userId) && userVO.userAuth eq '0'}">
+					<c:if
+						test="${ !(qnaView.userId eq userVO.userId) && userVO.userAuth eq '0'}">
 						<input type="button" value="답글쓰기" onclick="goReply();">
 						<input type="button" value="목록보기" onclick="goList();">
 					</c:if>
 				</div>
 				<br>
 				<hr>
-
-		<table>
-			<thred>
-			<tr>
-				<div class="center">
-				<form action="/withcorona/comment">
-					<input type="hidden" name="comment" value="${qnaView.boardId }"></input>
-					<textarea class="ta" name="commentText" rows=5 cols=65 maxlength="4000"
-						required></textarea>
-					<div class="width492">
-					<input class="right" type="submit" value="댓글 작성">
-					</div>
-				</form>
-				</div>
-
-				<br>
-
-
-					<thred>
-					<tr>
-						<td colspan="4">댓글</td>
-					</tr>
-					</thred>
-					<tbody>
-						<c:choose>
-							<c:when test="${ empty commentList }">
-								<tr height="10">
-									<td colspan="5">등록된 댓글이 없습니다</td>
-								</tr>
-							</c:when>
-							<c:when test="${! empty commentList }">
-								<c:forEach var="comment" items="${ commentList }" varStatus="commentNum">
-									<tr align="center">
-										<td width="10%">${ comment.userId }</td>
-										<td align="left" width="35%"><span
-											style="padding-right: 30px"></span> <c:choose>
-												<c:when test="${ comment.level > 1 }">
-													<c:forEach begin="1" end="${ comment.level }" step="1">
-														<span style="padding-right: 10px"></span>
-													</c:forEach>
-													<span style="font-size: 12px">[댓글]</span>
-										${ comment.commentDesc }
-										<form action="/withcorona/comment">
-														<input type="hidden" name="comment"
-															value="${qna.boardId }"></input> <input type="hidden"
-															name="commentId" value="${comment.commentId }"></input> <input
-															type="text" name="commentText" required> <input
-															type="submit" value="댓글 작성">
-													</form>
-												</c:when>
-												<c:otherwise>
-										${ comment.commentDesc }
-										<form action="/withcorona/comment">
-														<input type="hidden" name="comment"
-															value="${qna.boardId }"></input> <input type="hidden"
-															name="commentId" value="${comment.commentId }"></input> <input
-															type="text" name="commentText" required> <input
-															type="submit" value="댓글 작성">
-													</form>
-												</c:otherwise>
-											</c:choose></td>
-										<td width="10%"><fmt:formatDate
-												value="${ comment.commentTime }" /></td>
+				<section class="notice">
+					<div id="board-list">
+						<div class="container">
+							<table class="board-table">
+								<thead>
+									<tr>
+										<th colspan="4" scope="col" class="th-comment">댓글</th>
 									</tr>
-								</c:forEach>
-							</c:when>
-						</c:choose>
-					</tbody>
-				</table>
-				</div>
+								</thead>
+								<tbody>
+									<c:choose>
+										<c:when test="${ empty commentList }">
+											<tr height="10">
+												<td colspan="5">등록된 댓글이 없습니다</td>
+											</tr>
+										</c:when>
+										<c:when test="${! empty commentList }">
+											<c:forEach var="comment" items="${ commentList }"
+												varStatus="commentNum">
+												<tr align="center">
+													<td width="10%">${ comment.userId }</td>
+													<td align="left" width="35%"><span
+														style="padding-right: 30px"></span> <c:choose>
+															<c:when test="${ comment.level > 1 }">
+																<c:forEach begin="1" end="${ comment.level }" step="1">
+																	<span style="padding-right: 10px"></span>
+																</c:forEach>
+																<span style="font-size: 12px">[댓글]</span>
+									${ comment.commentDesc }
+									<form action="/withcorona/comment">
+																	<input type="hidden" name="comment"
+																		value="${qna.boardId }"></input> <input type="hidden"
+																		name="commentId" value="${comment.commentId }"></input>
+																	<input type="text" name="commentText" required>
+																	<input type="submit" value="댓글 작성">
+																</form>
+															</c:when>
+															<c:otherwise>
+									${ comment.commentDesc }
+									<form action="/withcorona/comment">
+																	<input type="hidden" name="comment"
+																		value="${qna.boardId }"></input> <input type="hidden"
+																		name="commentId" value="${comment.commentId }"></input>
+																	<input type="text" name="commentText" required>
+																	<input type="submit" value="댓글 작성">
+																</form>
+															</c:otherwise>
+														</c:choose></td>
+													<td width="10%"><fmt:formatDate
+															value="${ comment.commentTime }" /></td>
+												</tr>
+											</c:forEach>
+										</c:when>
+									</c:choose>
+								</tbody>
+							</table>
+							<br> <br> <br>
+							<div class="center">
+								<form action="/withcorona/comment">
+									<input type="hidden" name="comment" value="${qnaView.boardId }"></input>
+									<textarea class="ta" name="commentText" rows=5 cols=65
+										maxlength="4000" required></textarea>
+									<div class="width492">
+										<input class="right" type="submit" value="댓글 작성">
+									</div>
+								</form>
+							</div>
+						</div>
 			</c:if>
 		</section>
 </body>

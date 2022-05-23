@@ -75,6 +75,49 @@
     margin: auto;
     margin-top: 140px;
    }
+   	.textForm {
+		border-bottom: 2px solid #adadad;
+		margin: 30px;
+		padding: 10px 0px 10px 0px;
+	}
+   	.input_text {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:25px;
+		background: none;
+	}
+	   	.input_textbox {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:60px;
+		background: none;
+	}
+   	.btn {
+		position:relative;
+		left:30%;
+		transform: translateX(-50%);
+		margin-bottom: 20px;
+		width:40%;
+		height:40px;
+		background: rgba(225, 225, 225, 0.5);
+		background-position: left;
+		background-size: 200%;
+		font-weight: bold;
+		border:none;
+		cursor:pointer;
+		transition: 0.4s;
+		display:inline;
+	}
+	.t_c{
+		text-align: center;
+		margin-top: 130px;
+	}
 </style>
 </head>
 <body>
@@ -102,15 +145,20 @@
 	    </div>
     </header>
 	<section>
-		작성자 : ${ qna.userId }<br>
+		<div class="t_c"><h1>글 수정</h1></div>
+		<div class="textForm">작성자  ${ qna.userId }</div>
 		<form name="qnaForm" method="post" action="${ contextPath }/qnaUpdate">
-			제목 : <input name="boardTitle" type="text" value="${ qna.boardTitle }"><br> 
-			내용 : <br>
-			<textarea name="boardDesc" rows="10" cols="65" maxlength="4000">${ qna.boardDesc }</textarea>
+			<div class="textForm">
+			<input  class="input_text" name="boardTitle" type="text" value="제목 : ${ qna.boardTitle }"><br> 
+			</div>
+			<br>
+			<div class="textForm">
+			<textarea class="input_textbox" name="boardDesc"rows="10" cols="65" maxlength="4000">내용 : ${ qna.boardDesc }</textarea>
+			</div>
 			<br><br>
-			<input type="hidden" name="boardId" value="${ qna.boardId }">
-			<input type="submit" value="수정하기">
-			<input type="button" value="취소하기" onclick="history.back(-1)">
+			<input type="hidden" class="btn" name="boardId" value="${ qna.boardId }">
+			<input type="submit" class="btn" value="수정하기">
+			<input type="button" class="btn" value="취소하기" onclick="history.back(-1)">
 		</form>
 	</section>
 	</div>

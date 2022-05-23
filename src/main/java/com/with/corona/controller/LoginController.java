@@ -39,8 +39,10 @@ public class LoginController {
 		
 		userVO.setUserId(userId);
 		userVO.setUserPassword(userPassword);
+		System.out.println("userVO.getUserAuth : " + userVO.getUserAuth());
 		
 		UserVO result = loginService.login(userVO);
+		System.out.println("result.getUserAuth : " + result.getUserAuth());
 		
 			System.out.println("로그인 성공");
 			request.getSession().setAttribute("userId", result.getUserId());
@@ -52,6 +54,7 @@ public class LoginController {
 			System.out.println("아이디 : " + result.getUserId());
 			System.out.println("비밀번호 : " + result.getUserPassword());
 			System.out.println("권한 : " + result.getUserAuth());
+			login = "redirect:/qna";
 
 			return "SUCC";
 	}

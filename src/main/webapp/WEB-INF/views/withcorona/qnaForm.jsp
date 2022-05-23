@@ -22,10 +22,7 @@
         max-width: 100%;
         width: 100%;
     }
-    
-    .mgt{
-            margin-top: 130px;
-     }
+
     .mglr{
         margin: 0px 30px;
     }
@@ -75,9 +72,56 @@
       width:100%;
       text-align: right;
    }
+   	.text_center{
+		text-align: center;
+		margin-top: 20px;
+	}
+	.textForm {
+		border-bottom: 2px solid #adadad;
+		margin: 30px;
+		padding: 10px 0px 10px 0px;
+	}
    .login{
       float: right;
    }
+   	.input_text {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:25px;
+		background: none;
+	}
+	   	.input_textbox {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:60px;
+		background: none;
+	}
+   	.btn {
+		position:relative;
+		left:30%;
+		transform: translateX(-50%);
+		margin-bottom: 20px;
+		width:40%;
+		height:40px;
+		background: rgba(225, 225, 225, 0.5);
+		background-position: left;
+		background-size: 200%;
+		font-weight: bold;
+		border:none;
+		cursor:pointer;
+		transition: 0.4s;
+		display:inline;
+	}
+	.t_c{
+		text-align: center;
+		margin-top: 130px;
+	}
 </style>
 </head>
 <body>
@@ -112,14 +156,17 @@
     		
     	</c:if>
     	<c:if test="${ userVO.userAuth != null }">
-    		<h1 class="mgt">새글 쓰기</h1>
+    		<div class="t_c"><h1>새글 작성</h1></div>
 			<form name="qnaInsert" method="post" action="${ contextPath }/withcorona/qnaInsert">
-			제목 : <input type="text" placeholder="제목을 입력하세요" name="boardTitle" required><br>
-			내용 : <br>
-			<textarea name="boardDesc" rows=10 cols=65 maxlength="4000" placeholder="내용을 입력하세요" required></textarea>
+			<div class="textForm">
+				<input type="text" class="input_text" placeholder="제목을 입력하세요" name="boardTitle" required><br>
+			</div>
+			<div class="textForm">
+			<textarea name="boardDesc" class="input_textbox" rows=10 cols=65 maxlength="4000" placeholder="내용을 입력하세요" required></textarea>
+			</div>
 			<br><br>
-			<input type="submit" value="글쓰기">
-			<input type="button" value="목록보기" onclick="goList();">
+			<input type="submit" class="btn" value="글쓰기">
+			<input type="button" class="btn" value="목록보기" onclick="goList();">
 		</form>
     	</c:if>
 	</section>
