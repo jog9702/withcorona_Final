@@ -42,6 +42,19 @@
 		let commentId = $("[data-id^=commentId_"+ _commentId +"]").val();
 		location.href = "${ contextPath }/CommentDelete?boardId="+ boardId +"&commentId="+ commentId;
 	}
+	function CommentUpdate(_commentId) {
+	      let boardId = $("[data-id^=boardId_"+ _commentId +"]").val();
+	      let commentId = $("[data-id^=commentId_"+ _commentId +"]").val();
+	      let commentText = $("[data-id^=commentText_"+ _commentId +"]").val();
+	      location.href = "${ contextPath }/CommentUpdate?boardId="+ boardId +"&commentId="+ commentId +"&commentDesc="+ commentText;
+//	      let temp = "${ contextPath }/CommentUpdate?commentId="+ commentId +"&commentText="+ commentText;
+//	      console.log(temp)
+	   }
+   function CommentDelete(_commentId) {
+      let boardId = $("[data-id^=boardId_"+ _commentId +"]").val();
+      let commentId = $("[data-id^=commentId_"+ _commentId +"]").val();
+      location.href = "${ contextPath }/CommentDelete?boardId="+ boardId +"&commentId="+ commentId;
+   }
 </script>
 <style>
 #main_view {
@@ -75,11 +88,14 @@
 	margin-top: 30px;
 }
 
-.fs {
-	font-size: 40px;
-	width: 100%;
-	text-align: center;
-}
+    .fs{
+    font-size: 40px;
+    width: 200px;
+    text-align: center;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    }
 
 .fs1 {
 	font-size: 50px;
@@ -219,14 +235,16 @@ section.notice {
 			<div class="fs">
 				<a href="/withcorona/covidHomepage">COVID-19</a>
 			</div>
-			<div class="login">
-				<c:if test="${ userVO.userAuth == null }">
-					<a href="/withcorona/login"><input type="button" value="로그인"></a>
-				</c:if>
-				<c:if test="${ userVO.userAuth != null }">
-					<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
-				</c:if>
-			</div>
+        <div class="login">
+        	<c:if test="${ userVO.userAuth == null }">
+				<a href="/withcorona/login"><input type="button" value="로그인"></a>
+				<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
+			</c:if>
+        	<c:if test="${ userVO.userAuth != null }">
+				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
+				<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
+			</c:if>
+        </div>
 			<div class="flex">
 				<div>
 					<a href="/withcorona/covidKorea">국내 상세</a>
@@ -280,58 +298,63 @@ section.notice {
 										<th colspan="4" scope="col" class="th-comment">댓글</th>
 									</tr>
 								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${ empty commentList }">
-											<tr height="10">
-												<td colspan="5">등록된 댓글이 없습니다</td>
-											</tr>
-										</c:when>
-										<c:when test="${! empty commentList }">
-											<c:forEach var="comment" items="${ commentList }"
-												varStatus="commentNum">
-												<tr align="center">
-													<td width="10%">${ comment.userId }</td>
-													<td align="left" width="35%"><span
-														style="padding-right: 30px"></span> <c:choose>
-															<c:when test="${ comment.level > 1 }">
-																<c:forEach begin="1" end="${ comment.level }" step="1">
-																	<span style="padding-right: 10px"></span>
-																</c:forEach>
-																<span style="font-size: 12px">[댓글]</span>
-									${ comment.commentDesc }
-									<form action="/withcorona/comment">
-																	<input type="hidden" name="comment"
-																		value="${qna.boardId }"></input> <input type="hidden"
-																		name="commentId" value="${comment.commentId }"></input>
-																	<input type="text" name="commentText" required>
-																	<input type="submit" value="댓글 작성">
-																</form>
-															</c:when>
-															<c:otherwise>
-									${ comment.commentDesc }
-									<form action="/withcorona/comment">
-																	<input type="hidden" name="comment"
-																		value="${qna.boardId }"></input> <input type="hidden"
-																		name="commentId" value="${comment.commentId }"></input>
-																	<input type="text" name="commentText" required>
-																	<input type="submit" value="댓글 작성">
-																</form>
-															</c:otherwise>
-														</c:choose></td>
-													<td width="10%"><fmt:formatDate
-															value="${ comment.commentTime }" /></td>
-												</tr>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-								</tbody>
+<tbody>
+                  <c:choose>
+                     <c:when test="${ empty commentList }">
+                        <tr height="10">
+                           <td colspan="5">등록된 댓글이 없습니다</td>
+                        </tr>
+                     </c:when>
+                     <c:when test="${! empty commentList }">
+                        <c:forEach var="comment" items="${ commentList }" varStatus="commentNum">
+                           <tr align="center">
+                              <td width="10%">${ comment.userId }</td>
+                              <td align="left" width="35%"><span
+                                 style="padding-right: 30px"></span> <c:choose>
+                                    <c:when test="${ comment.level > 1 }">
+                                       <c:forEach begin="1" end="${ comment.level }" step="1">
+                                          <span style="padding-right: 10px"></span>
+                                       </c:forEach>
+                                       <span style="font-size: 12px">[댓글]</span>
+                                       ${ comment.commentDesc }
+                                       <form action="/withcorona/comment">
+                                          <input type="hidden" name="comment"
+                                             value="${qna.boardId }"></input> <input type="hidden"
+                                             name="commentId" value="${comment.commentId }"></input> <input
+                                             type="text" name="commentText" required> <input
+                                             type="submit" value="댓글 작성">
+                                             
+                                       </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                       ${ comment.commentDesc }
+                                       <form action="/withcorona/comment">
+                                          <input type="hidden" data-id="boardId_${comment.commentId}" name="comment" value="${qnaView.boardId }"></input>
+                                          <input type="hidden" data-id="commentId_${comment.commentId}" name="commentId" value="${comment.commentId }"></input> 
+                                          <c:if test="${ comment.userId eq userVO.userId || userVO.userAuth eq '1'}">
+                                             <input type="text" data-id="commentText_${comment.commentId}" name="commentText" required> 
+                                             <input type="button" value="수정하기" onclick="CommentUpdate('${comment.commentId }');"></input>
+                                             <input type="button" value="삭제하기" onclick="CommentDelete('${comment.commentId }');"></input>
+                                          </c:if>
+                                          <c:if test="${ !(qnaView.userId eq userVO.userId) && userVO.userAuth eq '0'}">
+                                          </c:if>
+                                          
+                                       </form>
+                                    </c:otherwise>
+                                 </c:choose></td>
+                              <td width="10%"><fmt:formatDate
+                                    value="${ comment.commentTime }" /></td>
+                           </tr>
+                        </c:forEach>
+                     </c:when>
+                  </c:choose>
+               </tbody>
 							</table>
 							<br> <br> <br>
 							<div class="center">
-								<form action="/withcorona/comment">
-									<input type="hidden" name="comment" value="${qnaView.boardId }"></input>
-									<textarea class="ta" name="commentText" rows=5 cols=65
+								<form action="/withcorona/CommentInsert">
+									<input type="hidden" name="boardId" value="${qnaView.boardId }"></input>
+									<textarea class="ta" name="commentDesc" rows=5 cols=65
 										maxlength="4000" required></textarea>
 									<div class="width492">
 										<input class="right" type="submit" value="댓글 작성">

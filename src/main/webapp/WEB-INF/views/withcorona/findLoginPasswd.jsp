@@ -216,11 +216,13 @@ body {
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ vo.userAuth == null }">
+        	<c:if test="${ userVO.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
+				<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
 			</c:if>
-        	<c:if test="${ vo.userAuth != null }">
+        	<c:if test="${ userVO.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
+				<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
 			</c:if>
         </div>
         <div class="flex">

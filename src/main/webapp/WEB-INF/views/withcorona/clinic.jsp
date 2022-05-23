@@ -37,9 +37,12 @@
         margin-top: 30px;
     }
     .fs{
-        font-size: 40px;
-        width: 100%;
-        text-align: center;
+    font-size: 40px;
+    width: 200px;
+    text-align: center;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
     }
     .fs1{
         font-size: 50px;

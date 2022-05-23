@@ -3,10 +3,22 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.withcorona">
+<mapper namespace="mapper.member">
 	
 <!-- 	<select id="selectAllMemberList" resultType="memberVO">
 		select * from emp
 	</select> -->
 	
+	
+	<!-- ID값 찾기 쿼리문 -->
+	<select id="findByNameAndEmail" resultType="userVO" parameterType="userVO">
+		select * from user_info where user_Name = #{userName} and user_Email = #{userEmail}
+	</select>
+
+	
+	<!-- PW값 찾기 쿼리문 -->
+	<select id="findByLoginIdAndNameAndEmail" resultType="userVO" parameterType="userVO">
+		select * from user_info member where user_id = #{userId} and user_Name = #{userName} and user_Email = #{userEmail}
+	</select>
 	
 </mapper>

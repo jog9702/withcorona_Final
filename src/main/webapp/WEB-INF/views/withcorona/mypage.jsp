@@ -34,9 +34,12 @@
         margin-top: 30px;
     }
     .fs{
-        font-size: 40px;
-        width: 100%;
-        text-align: center;
+    font-size: 40px;
+    width: 200px;
+    text-align: center;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
     }
     .fs1{
         font-size: 50px;
@@ -112,14 +115,16 @@
 		        <div class="fs">
 		            <a href="/withcorona/covidHomepage">COVID-19</a>
 		        </div>
-		        <div class="login">
-		        	<c:if test="${ userVO.userAuth == null }">
-						<a href="/withcorona/login"><input type="button" value="로그인"></a>
-					</c:if>
-		        	<c:if test="${ userVO.userAuth != null }">
-						<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
-					</c:if>
-		        </div>
+	        <div class="login">
+	        	<c:if test="${ userVO.userAuth == null }">
+					<a href="/withcorona/login"><input type="button" value="로그인"></a>
+					<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
+				</c:if>
+	        	<c:if test="${ userVO.userAuth != null }">
+					<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
+					<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
+				</c:if>
+	        </div>
 		        <div class="flex">
 		            <div><a href="/withcorona/covidKorea">국내 상세</a></div>
 		            <div><a href="/withcorona/covidForeign">해외 상세</a></div>
