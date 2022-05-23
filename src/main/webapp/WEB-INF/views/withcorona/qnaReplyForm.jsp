@@ -9,11 +9,6 @@
 <head>
 <meta charset="UTF-8">
 <title>COVID-19 | 답글 작성 페이지</title>
-<script>
-	function goList(){
-		location.href="${ contextPath }/withcorona/qnaView?boardId=${qna.boardId}";
-	}
-</script>
 <style>
 	section{
 		width: 491px;
@@ -79,6 +74,49 @@
    .login{
       float: right;
    }
+   	.textForm {
+		border-bottom: 2px solid #adadad;
+		margin: 30px;
+		padding: 10px 0px 10px 0px;
+	}
+     .input_text {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:25px;
+		background: none;
+	}
+	   	.input_textbox {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:60px;
+		background: none;
+	}
+   	.btn {
+		position:relative;
+		left:30%;
+		transform: translateX(-50%);
+		margin-bottom: 20px;
+		width:40%;
+		height:40px;
+		background: rgba(225, 225, 225, 0.5);
+		background-position: left;
+		background-size: 200%;
+		font-weight: bold;
+		border:none;
+		cursor:pointer;
+		transition: 0.4s;
+		display:inline;
+	}
+	.t_c{
+		text-align: center;
+		margin-top: 130px;
+	}
 </style>
 </head>
 <body>
@@ -89,10 +127,10 @@
             <a href="/withcorona/covidHomepage">COVID-19</a>
         </div>
         <div class="login">
-        	<c:if test="${ vo.userAuth == null }">
+        	<c:if test="${ userVO.userAuth == null }">
 				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 			</c:if>
-        	<c:if test="${ vo.userAuth != null }">
+        	<c:if test="${ userVO.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
 			</c:if>
         </div>
@@ -107,15 +145,19 @@
     </header>
     <div class="mgt">
     <section>
-    	<h1>답글 쓰기</h1>
+    	<div class="t_c"><h1>답글 작성</h1></div>
     	<form name="qnaReplyForm" method="post" action="${contextPath}/qnaReply">
-		제목 : <input type="text" name="boardTitle"><br>
-		내용 : <br>
-		<textarea name="boardDesc" rows=10 cols=65 maxlength="4000"></textarea>
+		<div class="textForm">
+		<input type="text" class="input_text" name="boardTitle"  placeholder="제목을 입력하세요" required><br>
+		</div>
+		<br>
+		<div class="textForm">
+		<textarea name="boardDesc" class="input_text" rows=10 cols=65 maxlength="4000" placeholder="내용을 입력하세요" required></textarea>
+		</div>
 		<br><br>
-		<input type="hidden" name="boardParentno" value="${qnaReply.boardParentno}">
-		<input type="submit" value="글쓰기">
-		<input type="button" value="목록보기" onclick="goList();">
+		<input type="hidden" class="btn" name="boardParentno" value="${qnaReply.boardParentno}">
+		<input type="submit" class="btn" value="글쓰기">
+		<input type="button" class="btn" value="목록보기" onclick="history.back(-1)">
     </section>
     </div>
     </div>
