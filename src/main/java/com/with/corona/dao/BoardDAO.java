@@ -28,4 +28,5 @@ public interface BoardDAO {
 	
 	// 게시판 답글
 	int qnaReply(BoardVO boardVO);
+	
 }
