@@ -103,7 +103,7 @@ public class ConfirmedController {
 	}
 	
 	@RequestMapping(value="/reset", method=RequestMethod.GET)
-	void reset(HttpServletRequest request) {
+	@ResponseBody void reset() {
 		confirmedService.reset();
 	}
 	

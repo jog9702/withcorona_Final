@@ -76,21 +76,28 @@
 		]]>
 	</select>
 	
+	<select id="checkSeq" resultType="String" parameterType="String">
+		select sequence_name from user_sequences where sequence_name = #{name}
+	</select>
+	<select id="checkTable" resultType="String" parameterType="String">
+		select table_name from user_tables where table_name = #{name}
+	</select>
+	
 	
 	
 	
 	<update id="truncateTable" parameterType="String">
 		truncate table ${_parameter}
 	</update>
-	<update id="dropSequence" parameterType="java.lang.String">
-		drop sequence #{_seq}
+	<update id="dropSequence" parameterType="String">
+		drop sequence ${_parameter}
 	</update>
 	
-	<update id="createSequence" parameterType="java.lang.String">
-		create sequence #{_seq} nocycle
+	<update id="createSequence" parameterType="String">
+		create sequence ${_parameter} nocycle
 	</update>
 	
-	<update id="dropTable" parameterType="java.lang.String">
+	<update id="dropTable" parameterType="String">
 		drop table ${_parameter}
 	</update>
 	
@@ -107,15 +114,17 @@
 	</update>
 	
 	<update id="createFtable">
-		CREATE TABLE korea_info (
-			korea_id	    NUMBER		    NOT NULL,
-			korea_local	    VARCHAR(255)	NULL,
-		    korea_local_info    NUMBER		NULL,
-			korea_death	    NUMBER		    NULL,
-			korea_time	    VARCHAR(255)	NULL,
-		    korea_accumulate NUMBER		NULL
+		CREATE TABLE foreign_info (
+			foreign_id	    NUMBER	    NOT NULL,
+		    foreign_local_o	VARCHAR(255)	NULL,
+		    foreign_local_i	VARCHAR(255)	NULL,
+		    foreign_local_info	NUMBER		NULL,
+		    foreign_death	NUMBER		NULL,
+			foreign_time	VARCHAR(255)	NULL
 		)
 	</update>
+	
+	
 	
 	
 	

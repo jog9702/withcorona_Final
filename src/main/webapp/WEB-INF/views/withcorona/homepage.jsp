@@ -21,10 +21,13 @@
 		function bind(){
 			
 			$("#tableReset").off("click").on("click", function(){
-				let url = "http://localhost:8080/corona/reset";
+				let url = "http://localhost:8080/withcorona/reset";
 				let data=null;
 				
-				api(url, "get", data, getListSuccess);
+				api(url, "get", data, function(){
+					alert("테이블이 초기화 되었습니다 페이지를 새로고침 해주세요");
+					console.log("테이블이 초기화 되었습니다 페이지를 새로고침 해주세요");
+				});
 			})
 		}
 	

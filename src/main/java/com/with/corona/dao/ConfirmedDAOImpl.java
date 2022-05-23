@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,9 +27,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import com.with.corona.vo.KoreaVO;
-
 import com.with.corona.vo.ForeignVO;
+import com.with.corona.vo.KoreaVO;
 
 
 @Repository
@@ -72,7 +72,6 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 	
 	@Override
 	public void kUpdateToAuto() {
-		System.out.println("updateToAuto 진입");
 		sqlSession.update("mapper.confirmed.truncateTable", "korea_info");
 		kUpdate(dateToMinornor, dateToStr);
 		kUpdate(dateToMonth, dateToMonth);
@@ -107,14 +106,38 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 	
 	@Override
 	public void reset() {
-		sqlSession.update("mapper.confirmed.dropSequence", "korea_info_seq");
-		sqlSession.update("mapper.confirmed.dropSequence", "foreign_info_seq");
+		
+		String kTable = sqlSession.selectOne("mapper.confirmed.checkTable", "KOREA_INFO");
+		String fTable = sqlSession.selectOne("mapper.confirmed.checkTable", "FOREIGN_INFO");
+		String kSeq = sqlSession.selectOne("mapper.confirmed.checkSeq", "KOREA_INFO_SEQ");
+		String fSeq = sqlSession.selectOne("mapper.confirmed.checkSeq", "FOREIGN_INFO_SEQ");
+		
+		System.out.println(kTable);
+		System.out.println(fTable);
+		System.out.println(kSeq);
+		System.out.println(fSeq);
+		
+		if(kSeq != null) {
+			sqlSession.update("mapper.confirmed.dropSequence", "korea_info_seq");
+			System.out.println("drop ks");
+		}
+		if(fSeq != null) {
+			sqlSession.update("mapper.confirmed.dropSequence", "foreign_info_seq");
+			System.out.println("drop fs");
+		}
 		sqlSession.update("mapper.confirmed.createSequence", "korea_info_seq");
 		sqlSession.update("mapper.confirmed.createSequence", "foreign_info_seq");
-		sqlSession.update("mapper.confirmed.dropTable", "korea_info");
-		sqlSession.update("mapper.confirmed.dropTable", "foreign_info");
+		if(kTable != null) {
+			sqlSession.update("mapper.confirmed.dropTable", "korea_info");
+			System.out.println("drop kt");
+		}
+		if(fTable != null) {
+			sqlSession.update("mapper.confirmed.dropTable", "foreign_info");
+			System.out.println("drop ft");
+		}
 		sqlSession.update("mapper.confirmed.createKtable");
 		sqlSession.update("mapper.confirmed.createFtable");
+		System.out.println("초기화 성공");
 	}
 	
 	@Override
