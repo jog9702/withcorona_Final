@@ -16,7 +16,7 @@
     }
     
     .mgt{
-    	margin: 100px auto auto auto;
+    	margin: 50px auto auto auto;
     	width: 1000px;
     	text-align:center;
     	margin-bottom:15px;
@@ -75,18 +75,19 @@
     }
     #clinicResult{
 		text-align: center;
-		margin: 30px auto;
 	}
 	#map{
-		width: 500px;
-		height: 400px;
-		margin: 100px 25px;
+		width: 700px;
+		height: 600px;
+		margin: 20px 25px;
 	}
 	#table{
-		width: 500px;
-		height: 400px;
+		width: 700px;
+		height: 600px;
 		overflow: auto;
-		margin: 100px 25px;
+		margin: 20px 25px;
+		font-size: 15px;
+		text-align: center;
 	}
 	.flex-container {
 		display: flex;
@@ -104,6 +105,9 @@
 	}
 	#btnClinic{
 		height: 30px;
+	}
+	.btn_color{
+		background-color: #666666;
 	}
 </style>
 
@@ -124,7 +128,7 @@
         </div>
         <div class="login">
         	<c:if test="${ userVO.userAuth == null }">
-				<a href="/withcorona/login"><input type="button" value="로그인"></a>
+				<a href="/withcorona/login"><input class="btn_color" type="button" value="로그인"></a>
 				<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
 			</c:if>
         	<c:if test="${ userVO.userAuth != null }">
@@ -144,7 +148,8 @@
     
     <section>
 		<div class="mgt">
-			<input type="text" id="searchClinic" placeholder="지역을 입력하세요" name="loc">
+			<div>지역을 입력하세요(2글자 이상)</div>
+			<input type="text" id="searchClinic" placeholder="ex) 천안시, 서울 등" name="loc">
 			<button type=button id="btnClinic">검색</button>
 	    </div>
 	    <div id="clinicResult">
@@ -210,18 +215,21 @@
 							if(obj.length != 0){
 		
 								$("#table").html("");
+								
+								let html = "";
+								
+								html += "<table>";
+								html += "<thead>";
+								html += "	<tr>";
+								html += "		<th style='width:140px'>보건소</th>";
+								html += "		<th style='width:400px'>주소</th>";
+								html += "		<th style='width:125px'>번호</th>";
+								html += "		<th style='width:44px'>지도</th>";
+								html += "	</tr>";
+								html += "</thead>";
+								
 								for(let i=0; i<obj.length; i++){
-									let html = "";
-										
-									html += "<table>";
-									html += "<thead>";
-									html += "	<tr>";
-									html += "		<th>보건소</th>";
-									html += "		<th>주소</th>";
-									html += "		<th>번호</th>";
-									html += "		<th>지도</th>";
-									html += "	</tr>";
-									html += "</thead>";
+									
 									html += "<tbody>";
 									html += "	<tr>";
 									html += "		<td>"+obj[i].clinicName+"</td>";
@@ -230,10 +238,11 @@
 									html += "		<td><button type='button' id='clinicMap"+[i]+"' class='clinicMap' value='"+obj[i].clinicInfo+"' data-name='"+obj[i].clinicName+"'>위치</button></td>";
 									html += "	</tr>";
 									html += "</tbody>"
-									html += "</table>"
 									
-									$("#table").append(html);
 								}
+								
+								html += "</table>"
+								$("#table").append(html);
 								
 							} else {
 								let html = "";

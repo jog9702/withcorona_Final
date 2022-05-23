@@ -14,10 +14,11 @@
         max-width: 100%;
         width: 100%;
     }
-    
     .mgt{
-        margin-top: 240px;
-     }
+	    width: 350px;
+	    margin: auto;
+	    margin-top: 50px;
+    }
     .mglr{
         margin: 0px 30px;
     }
@@ -70,15 +71,6 @@
     .login{
        float: right;
     }
-    section{
-   	    margin: auto;
-    	width: 260px;
-    	margin-top: 120px;
-    	background-color: rgba(225, 225, 225, 0.5);
-	    padding: 20px;
-	    border-radius: 16px;
-	    border: 1px solid black;
-    }
 	.fs_12{
    		font-size: 12px;
    		text-align: center;
@@ -89,11 +81,43 @@
 	.hide{
 		display: none;
 	}
-	.text_center
-	{
+	.text_center{
+		text-align: center;
+		margin-top: 20px;
+	}
+	.textForm {
+		border-bottom: 2px solid #adadad;
+		margin: 30px;
+		padding: 10px 0px 10px 0px;
+	}
+	.input_text {
+		width: 100%;
+		border:none;
+		outline:none;
+		color: #636e72;
+		font-size:16px;
+		height:25px;
+		background: none;
+	}
+	.btn {
+		position:relative;
+		left:40%;
+		transform: translateX(-50%);
+		margin-bottom: 20px;
+		width:80%;
+		height:40px;
+		background: rgba(225, 225, 225, 0.5);
+		background-position: left;
+		background-size: 200%;
+		font-weight: bold;
+		border:none;
+		cursor:pointer;
+		transition: 0.4s;
+		display:inline;
+	}
+	.t_c{
 		text-align: center;
 	}
-
 </style>
 <script
     src="https://code.jquery.com/jquery-3.6.0.js"
@@ -128,55 +152,41 @@
 		    </div>
 	    </header>
 	    <section>
-	    	<form>
-		    	<table class="tb_size">
-		    		<tr class="text_center">
-		    			<td colspan=2><h1>회원가입</h1></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2><div class="red fs_12">*는 필수입니다.</div></td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>아이디</td>
-		    			<td><input type="text" id="id" placeholder="아이디를 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">아이디를 꼭 입력하세요</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>비밀번호</td>
-		    			<td><input type="password" id="pwd" placeholder="비밀번호를 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">비밀번호는 필수입니다</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>이름</td>
-		    			<td><input type="text" id="name" placeholder="이름을 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">이름은 필수입니다</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>이메일</td>
-		    			<td><input type="email" id="email" placeholder="이메일을 입력하세요"></td>
-		    		</tr>
-		    		<tr>
-		    			<td colspan=2 class="hide red fs_12">이메일은 필수입니다</td>
-		    		</tr>
-		    		<tr>
-		    			<td><span class="red">* </span>성별</td>
-		    			<td>
-		    				<input type="radio" class="gender" name="gender" value="male" checked>남자<br>
-		    				<input type="radio" class="gender" name="gender" value="female">여자
-		    			</td>
-		    		</tr>
-	    		</table>
-	    		<div class="text_center">
-		    		<button type="button" id="btn_signup">가입하기</button>
-			    	<input type="reset" value="다시입력">
-		    	</div>
-	    	</form>
+	    	<div class="mgt">
+		    	<form>
+			    	<div class="t_c"><h1>회원가입</h1></div>
+			    	<div class="red fs_12">*는 필수입니다.</div>
+			    	<div class="textForm">
+			    		<span class="red ">* </span>
+			    		<input type="text" class="input_text" id="id" placeholder="아이디">
+			    	</div>
+			    	<div class="hide red fs_12">아이디를 꼭 입력하세요</div>
+			    	<div class="textForm">
+			    		<span class="red">* </span>
+			    		<input type="password" class="input_text" id="pwd" placeholder="비밀번호">
+			    	</div>
+			    	<div class="hide red fs_12">비밀번호는 필수입니다</div>
+			    	<div class="textForm">
+			    		<span class="red">* </span>
+			    		<input type="text" class="input_text" id="name" placeholder="이름">
+			    	</div>
+			    	<div class="hide red fs_12">이름은 필수입니다</div>
+			    	<div class="textForm">
+			    		<span class="red">* </span>
+			    		<input type="email" class="input_text" id="email" placeholder="이메일">
+			    	</div>
+			    	<div class="hide red fs_12">이메일은 필수입니다</div>
+			    	<div class="t_c input_text">
+			    		성별
+			    		<input type="radio" class="gender" name="gender" value="male" checked>남자
+			    		<input type="radio" class="gender" name="gender" value="female">여자
+			    	</div>
+		    		<div class="text_center">
+			    		<button type="button" class="btn" id="btn_signup">가입하기</button>
+				    	<input type="reset" class="btn" value="다시입력">
+			    	</div>
+		    	</form>
+	    	</div>
 	    </section>
     </div>
     
@@ -241,14 +251,14 @@
     			if(evt.keyCode == 13){
     				$("#pwd").trigger("focus");
     			} else {
-    				$(this).parent().parent().next().children().addClass("hide");
+    				$(this).parent().next().addClass("hide");
     			}
     		});
     		
     		$("#id").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
-    				$(this).parent().parent().next().children().removeClass("hide");
+    				$(this).parent().next().removeClass("hide");
     			}
     			
     		});
@@ -258,14 +268,14 @@
     			if(evt.keyCode == 13){
     				$("#name").trigger("focus");
     			} else {
-    				$(this).parent().parent().next().children().addClass("hide");
+    				$(this).parent().next().addClass("hide");
     			}
     		});
     		
     		$("#pwd").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
-    				$(this).parent().parent().next().children().removeClass("hide");
+    				$(this).parent().next().removeClass("hide");
     			}
     			
     		});
@@ -275,14 +285,14 @@
     			if(evt.keyCode == 13){
     				$("#email").trigger("focus");
     			} else {
-    				$(this).parent().parent().next().children().addClass("hide");
+    				$(this).parent().next().addClass("hide");
     			}
     		});
     		
     		$("#name").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
-    				$(this).parent().parent().next().children().removeClass("hide");
+    				$(this).parent().next().removeClass("hide");
     			}
     			
     		});
@@ -292,14 +302,14 @@
     			if(evt.keyCode == 13){
     				$(".gender").trigger("focus");
     			} else {
-    				$(this).parent().parent().next().children().addClass("hide");
+    				$(this).parent().next().addClass("hide");
     			}
     		});
     		
     		$("#email").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
-    				$(this).parent().parent().next().children().removeClass("hide");
+    				$(this).parent().next().removeClass("hide");
     			}
     			
     		});
