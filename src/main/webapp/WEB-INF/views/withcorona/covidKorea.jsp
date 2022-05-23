@@ -49,18 +49,14 @@
 		let data = {};
 
 		api(url, "get", data, function(data) {
-			let list = data.userVO;
+			let list = data.vo;
 			let listDis = data.dis;
 			let listHeight = data.height;
 			console.log(listDis);
+			console.log(list);
 
 			for (let i = listHeight.length; i > 0; i--) {
-				$("#graph").append(
-						"<div class='bgc hover' data-num='" + (i - 1)
-								+ "' style='height:" + (listHeight[i - 1] + 40)
-								+ "% ;'><div class='mgt--30' inner-num='"
-								+ (i - 1) + "'>"
-								+ list[i - 1].koreaLocalInfo + "</div></div>");
+				$("#graph").append("<div class='bgc hover' data-num='" + (i - 1) + "' style='height:" + (listHeight[i - 1] + 40) + "% ;'><div class='mgt--30' inner-num='" + (i - 1) + "'>" + list[i - 1].koreaLocalInfo + "</div></div>");
 				if(i-1 != 0){
 					$("#graph").append("<div><div id='pointerInner'></div><div class='pointer' data-numm='"+(i-1)+"'>---></div></div>");
 				}
