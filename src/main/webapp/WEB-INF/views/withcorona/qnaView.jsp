@@ -57,6 +57,11 @@
    }
 </script>
 <style>
+	#logo{
+		witdh:60px;
+		height:60px;
+		margin:auto;
+	}
 #main_view {
 	max-width: 100%;
 	width: 100%;
@@ -233,7 +238,7 @@ section.notice {
 	<header>
 		<div class="fixed">
 			<div class="fs">
-				<a href="/withcorona/covidHomepage">COVID-19</a>
+				<a href="/withcorona/covidHomepage"><img id="logo" src="resources/img/logo.png"></a>
 			</div>
         <div class="login">
         	<c:if test="${ userVO.userAuth == null }">

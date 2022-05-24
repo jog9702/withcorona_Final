@@ -10,6 +10,11 @@
 <meta charset="UTF-8">
 <title>COVID-19 | 답글 작성 페이지</title>
 <style>
+	#logo{
+		witdh:60px;
+		height:60px;
+		margin:auto;
+	}
 	section{
 		width: 491px;
     	margin: auto;
@@ -127,7 +132,7 @@
     <header>
     <div class="fixed">
         <div class="fs">
-            <a href="/withcorona/covidHomepage">COVID-19</a>
+            <a href="/withcorona/covidHomepage"><img id="logo" src="resources/img/logo.png"></a>
         </div>
         <div class="login">
         	<c:if test="${ userVO.userAuth == null }">
