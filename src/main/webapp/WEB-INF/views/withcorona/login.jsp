@@ -298,7 +298,7 @@ body {
 						let check = data2;
 						
 						if(check){
-							alert("로그인 성공");
+							/* alert("로그인 성공"); */
 							
 							url = "http://localhost:8080/withcorona/login";
 			    			

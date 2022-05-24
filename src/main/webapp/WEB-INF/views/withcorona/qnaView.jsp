@@ -230,7 +230,10 @@ section.notice {
 .board-table tbody th p {
 	display: none;
 }
-
+.bold{
+font-weight:1000;
+border-bottom: 3px solid #000000;
+}
 </style>
 </head>
 <body>
@@ -261,7 +264,7 @@ section.notice {
 					<a href="/withcorona/search">가까운 검사소 찾기</a>
 				</div>
 				<div>
-					<a href="/withcorona/qna">문의/제보</a>
+					<a href="/withcorona/qna" class="bold">문의/제보</a>
 				</div>
 			</div>
 			<hr>

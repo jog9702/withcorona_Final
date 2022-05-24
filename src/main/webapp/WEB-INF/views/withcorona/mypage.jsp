@@ -96,7 +96,6 @@
 	}
 	#delete{
 		text-align: center;
-		margin-top: 50px;
 	}
 	.textForm {
 		border-bottom: 2px solid #adadad;
@@ -202,14 +201,13 @@
 			    	</div>
 		    		<div class="text_center">
 			    		<button type="button" class="btn" id="btn_edit">수정하기</button>
-				    	<input type="reset" class="btn" value="다시입력">
+					   	<div id="delete">
+					   		<button type="button" class="btn" id="btn_userDelete">탈퇴하기</button>
+					   	</div>
 			    	</div>
 		    	</form>
 	    	</c:if>
 	    </section>
-	   	<div id="delete">
-	   		<button type="button" id="btn_userDelete">탈퇴하기</button>
-	   	</div>
     </div>
     
     <script>

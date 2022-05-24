@@ -252,6 +252,11 @@ a:active {
 h3{
 	text-align: center
 }
+.bold{
+	font-weight:1000;
+	border-bottom: 3px solid #000000;
+}
+
 </style>
 </head>
 <body>
@@ -272,7 +277,7 @@ h3{
         </div>
 			<div class="flex">
 				<div>
-					<a href="/withcorona/covidKorea">국내 상세</a>
+					<a href="/withcorona/covidKorea" class="bold">국내 상세</a>
 				</div>
 				<div>
 					<a href="/withcorona/covidForeign">해외 상세</a>
