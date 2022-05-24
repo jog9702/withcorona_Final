@@ -15,7 +15,6 @@
 </script>
 <style>
 	#logo{
-		witdh:60px;
 		height:60px;
 		margin:auto;
 	}

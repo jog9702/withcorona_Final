@@ -62,79 +62,133 @@
 <meta charset="UTF-8">
 <title>COVID-19 | 메인페이지</title>
 <style>
-	#logo{
-		witdh:60px;
-		height:60px;
-		margin:auto;
-	}
-	#logo{
-		witdh:60px;
-		height:60px;
-		margin:auto;
-	}
-    #main_view{
-        max-width: 100%;
-        width: 100%;
-    }
-    
-    .mgt{
-        margin-top: 240px;
-     }
-    .mglr{
-        margin: 0px 30px;
-    }
-    .flex{
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        margin-top: 45px;
-    }
-    .flex1{
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin-top: 30px;
-    }
-    .fs{
-    font-size: 40px;
-    width: 200px;
-    text-align: center;
-    margin: auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    }
-    .fs1{
-        font-size: 50px;
-        width: 100%;
-        text-align: center;
-    }
-    a:link {
-       text-decoration: none;
-       color: black;
-   }
-   
-   a:visited {
-       text-decoration: none;
-       color: black;
-   }
-   
-   a:hover {
-       text-decoration: none;
-       color: blue;
-   }
-   
-   a:active {
-       text-decoration: none;
-   }
-   .mg{
-      margin-top: 100px;
-      font-size: 10px;
-      width:100%;
-      text-align: right;
-   }
-   .login{
-      float: right;
-   }
+#logo{
+	height:60px;
+	margin:auto;
+}
+ #main_view{
+     max-width: 100%;
+     width: 100%;
+ }
+ 
+ .mgt{
+     margin-top: 240px;
+  }
+ .mglr{
+     margin: 0px 30px;
+ }
+ .flex{
+     display: flex;
+     justify-content: space-around;
+     width: 100%;
+     margin-top: 45px;
+ }
+ .flex1{
+     display: flex;
+     justify-content: center;
+     width: 100%;
+     margin-top: 30px;
+ }
+ .fs{
+ font-size: 40px;
+ width: 200px;
+ text-align: center;
+ margin: auto;
+ padding-top: 20px;
+ padding-bottom: 20px;
+ }
+ .fs1{
+     font-size: 50px;
+     width: 100%;
+     text-align: center;
+ }
+ a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+    color: blue;
+}
+
+a:active {
+    text-decoration: none;
+}
+.mg{
+   margin-top: 100px;
+   font-size: 10px;
+   width:100%;
+   text-align: right;
+}
+.login{
+   float: right;
+}
+
+
+/* korea */
+.center {
+	text-align: center;
+}
+
+.mgt-30 {
+	margin-top: 2%;
+}
+
+.update {
+	margin-top: 1%;
+}
+
+.bgc {
+	background-color: lightgray;
+	width: 20px;
+}
+
+#graph {
+	display: flex;
+	justify-content: space-around;
+	width: 700px;
+	height: 300px;
+	border: 1px gray solid;
+	align-items: flex-end;
+}
+
+#name {
+	width: 740px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.mga {
+	margin: auto;
+}
+
+.mgt--30 {
+	width: 85px;
+	margin-left: -10px;
+	margin-top: -50px;
+}
+.pointer{
+	height: 90px;
+}
+#pointerInner{
+	width: 32px;
+}
+.hover{
+	background-color: black;
+}
+h3{
+	text-align: center
+}
+.bold{
+	font-weight:1000;
+	border-bottom: 3px solid #000000;
+}
 </style>
 </head>
 <body>

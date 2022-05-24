@@ -122,11 +122,10 @@
 <meta charset="UTF-8">
 <title>COVID-19 | 국내 확진자 상세 페이지</title>
 <style>
-	#logo{
-		witdh:60px;
-		height:60px;
-		margin:auto;
-	}
+#logo{
+	height:60px;
+	margin:auto;
+}
 #main_view {
 	max-width: 100%;
 	width: 100%;
@@ -154,14 +153,14 @@
 	margin-top: 30px;
 }
 
-    .fs{
-    font-size: 40px;
-    width: 200px;
-    text-align: center;
-    margin: auto;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    }
+ .fs{
+ font-size: 40px;
+ width: 200px;
+ text-align: center;
+ margin: auto;
+ padding-top: 20px;
+ padding-bottom: 20px;
+ }
 
 .fs1 {
 	font-size: 50px;

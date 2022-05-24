@@ -11,7 +11,6 @@
 <title>COVID-19 | 게시글 목록 페이지</title>
 <style>
 	#logo{
-		witdh:60px;
 		height:60px;
 		margin:auto;
 	}
@@ -256,9 +255,9 @@ border-bottom: 3px solid #000000;
     </section>
     	<div class="center">
     	<a href="${ contextPath }/qnaForm">
-    	<button>
-		글쓰기
-		</button>
+    	<c:if test="${ userVO.userAuth != null }">
+    		<button>글쓰기</button>
+		</c:if>
 		</a>
 		</div>
 	</a>

@@ -11,7 +11,6 @@
 <title>COVID-19 | 회원정보 페이지</title>
 <style>
 	#logo{
-		witdh:60px;
 		height:60px;
 		margin:auto;
 	}

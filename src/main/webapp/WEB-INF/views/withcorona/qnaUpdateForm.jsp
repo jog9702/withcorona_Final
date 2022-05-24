@@ -11,7 +11,6 @@
 <title>COVID-19 | 게시판 수정 페이지</title>
 <style>
 	#logo{
-		witdh:60px;
 		height:60px;
 		margin:auto;
 	}

@@ -88,7 +88,6 @@
 <title>COVID-19 | 해외 확진자 상세 페이지</title>
 <style>
 	#logo{
-		witdh:60px;
 		height:60px;
 		margin:auto;
 	}
