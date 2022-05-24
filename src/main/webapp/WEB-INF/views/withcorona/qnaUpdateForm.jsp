@@ -162,11 +162,11 @@
 		<div class="textForm">작성자  ${ qna.userId }</div>
 		<form name="qnaForm" method="post" action="${ contextPath }/qnaUpdate">
 			<div class="textForm">
-			<input  class="input_text" name="boardTitle" type="text" value="제목 : ${ qna.boardTitle }"><br> 
+			<input  class="input_text" name="boardTitle" type="text" placeholder="제목 : ${ qna.boardTitle }"><br> 
 			</div>
 			<br>
 			<div class="textForm">
-			<textarea class="input_textbox" name="boardDesc"rows="10" cols="65" maxlength="4000">내용 : ${ qna.boardDesc }</textarea>
+			<textarea class="input_textbox" name="boardDesc"rows="10" cols="65" maxlength="4000" placeholder="내용 : ${ qna.boardDesc }"></textarea>
 			</div>
 			<br><br>
 			<input type="hidden" class="btn" name="boardId" value="${ qna.boardId }">
