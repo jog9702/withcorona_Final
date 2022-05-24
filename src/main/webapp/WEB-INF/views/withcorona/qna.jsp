@@ -149,11 +149,11 @@ section.notice {
   display: none;
 }
 #board-list{
-	    margin-top: 100px;
+	margin-top: 100px;
 }
 .bold{
-font-weight:1000;
-border-bottom: 3px solid #000000;
+	font-weight:1000;
+	border-bottom: 3px solid #000000;
 }
 </style>
 </head>
@@ -242,7 +242,7 @@ border-bottom: 3px solid #000000;
 		</c:if>
 		<c:forEach begin="${ paging.prev }" end="${ paging.next }" var="paging1">
 			<c:if test="${ paging.pageNum == paging1 }">
-				<a style="color:red; font-weight:bold;" href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>			
+				<a style="font-weight:bold;" href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>			
 			</c:if>
 			<c:if test="${ paging.pageNum != paging1 }">
 				<a href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>

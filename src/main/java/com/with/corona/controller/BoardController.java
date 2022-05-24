@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.with.corona.service.BoardService;
@@ -103,10 +104,14 @@ public class BoardController {
 	
 	// 게시판 등록 request에 받아 boardVO에 넣고 인서트 
 	@RequestMapping(value="/qnaInsert", method=RequestMethod.POST)
-	public String qnaInsert(HttpServletRequest request) {
+	public String qnaInsert(
+			HttpServletRequest request,
+			@RequestParam("boardTitle") String boardTitle,
+			@RequestParam("boardDesc") String boardDesc
+			) {
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBoardTitle(request.getParameter("boardTitle"));
-		boardVO.setBoardDesc(request.getParameter("boardDesc"));
+		boardVO.setBoardTitle(boardTitle);
+		boardVO.setBoardDesc(boardDesc);
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
 				
 		int qnaInsert = boardService.qnaInsert(boardVO);
@@ -122,22 +127,22 @@ public class BoardController {
 	@RequestMapping("/qnaView")
 	public String qnaView(
 			Model model,
-			HttpServletRequest request
+			HttpServletRequest request,
+			@RequestParam("boardId") int boardId
 			) {
 		BoardVO	boardVO = new BoardVO();
 		CommentVO commentVO = new CommentVO();
 		System.out.println("req : " + request.getParameter("boardId"));
 		
-		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		boardVO.setBoardId(boardId);
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
 		
 		System.out.println(boardVO.getBoardId());
 		BoardVO qnaView = boardService.qnaView(boardVO.getBoardId());
 		model.addAttribute("qnaView", qnaView);
 		
-		commentVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		commentVO.setBoardId(boardId);
 		System.out.println("commnet boardId : " + commentVO.getBoardId());
-		int boardId = commentVO.getBoardId();
 		List<CommentVO> commentList = commentService.commentList(boardId);
 		model.addAttribute("commentList", commentList);
 		
@@ -149,10 +154,11 @@ public class BoardController {
 	@RequestMapping("/qnaUpdateForm")
 	public String qnaUpdateFormPage(
 			Model model,
-			HttpServletRequest request
+			HttpServletRequest request,
+			@RequestParam("boardId") int boardId
 			) {
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		boardVO.setBoardId(boardId);
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
 		
 		System.out.println("boardId : " + boardVO.getBoardId());
@@ -167,14 +173,17 @@ public class BoardController {
 	@RequestMapping(value="/qnaUpdate", method=RequestMethod.POST)
 	public String qnaUpdate(
 			RedirectAttributes redirectAttributes,
-			HttpServletRequest request
+			HttpServletRequest request,
+			@RequestParam("boardTitle") String boardTitle,
+			@RequestParam("boardDesc") String boardDesc,
+			@RequestParam("boardId") int boardId
 			) {
 		
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBoardTitle(request.getParameter("boardTitle"));
-		boardVO.setBoardDesc(request.getParameter("boardDesc"));
+		boardVO.setBoardTitle(boardTitle);
+		boardVO.setBoardDesc(boardDesc);
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
-		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		boardVO.setBoardId(boardId);
 		redirectAttributes.addAttribute("boardId", boardVO.getBoardId());
 				
 		int qnaUpdate = boardService.qnaUpdate(boardVO);
@@ -188,9 +197,12 @@ public class BoardController {
 	
 	// 게시판 삭제
 	@RequestMapping(value="/qnaDelete", method=RequestMethod.GET)
-	public String qnaDelete(HttpServletRequest request) {
+	public String qnaDelete(
+			HttpServletRequest request,
+			@RequestParam("boardId") int boardId
+			) {
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBoardId(Integer.parseInt(request.getParameter("boardId")));
+		boardVO.setBoardId(boardId);
 		System.out.println("boadrId : " + boardVO.getBoardId());
 		
 		int qnaDelete = boardService.qnaDelete(boardVO.getBoardId());
@@ -203,12 +215,13 @@ public class BoardController {
 	@RequestMapping("/qnaReplyForm")
 	public String qnaReplyFormPage(
 			Model model,
-			HttpServletRequest request
+			HttpServletRequest request,
+			@RequestParam("boardParentno") int boardParentno
 			) {
 		BoardVO boardVO = new BoardVO();
 		
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
-		boardVO.setBoardParentno(Integer.parseInt(request.getParameter("boardParentno")));
+		boardVO.setBoardParentno(boardParentno);
 		System.out.println("해당 페이지 parentno : " + boardVO.getBoardParentno());
 		model.addAttribute("qnaReply", boardVO);
 		
@@ -217,13 +230,18 @@ public class BoardController {
 	
 	// 게시판 답글 등록
 	@RequestMapping(value="/qnaReply", method=RequestMethod.POST)
-	public String qnaReply(HttpServletRequest request) {
+	public String qnaReply(
+			HttpServletRequest request,
+			@RequestParam("boardTitle") String boardTitle,
+			@RequestParam("boardDesc") String boardDesc,
+			@RequestParam("boardParentno") int boardParentno
+			) {
 		BoardVO boardVO = new BoardVO();
 		
-		boardVO.setBoardTitle(request.getParameter("boardTitle"));
-		boardVO.setBoardDesc(request.getParameter("boardDesc"));
+		boardVO.setBoardTitle(boardTitle);
+		boardVO.setBoardDesc(boardDesc);
 		boardVO.setUserId((String)request.getSession().getAttribute("userId"));
-		boardVO.setBoardParentno(Integer.parseInt(request.getParameter("boardParentno")));
+		boardVO.setBoardParentno(boardParentno);
 		System.out.println("boardParentno : " + boardVO.getBoardParentno());
 		
 		int qnaReply = boardService.qnaReply(boardVO);
