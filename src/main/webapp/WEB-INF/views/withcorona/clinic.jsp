@@ -109,9 +109,6 @@
 	#btnClinic{
 		height: 30px;
 	}
-	.btn_color{
-		background-color: #666666;
-	}
 </style>
 
 <script
@@ -131,7 +128,7 @@
         </div>
         <div class="login">
         	<c:if test="${ userVO.userAuth == null }">
-				<a href="/withcorona/login"><input class="btn_color" type="button" value="로그인"></a>
+				<a href="/withcorona/login"><input type="button" value="로그인"></a>
 				<a href="/withcorona/signup"><input type="button" value="회원가입"></a>
 			</c:if>
         	<c:if test="${ userVO.userAuth != null }">
