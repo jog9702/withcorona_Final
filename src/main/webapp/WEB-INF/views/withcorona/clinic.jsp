@@ -194,6 +194,7 @@
 	    		let tt = $("#searchClinic").val();
 	    		console.log("tt: ", tt);
 	    		console.log("tt.length: ", tt.length);
+	    		
 				if(tt.length < 2){
 					
 					alert("2글자 이상만 검색 가능합니다.");
@@ -218,8 +219,59 @@
 						"data": data1,
 						contentType: 'application/json; charset=UTF-8',
 						success : function(data){
+							
+							console.log("suc: ", data);
+							
 							let obj = JSON.parse(data);
-							console.log("ajax", obj[0].clinicName);
+							
+							console.log("ajax test: ", obj.length);
+							
+							if(obj.length == 0){
+								
+								$("#table").html("");
+								
+								let html = "";
+								
+								html += '<h2 id="initText">검색결과가 없습니다.</h2>';
+		
+								$("#table").append(html);
+								
+							} else {
+								
+								$("#table").html("");
+								
+								let html = "";
+								
+								html += "<table>";
+								html += "	<thead>";
+								html += "		<tr>";
+								html += "			<th style='width:140px'>보건소</th>";
+								html += "			<th style='width:400px'>주소</th>";
+								html += "			<th style='width:125px'>번호</th>";
+								html += "			<th style='width:44px'>지도</th>";
+								html += "		</tr>";
+								html += "	</thead>";
+								
+								for(let i=0; i<obj.length; i++){
+									
+									html += "	<tbody>";
+									html += "		<tr>";
+									html += "			<td>"+obj[i].clinicName+"</td>";
+									html += "			<td>"+obj[i].clinicInfo+"</td>";
+									html += "			<td>"+obj[i].clinicTel+"</td>";
+									html += "			<td><button type='button' id='clinicMap"+[i]+"' class='clinicMap' value='"+obj[i].clinicInfo+"' data-name='"+obj[i].clinicName+"'>위치</button></td>";
+									html += "		</tr>";
+									html += "	</tbody>";
+									
+								}
+								
+								html += "</table>";
+								$("#table").append(html);
+								
+							}
+							
+							
+							/* console.log("ajax", obj[0].clinicName);
 							if(obj.length != 0){
 		
 								$("#table").html("");
@@ -262,7 +314,7 @@
 								html += '</tr>';
 		
 								$("#clinicTable").append(html);
-							}
+							} */
 						},
 						fail : function(data){
 							console.log("fail, "+data);
@@ -341,7 +393,7 @@
 	    	
 	    	html = "";
 	    	
-			html += '<h2 id="initText">검색결과창</h2>';
+	    	html += '<h2 id="initText">검색결과가 없습니다.</h2>';
 	    	
 	    	$("#table").append(html);
     	
