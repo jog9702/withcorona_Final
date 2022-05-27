@@ -131,6 +131,7 @@
     integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous">
 </script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<div id="main_view">
@@ -175,6 +176,11 @@
 			    	<div class="hide red fs_12">비밀번호는 필수입니다</div>
 			    	<div class="textForm">
 			    		<span class="red">* </span>
+			    		<input type="password" class="input_text" id="pwdCheck" placeholder="비밀번호 확인">
+			    	</div>
+			    	<div class="hide red fs_12">일치하지 않습니다.</div>
+			    	<div class="textForm">
+			    		<span class="red">* </span>
 			    		<input type="text" class="input_text" id="name" placeholder="이름">
 			    	</div>
 			    	<div class="hide red fs_12">이름은 필수입니다</div>
@@ -183,6 +189,13 @@
 			    		<input type="email" class="input_text" id="email" placeholder="이메일">
 			    	</div>
 			    	<div class="hide red fs_12">이메일은 필수입니다</div>
+			    	<div class="textForm">
+			    		<span class="red">* </span>
+			    		<input type="text" class="input_text" id="addr" placeholder="주소" readonly>
+			    	</div>
+			    	<div class="textForm">
+			    		<input type="text" class="input_text" id="addrDetail" placeholder="상세주소">
+			    	</div>
 			    	<div class="t_c input_text">
 			    		성별
 			    		<input type="radio" class="gender" name="gender" value="male" checked>남자
@@ -207,49 +220,66 @@
     		
     		$("#btn_signup").off("click").on("click", function(){
     			
+    			
+    			
     			console.log("btn_signup")
     			
     			let id = $("#id").val();
     			let pwd = $("#pwd").val();
+    			let pwdCheck = $("#pwdCheck").val();
     			let name = $("#name").val();
     			let gender = $(".gender:checked").val();
     			let email = $("#email").val();
-    			console.log("id:", id , "pwd:", pwd , "name:", name , "gender:", gender , "email:", email);
+    			let addr = $("#addr").val();
+    			let addrDetail = $("#addrDetail").val();
     			
-    			let data = {
-						"id" : id,
-						"pwd" : pwd,
-						"name" : name,
-						"gender" : gender,
-						"email" : email,
-					}
-					
-				let url = "http://localhost:8080/withcorona/signupCheck";
+    			let address = addr + " & " +addrDetail;
+    			console.log(address);
+    			console.log("id:", id , "pwd:", pwd , "name:", name , "gender:", gender , "email:", email , "address:", address);
     			
-    			$.ajax({
-					url: url,
-					type: "get",
-					data: data,
-					contentType: 'application/json; charset=UTF-8',
-					success : function(data){
-						let result = data;
-						console.log("ajax result: ", result);
-						
-						if(result){
-							alert(id + " 님 가입을 축하드립니다.");
-							let page = "http://localhost:8080/withcorona/login"
-							location.replace(page);
-						} else {
-							alert("동일한 id가 있습니다.");
+    			if(!id == "" && !id == "" && !pwd == "" && !pwdCheck == "" && !name == "" && !email == "" && !address == ""){
+    				
+	    			let data = {
+							"id" : id,
+							"pwd" : pwd,
+							"name" : name,
+							"gender" : gender,
+							"email" : email,
+							"address" : address
 						}
-					},
-					fail : function(data){
-						console.log("fail, "+data);
-					},
-					complete: function(data){
-						console.log("comp", data);
-					}
-				})
+						
+					let url = "http://localhost:8080/withcorona/signupCheck";
+	    			
+	    			$.ajax({
+						url: url,
+						type: "get",
+						data: data,
+						contentType: 'application/json; charset=UTF-8',
+						success : function(data){
+							let result = data;
+							console.log("ajax result: ", result);
+							
+							if(result){
+								alert(id + " 님 가입을 축하드립니다.");
+								let page = "http://localhost:8080/withcorona/login"
+								location.replace(page);
+							} else {
+								alert("동일한 id가 있습니다.");
+							}
+						},
+						fail : function(data){
+							console.log("fail, "+data);
+						},
+						complete: function(data){
+							console.log("comp", data);
+						}
+					})
+    				
+    			} else {
+    				
+    				alert("필수값을 입력해주세요");
+    				
+    			}
 	    		
     		});
     		
@@ -273,7 +303,7 @@
 			$("#pwd").off("keydown").on("keydown", function(evt){
     			
     			if(evt.keyCode == 13){
-    				$("#name").trigger("focus");
+    				$("#pwdCheck").trigger("focus");
     			} else {
     				$(this).parent().next().addClass("hide");
     			}
@@ -283,6 +313,46 @@
 
     			if( $(this).val() == "" ){
     				$(this).parent().next().removeClass("hide");
+    			}
+    			
+    		});
+    		
+			$("#pwd").off("keyup").on("keyup", function(evt){
+
+				let pwd = $("#pwd").val();
+    			let pwdCheck = $("#pwdCheck").val();
+    			
+    			console.log("pwd keyup: ", pwd);
+    			console.log("pwd keyup: ", pwdCheck);
+    			
+    			if(pwd == pwdCheck){
+    				$(this).parent().next().next().next().addClass("hide");
+    			} else {
+    				$(this).parent().next().next().next().removeClass("hide");
+    			}
+				
+    		});
+    		
+    		$("#pwdCheck").off("keyup").on("keyup", function(evt){
+    			
+    			let pwd = $("#pwd").val();
+    			let pwdCheck = $("#pwdCheck").val();
+				
+    			console.log("ku", pwd);
+    			console.log("ku", pwdCheck);
+    			
+    			if(pwd == pwdCheck){
+    				$(this).parent().next().addClass("hide");
+    			} else {
+    				$(this).parent().next().removeClass("hide");
+    			}
+    			
+    		});
+    		
+			$("#pwdCheck").off("keydown").on("keydown", function(evt){
+    			
+    			if(evt.keyCode == 13){
+    				$("#name").trigger("focus");
     			}
     			
     		});
@@ -320,6 +390,23 @@
     			}
     			
     		});
+    		
+			$("#addr").off("click").on("click", function(){
+				
+				new daum.Postcode({
+			        oncomplete: function(data) {
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+			            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+			            
+			            let addr = data.address;
+			            console.log(addr);
+			            $("#addr").attr("value", addr);
+			            $("#addrDetail").trigger("focus");
+			        }
+				}).open();
+				
+				
+			});
     		
     	}
     

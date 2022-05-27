@@ -27,9 +27,10 @@ public class SignupRestController {
 			@RequestParam("name") String userName,
 			@RequestParam("gender") String userGender,
 			@RequestParam("email") String userEmail,
+			@RequestParam("address") String userAddress,
 			HttpServletResponse response) {
 		
-		System.out.println("signupCtrl: " + userId + "," + userPassword + "," + userName + "," + userGender + "," + userEmail);
+		System.out.println("signupCtrl: " + userId + "," + userPassword + "," + userName + "," + userGender + "," + userEmail + "," + userAddress);
 		
 		boolean checkResult = signupService.signupCheck(userId);
 		System.out.println("signupCtrl: " + checkResult);
@@ -46,6 +47,7 @@ public class SignupRestController {
 				userVO.setUserName(userName);
 				userVO.setUserGender(userGender);
 				userVO.setUserEmail(userEmail);
+				userVO.setUserAddress(userAddress);
 				userVO.setUserAuth("0");
 				
 			} catch(Exception e) {

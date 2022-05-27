@@ -21,7 +21,8 @@
 				user_name,
 				user_gender,
 				user_email,
-				user_auth
+				user_auth,
+				user_address
 			)
 		values(
 			#{userId},
@@ -29,7 +30,8 @@
 			#{userName},
 			#{userGender},
 			#{userEmail},
-			#{userAuth}
+			#{userAuth},
+			#{userAddress}
 		)
 			
 		

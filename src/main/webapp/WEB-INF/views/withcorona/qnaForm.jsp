@@ -8,10 +8,30 @@
 <head>
 <meta charset="UTF-8">
 <title>COVID-19 | 게시글 등록 페이지</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+		crossorigin="anonymous"></script>
 <script>
 	function goList(){
 		location.href="${ contextPath }/withcorona/qna";
 	}
+	$(document).ready(function(){
+		$("#add").on("click", function(){
+				$.ajax({
+					let data = $("#qnaInsert").serialize();
+					
+					url: "/withcorona/qnaInsert",
+					data: data,
+					type: "POST",
+					success: function(obj) {
+						console.log(obj);
+						location.href="/withcorona/qnaInsert";
+					},
+					error: function(){alert("글 등록에 실패했습니다.");}
+				});
+			}
+		})
+	})
 </script>
 <style>
 	#logo{
@@ -160,17 +180,16 @@
         <hr>
     </div>
     </header>
-    <section>
 		<c:if test="${ userVO.userAuth == null }">
     		<script>
     			alert("로그인을 해야합니다.");
     			location.href="/withcorona/login";
     		</script>
-    		
     	</c:if>
+    <section>
     	<c:if test="${ userVO.userAuth != null }">
     		<div class="t_c"><h1>새글 작성</h1></div>
-			<form name="qnaInsert" method="post" action="${ contextPath }/withcorona/qnaInsert">
+			<form id ="qnaInsert" name="qnaInsert" method="post" action="${ contextPath }/withcorona/qnaInsert">
 			<div class="textForm">
 				<input type="text" class="input_text" placeholder="제목을 입력하세요" name="boardTitle" required><br>
 			</div>
@@ -178,7 +197,7 @@
 			<textarea name="boardDesc" class="input_textbox" rows=10 cols=65 maxlength="4000" placeholder="내용을 입력하세요" required></textarea>
 			</div>
 			<br><br>
-			<input type="submit" class="btn" value="글쓰기">
+			<input type="submit" id="add" class="btn" value="글쓰기">
 			<input type="button" class="btn" value="목록보기" onclick="goList();">
 		</form>
     	</c:if>

@@ -9,6 +9,165 @@
 <head>
 <meta charset="UTF-8">
 <title>COVID-19 | 게시글 목록 페이지</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+		crossorigin="anonymous"></script>
+<script>
+	// ajax로 게시판 띄우기 
+	$(document).ready(function(){
+		getQnaList();
+		getPaging();
+	})
+	// 상세조회 링크
+	function goView(){
+		location.href = "${ contextPath }/qnaView?boardId=" + boardId;
+	}
+	// 글작성 링크
+	function goInsert(){
+		location.href = "${ contextPath }/qnaForm";
+	}
+	// 게시판 조회 데이터 ajax로 받기 
+	function getQnaList(p){
+		console.log("p:",p);
+		if(p == undefined){
+			p=1;
+		}
+		console.log("p:",p);
+		$.ajax({
+			url: "/withcorona/qnaResult",
+			data: {
+				pageNum:p,
+				countPerPage:5
+				},
+			type: "GET",
+			success: function(obj) {
+				console.log(obj);
+				getQnaListCallback(obj);
+			},
+			error: function(xhr, status, error){}
+		});
+	}
+	// ajax에서 데이터를 받아 string qna에 넣어 tbody에 넣기
+	function getQnaListCallback(obj) {
+		let boardVO = obj.qna;
+		let boardVOLength = obj.qna.length;
+		
+		let qna = "";
+		
+		if(boardVOLength > 0){
+			for(let i=0; i<boardVOLength; i++){
+				let level = boardVO[i].level;
+				let boardId = boardVO[i].boardId;
+				
+				console.log(boardId);
+				
+				let userId = boardVO[i].userId;
+				let boardTitle = boardVO[i].boardTitle;
+				let boardDesc = boardVO[i].boardDesc;
+				let boardTime = boardVO[i].boardTime;
+				// "YYYY-MM-DDTHH:mm:ss.sssZ"의 형식에서 T를 기준으로 잘라 날짜만 가져오기
+				let time = new Date(+boardTime + 3240 * 10000).toISOString().split("T")[0];
+				let boardParentno = boardVO[i].boardParentno;
+				
+				/* <a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a> */
+				
+				qna += "<tr>"
+				if(boardParentno == 0){
+					qna += "<td>" + boardId + "</td>";					
+				}else{
+					qna += "<td></td>";
+				}
+				qna += "<td>" + userId + "</td>";
+				qna += "<td>"
+				if(level > 1){
+					qna += "<span id='reply' style='padding-left:"+ (10*level) +"px;'>[답변]</span>";
+					qna += "<a href=${contextPath}/qnaView?boardId=" + boardId + ">" + boardTitle + "</a></td>";
+				}else{
+					qna += "<a href=${contextPath}/qnaView?boardId=" + boardId + ">" + boardTitle + "</a></td>";				
+				}
+				
+				// 좀 더 반복을 줄인 방법
+// 				let str = "";
+// 				if(level > 1){
+// 					str = "<span id='reply' style='padding-left:"+ (10*level) +"px;'>[답변]</span>";
+// 				}
+// 				qna +=  str + boardTitle + "</td>";
+				
+				qna += "<td>";
+				qna += time;
+				qna += "</td>";
+				qna += "</tr>";
+			}
+		}else{
+			qna += "<tr>";
+			qna += "<td clospan='5'>등록된 글이 없습니다.</td>";
+			qna += "</tr>";
+		}
+		$("tbody").html(qna);
+	}
+	function getPaging(p){
+			if(p == undefined){
+				p=1;
+			}
+			$.ajax({
+				url: "/withcorona/qnaResult",
+				data: {
+					pageNum:p,
+					countPerPage:5
+					},
+			type: "GET",
+			success: function(obj2) {
+				console.log(obj2);
+				getPagingCallback(obj2);
+			},
+			error: function(xhr, status, error){}
+		});
+	}
+	function getPagingCallback(obj2) {
+		let pagingVO = obj2.paging;
+		let pagingVOLength = obj2.paging.length;
+		
+		
+		let total = pagingVO.total;
+		let pageNum = pagingVO.pageNum;
+		let countPerPage = pagingVO.countPerPage;
+		let section = pagingVO.section;
+		let postion = pagingVO.postion;
+		let prev = pagingVO.prev;
+		let next = pagingVO.next;
+		let start = pagingVO.start;
+		let end = pagingVO.end;
+		let totalPaging = pagingVO.totalPaging;
+		
+		console.log("total",total);
+		console.log("pagenum",pageNum);
+		console.log("countPerPage", countPerPage);
+		console.log("postion", postion);
+		console.log("prev", prev);
+		console.log("next", next);
+		console.log("start", start);
+		console.log("end", end);
+		console.log("totalPaging", totalPaging);
+		
+		let paging = "";
+		
+		if(prev != 1){
+			//  a 태그와 ajax가 같이 실행되는 문제 해결을 위한 javascript:void(0) , href에 #을 넣어도 되지만 오류가 생길수있음
+			paging += "<a href='javascript:void(0)' style='margin:10px;' onclick='getQnaList(" + (prev - 1) + "); getPaging(" + (prev - 1) + ");'>[이전]</a>";
+		}
+		for(let i=prev; i<=next; i++){
+			if(pageNum == i){
+				paging += "<a style='font-weight:bold;' href='javascript:void(0)' style='font-weight:bold; margin:10px;' onclick='getQnaList(" + i + "); getPaging(" + i + ");'>[" + i + "]</a>";
+			}else{
+				paging += "<a href='javascript:void(0)' style='margin:10px;' onclick='getQnaList(" + i + "); getPaging(" + i + ");'>[" + i + "]</a>";
+			}
+		}
+		if(next != totalPaging){
+			paging += "<a href='javascript:void(0)' style='margin:10px;' onclick='getQnaList(" + (next + 1) + "); getPaging(" + (next + 1) + ");'>[다음]</a>";
+		}
+		$(".paging").html(paging);
+	}
+</script>
 <style>
 	#logo{
 		height:60px;
@@ -155,6 +314,9 @@ section.notice {
 	font-weight:1000;
 	border-bottom: 3px solid #000000;
 }
+tbody{
+	
+}
 </style>
 </head>
 <body>
@@ -195,63 +357,11 @@ section.notice {
                 </tr>
                 </thead>
 				<tbody>
-				<c:choose>
-					<c:when test="${ empty qnaList }">
-						<tr height="10">
-							<td colspan="5">등록된 글이 없습니다</td>
-						</tr>
-					</c:when>
-					<c:when test="${! empty qnaList }">
-						<c:forEach var="qna" items="${ qnaList }" varStatus="qnaNum">
-							<tr class="reply" align="center" data-lev="level_${ qna.level }">
-								<c:if test="${qna.boardParentno == 0}">
-									<td width="5%">${ qna.boardId }</td>
-								</c:if>
-								<c:if test="${qna.boardParentno != 0}">
-									<td width="5%"></td>
-								</c:if>
-								<td width="10%">${ qna.userId }</td>
-								<td align="left" width="35%" class="level_${ qna.level }">
-									<span style="padding-right:30px"></span>
-									<c:choose>
-										<c:when test="${ qna.level > 1 }">
-											<c:forEach begin="1" end="${ qna.level }" step="1">
-												<span style="padding-right:10px"></span>
-											</c:forEach>
-											<span style="font-size:12px">[답변]</span>
-											<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
-										</c:when>
-										<c:otherwise>
-											<a href="${ contextPath }/qnaView?boardId=${ qna.boardId }">${ qna.boardTitle }</a>
-										</c:otherwise>
-									</c:choose>
-								</td class="al">
-								<td width="10%">
-									<fmt:formatDate value="${ qna.boardTime }"/>
-								</td>
-							</tr>
-						</c:forEach>
-					</c:when>
-				</c:choose>
 			</tbody>
     	</table>
     	<br>
-    	<div style="text-align:center">
-		<c:if test="${ paging.prev != 1 }">
-			<a href="${ contextPath }/qna?pageNum=${ paging.prev - 1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[이전]</a>
-		</c:if>
-		<c:forEach begin="${ paging.prev }" end="${ paging.next }" var="paging1">
-			<c:if test="${ paging.pageNum == paging1 }">
-				<a style="font-weight:bold;" href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>			
-			</c:if>
-			<c:if test="${ paging.pageNum != paging1 }">
-				<a href="${ contextPath }/qna?pageNum=${ paging1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[${ paging1 }]</a>
-			</c:if>
-		</c:forEach>
-		<c:if test="${ paging.next != paging.totalPaging }">
-			<a href="${ contextPath }/qna?pageNum=${ paging.next + 1 }&countPerPage=${ paging.countPerPage }" style="margin:10px;">[다음]</a>
-		</c:if>
-	</div>
+    	<div  class="paging" style="text-align:center">
+		</div>
     </section>
     	<div class="center">
     	<a href="${ contextPath }/qnaForm">

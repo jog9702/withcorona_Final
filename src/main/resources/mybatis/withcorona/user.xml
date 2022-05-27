@@ -11,7 +11,8 @@
 			user_password = #{userPassword},
 			user_name = #{userName},
 			user_email = #{userEmail},
-			user_gender = #{userGender}
+			user_gender = #{userGender},
+			user_address = #{userAddress}
 		where
 			user_id = #{userId}
 	</update>

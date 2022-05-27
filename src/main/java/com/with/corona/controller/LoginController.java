@@ -50,6 +50,7 @@ public class LoginController {
 			request.getSession().setAttribute("userName", result.getUserName());
 			request.getSession().setAttribute("userGender", result.getUserGender());
 			request.getSession().setAttribute("userEmail", result.getUserEmail());
+			request.getSession().setAttribute("userAddress", result.getUserAddress());
 			request.getSession().setAttribute("userVO", result);
 			System.out.println("아이디 : " + result.getUserId());
 			System.out.println("비밀번호 : " + result.getUserPassword());
