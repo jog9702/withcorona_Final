@@ -9,6 +9,31 @@
 <head>
 <meta charset="UTF-8">
 <title>COVID-19 | 답글 작성 페이지</title>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+		crossorigin="anonymous"></script>
+<script>
+	function goList(){
+		location.href="${ contextPath }/withcorona/qna";
+	}
+	$(document).ready(function(){
+		$("#add").on("click", function(){
+				$.ajax({
+					let data = $("#qnaReply").serialize();
+					
+					url: "/withcorona/qnaReply",
+					data: data,
+					type: "POST",
+					success: function(obj) {
+						console.log(obj);
+						location.href="/withcorona/qnaReply";
+					},
+					error: function(){alert("글 등록에 실패했습니다.");}
+				});
+			}
+		})
+	})
+</script>
 <style>
 	#logo{
 		height:60px;
@@ -159,7 +184,7 @@
     <div class="mgt">
     <section>
     	<div class="t_c"><h1>답글 작성</h1></div>
-    	<form name="qnaReplyForm" method="post" action="${contextPath}/qnaReply">
+    	<form id="qnaReply" name="qnaReplyForm" method="post" action="${contextPath}/qnaReply">
 		<div class="textForm">
 		<input type="text" class="input_text" name="boardTitle"  placeholder="제목을 입력하세요" required><br>
 		</div>
