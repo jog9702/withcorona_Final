@@ -9,8 +9,15 @@ public class UserVO {
 	private String userGender;
 	private String userEmail;
 	private String userAuth;
+	private String userAddress;
 	
 	
+	public String getUserAddress() {
+		return userAddress;
+	}
+	public void setUserAddress(String userAddress) {
+		this.userAddress = userAddress;
+	}
 	public String getUserId() {
 		return userId;
 	}

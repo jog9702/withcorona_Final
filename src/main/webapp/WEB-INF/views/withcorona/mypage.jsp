@@ -76,7 +76,7 @@
     }
     section{
    	    margin: auto;
-    	width: 260px;
+    	width: 350px;
     	margin-top: 80px;
     }
 	.fs_12{
@@ -135,6 +135,7 @@
     integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous">
 </script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<div id="main_view">
@@ -172,6 +173,10 @@
 		    	<% String name = (String)session.getAttribute("userName"); %>
 		    	<% String pw = (String)session.getAttribute("userPassword"); %>
 		    	<% String email = (String)session.getAttribute("userEmail"); %>
+		    	<% String address = (String)session.getAttribute("userAddress"); %>
+		    	<% String[] addrSplit = address.split("&"); %>
+		    	<% String addr = addrSplit[0]; %>
+		    	<% String addrDetail = addrSplit[1]; %>
 		    	<form>
 			    	<div class="t_c"><h1>회원정보수정</h1></div>
 			    	<div class="red fs_12">*는 필수입니다.</div>
@@ -180,7 +185,7 @@
 			    	</div>
 			    	<div class="textForm">
 			    		<span class="red">*비밀번호 </span>
-			    		<input type="password" class="input_text" id="pwd" value="<%=pw%>">
+			    		<input type="password" class="input_text" id="pwd">
 			    	</div>
 			    	<div class="hide red fs_12">비밀번호는 필수입니다</div>
 			    	<div class="textForm">
@@ -193,6 +198,13 @@
 			    		<input type="email" class="input_text" id="email" value="<%=email%>">
 			    	</div>
 			    	<div class="hide red fs_12">이메일은 필수입니다</div>
+			    	<div class="textForm">
+			    		<span class="red">*주소 </span>
+			    		<input type="text" class="input_text" id="addr" value="<%=addr%>" readonly>
+			    	</div>
+			    	<div class="textForm">
+			    		<input type="text" class="input_text" id="addrDetail" value="<%=addrDetail%>">
+			    	</div>
 			    	<div class="t_c input_text">
 			    		성별
 			    		<input type="radio" id="male" class="gender" name="gender" value="male">남자
@@ -242,36 +254,50 @@
     			let name = $("#name").val();
     			let gender = $(".gender:checked").val();
     			let email = $("#email").val();
-    			console.log("id:", id , "pwd:", pwd , "name:", name , "gender:", gender , "email:", email);
+    			let addr = $("#addr").val();
+    			let addrDetail = $("#addrDetail").val();
+    			let address = addr + " & " +addrDetail;
     			
-    			let data = {
-						id : id,
-						pwd : pwd,
-						name : name,
-						gender : gender,
-						email : email
-					}
-					
-				let url = "http://localhost:8080/withcorona/edit";
+    			console.log("id:", id , "pwd:", pwd , "name:", name , "gender:", gender , "email:", email, "address", address);
     			
-    			$.ajax({
-					url: url,
-					type: "get",
-					data: data,
-					contentType: 'application/json; charset=UTF-8',
-					success : function(data){
-						console.log("ajax - mypage");
-						alert("회원정보가 수정되었습니다.");
+    			if(!id == "" && !pwd == "" && !name == "" && !email == "" && !address == ""){
+    				
+	    			let data = {
+							id : id,
+							pwd : pwd,
+							name : name,
+							gender : gender,
+							email : email,
+							address : address
+						}
 						
-						location.href = "http://localhost:8080/withcorona/covidHomepage";
-					},
-					fail : function(data){
-						console.log("fail, "+data);
-					},
-					complete: function(data){
-						console.log("comp", data);
-					}
-				})
+					let url = "http://localhost:8080/withcorona/edit";
+	    			
+	    			$.ajax({
+						url: url,
+						type: "get",
+						data: data,
+						contentType: 'application/json; charset=UTF-8',
+						success : function(data){
+							console.log("ajax - mypage");
+							alert("회원정보가 수정되었습니다.");
+							
+							location.href = "http://localhost:8080/withcorona/covidHomepage";
+						},
+						fail : function(data){
+							console.log("fail, "+data);
+						},
+						complete: function(data){
+							console.log("comp", data);
+						}
+					});
+	    			
+    			} else {
+    				
+    				alert("필수값을 입력해주세요");
+    				
+    			}
+    			
 	    		
     		});
     		
@@ -342,6 +368,23 @@
     			}
     			
     		});
+    		
+			$("#addr").off("click").on("click", function(){
+				
+				new daum.Postcode({
+			        oncomplete: function(data) {
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+			            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+			            
+			            let addr = data.address;
+			            console.log(addr);
+			            $("#addr").attr("value", addr);
+			            $("#addrDetail").trigger("focus");
+			        }
+				}).open();
+				
+				
+			});
     		
     		$("#btn_userDelete").off("click").on("click", function(){
 

@@ -31,9 +31,10 @@ public class UserController {
 			@RequestParam("name") String name,
 			@RequestParam("email") String email,
 			@RequestParam("gender") String gender,
+			@RequestParam("address") String address,
 			HttpServletRequest request) {
 		
-		System.out.println("UserCtrl: " + id + ", " + pwd + ", " + name + ", " + email + ", " + gender);
+		System.out.println("UserCtrl: " + id + ", " + pwd + ", " + name + ", " + email + ", " + gender + ", " + address);
 		
 		UserVO userVO = new UserVO();
 		userVO.setUserId(id);
@@ -41,6 +42,7 @@ public class UserController {
 		userVO.setUserName(name);
 		userVO.setUserEmail(email);
 		userVO.setUserGender(gender);
+		userVO.setUserAddress(address);
 		
 		UserVO returnUserVO = userService.edit(userVO);
 		
@@ -52,6 +54,7 @@ public class UserController {
 		request.getSession().setAttribute("userName", returnUserVO.getUserName());
 		request.getSession().setAttribute("userGender", returnUserVO.getUserGender());
 		request.getSession().setAttribute("userEmail", returnUserVO.getUserEmail());
+		request.getSession().setAttribute("userAddress", returnUserVO.getUserAddress());
 		request.getSession().setAttribute("userVO", returnUserVO);
 		
 		return "homepage";
