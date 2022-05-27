@@ -70,9 +70,15 @@
 <!-- 		                and korea_local = #{loc} -->
 <!-- 	</select> -->
 	
-	<select id="graph" resultType="com.with.corona.vo.KoreaVO">
+	<select id="graph" resultType="com.with.corona.vo.KoreaVO" parameterType="String">
 		<![CDATA[
-			select korea_local_info, korea_time from korea_info where korea_local = '합계' and rownum <= 7 order by korea_time desc
+			select korea_local_info, korea_time from (select korea_local_info, korea_time from korea_info where korea_local = '합계' order by korea_time desc) where rownum <= ${_parameter} 
+		]]>
+	</select>
+	
+	<select id="graphh" resultType="com.with.corona.vo.KoreaVO">
+		<![CDATA[
+			select sum(korea_local_info) as korea_local_info, korea_t as korea_time from ( select korea_local_info, substr(korea_time, 0, 5) as korea_t from korea_info where korea_local = '합계') group by korea_t order by korea_t desc 
 		]]>
 	</select>
 	

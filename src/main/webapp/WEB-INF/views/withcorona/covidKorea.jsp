@@ -7,12 +7,13 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>
 	let glgl = "${glgl}";
 
 	$(function() {
 		bind();
-		graph();
+		graph("7", "주간");
 		if(glgl.length != 0){
 			alert(glgl);
 		}
@@ -35,59 +36,73 @@
 
 							api(url, "get", data, function(data) {
 								$("#content").html(
-										$("#loc").val() + "지역 확진자수 : "
+										"<span style='color: red; font-weight: bold'>"+$("#loc").val() + "</span>지역 일일 확진자수 : <span style='color: red; font-weight: bold'>"
 												+ data.koreaLocalInfo
-												+ " 명<br>사망자수 : "
-												+ data.koreaDeath + " 명");
+												+ " </span>명<br>일일 사망자수 : <span style='color: red; font-weight: bold'>"
+												+ data.koreaDeath + "</span> 명");
 							});
 						})
+						
+		
+						
+		$(".child_btn").off("click").on("click", function(){
+			let dataDate = $(this).attr("data-date");
+			let wm = $(this).text();
+			$("#graph").html("<canvas id='mixed-chart' width='820' height='350'></canvas>")
+			graph(dataDate, wm);
+			console.log(wm);
+		})
+		$(".child_btn").hover(function(){
+			$(this).css("cursor", "pointer");
+		})
 	}
 
-	function graph() {
+	function graph(dataDate, wm) {
 
 		let url = "http://localhost:8080/withcorona/graph";
-		let data = {};
+		let data = {
+				dataDate : dataDate
+		};
 
 		api(url, "get", data, function(data) {
 			let list = data.vo;
 			let listDis = data.dis;
-			let listHeight = data.height;
-			console.log(listDis);
-			console.log(list);
-
-			for (let i = listHeight.length; i > 0; i--) {
-				$("#graph").append("<div class='bgc hover' data-num='" + (i - 1) + "' style='height:" + (listHeight[i - 1] + 40) + "% ;'><div class='mgt--30' inner-num='" + (i - 1) + "'>" + list[i - 1].koreaLocalInfo + "</div></div>");
-				if(i-1 != 0){
-					$("#graph").append("<div><div id='pointerInner'></div><div class='pointer' data-numm='"+(i-1)+"'>---></div></div>");
-				}
-			}
-			for (let i = list.length; i > 0; i--) {
-				$("#name").append("<div>" + list[i - 1].koreaTime + "</div>");
-				if(i-1 != 0){
-					$("#name").append("<div class='es'> </div>");
-				}
-			}
-
-
-			let num = $(".hover").attr("data-num");
-
-			$($(".hover").children("div")[0]).css("display", "");
 			
-			$(".pointer").hover(function() {
-
-				let num = $(this).attr("data-numm") - 1;
-				
-				if(listDis[num] >= 0){
-					$(this).prev().html(listDis[num]+"<br>증가");
-					$($(this).prev()).css("color", "red");
-				}else{
-					let nummm = listDis[num]*-1;
-					console.log("nummm"+nummm);
-					$(this).prev().html(nummm+"<br>감소");
-					$($(this).prev()).css("color", "blue");
-				}
-			}, function() {
-				$(this).prev().html("");
+			let graph_1 = [];
+			let graph_2 = [];
+			for(let i=list.length-1; i>-1; i--){
+				graph_1.push(list[i].koreaLocalInfo);
+				graph_2.push(list[i].koreaTime);
+			}
+			
+			
+			new Chart(document.getElementById("mixed-chart"), {
+			    type: 'bar',
+			    data: {
+			      labels: graph_2,
+			      datasets: [{
+			          label: "일일 확진자수",
+			          type: "line",
+			          borderColor: "#3e95cd",
+			          data: graph_1,
+			          fill: false
+			        }, {
+			          label: "일일 확진자수",
+			          type: "bar",
+			          backgroundColor: "rgba(255,0,0,0.5)",
+			          backgroundColorHover: "#3e95cd",
+			          data: graph_1
+			        }
+			      ]
+			    },
+			    options: {
+			      title: {
+			        display: true,
+			        text:  wm + ' 확진자 증감 추이(명)',
+			      },
+			      legend: {display: false},
+							
+			    }
 			});
 		});
 
@@ -218,10 +233,11 @@ a:active {
 #graph {
 	display: flex;
 	justify-content: space-around;
-	width: 700px;
-	height: 300px;
+	width: 870px;
+	height: 380px;
 	border: 1px gray solid;
 	align-items: flex-end;
+	margin: auto;
 }
 
 #name {
@@ -254,6 +270,13 @@ h3{
 .bold{
 	font-weight:1000;
 	border-bottom: 3px solid #000000;
+}
+.my_btn{
+	display: flex;
+    justify-content: space-evenly;
+    width: 250px;
+    margin: auto;
+    margin-bottom: 18px;
 }
 
 </style>
@@ -294,11 +317,14 @@ h3{
 	<section>
 		<div class="mgt">
 			<!-- 그래프 시작 -->
-			<h3>주간 확진자 증감 추이</h3>
 			<div>
-				<div id="graph" class="mga">
+				<div class="my_btn">
+					<div id="week" class="child_btn" data-date="7">주간</div>
+					<div id="month" class="child_btn" data-date="30">월간</div>
+					<div id="year" class="child_btn" data-date="365">연간</div>
 				</div>
-				<div id="name" class="mga">
+				<div id="graph" >
+					<canvas id="mixed-chart" width="820" height="350"></canvas>
 				</div>
 			</div>
 			<!-- 그래프 끝 -->

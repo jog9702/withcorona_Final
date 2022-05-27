@@ -14,6 +14,6 @@ public interface ConfirmedDAO {
 	public KoreaVO kLocConfirmed(String loc);
 	public ForeignVO fTodayConfirmed(String loc);
 	public void reset();
-	public Map graph();
+	public Map graph(int dataDate);
 	
 }

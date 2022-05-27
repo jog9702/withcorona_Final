@@ -44,6 +44,8 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 	String dateToMonth = dateToStr.substring(0, 6) + "01";
 	String dateToYear = dateToStr.substring(0, 4) + "0101";
 	
+	int dateToTmp = Integer.parseInt(dateToStr.substring(3,4));
+	
 	String dateToMonthSql = dateToMonth.substring(2,4)+"/"+dateToMonth.substring(4,6)+"/"+dateToMonth.substring(6,8);
 	String dateToYearSql = dateToYear.substring(2,4)+"/"+dateToYear.substring(4,6)+"/"+dateToYear.substring(6,8);
 	
@@ -59,9 +61,6 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 		int yearconfirmedCase = (int)sqlSession.selectOne("mapper.confirmed.kMYConfirmedCase", dateToYearSql);
 		int death = (int)sqlSession.selectOne("mapper.confirmed.kTodayDeathCase");
 		
-		System.out.println(dateToMonth.substring(2, 8));
-		
-		
 		map.put("today", confirmedCase);
 		map.put("month", monthconfirmedCase);
 		map.put("year", yearconfirmedCase);
@@ -72,10 +71,14 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 	
 	@Override
 	public void kUpdateToAuto() {
+		StringBuffer sb = new StringBuffer(dateToStr);
+		sb = sb.replace(3, 4, Integer.toString(dateToTmp-1));
+		String dateToMinorYear = sb.toString();
 		sqlSession.update("mapper.confirmed.truncateTable", "korea_info");
-		kUpdate(dateToMinornor, dateToStr);
-		kUpdate(dateToMonth, dateToMonth);
-		kUpdate(dateToYear, dateToYear);
+//		kUpdate(dateToMinornor, dateToStr);
+//		kUpdate(dateToMonth, dateToMonth);
+//		kUpdate(dateToYear, dateToYear);
+		kUpdate(dateToMinorYear, dateToStr);
 	}
 	
 	@Override
@@ -88,7 +91,6 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 	public KoreaVO kLocConfirmed(String loc) {
 		KoreaVO vo = new KoreaVO();
 		vo = sqlSession.selectOne("mapper.confirmed.kLocConfirmedCase", loc);
-		System.out.println("dao vo"+vo.getKoreaDeath());
 		return sqlSession.selectOne("mapper.confirmed.kLocConfirmedCase", loc);
 	}
 	
@@ -112,41 +114,35 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 		String kSeq = sqlSession.selectOne("mapper.confirmed.checkSeq", "KOREA_INFO_SEQ");
 		String fSeq = sqlSession.selectOne("mapper.confirmed.checkSeq", "FOREIGN_INFO_SEQ");
 		
-		System.out.println(kTable);
-		System.out.println(fTable);
-		System.out.println(kSeq);
-		System.out.println(fSeq);
 		
 		if(kSeq != null) {
 			sqlSession.update("mapper.confirmed.dropSequence", "korea_info_seq");
-			System.out.println("drop ks");
 		}
 		if(fSeq != null) {
 			sqlSession.update("mapper.confirmed.dropSequence", "foreign_info_seq");
-			System.out.println("drop fs");
 		}
 		sqlSession.update("mapper.confirmed.createSequence", "korea_info_seq");
 		sqlSession.update("mapper.confirmed.createSequence", "foreign_info_seq");
 		if(kTable != null) {
 			sqlSession.update("mapper.confirmed.dropTable", "korea_info");
-			System.out.println("drop kt");
 		}
 		if(fTable != null) {
 			sqlSession.update("mapper.confirmed.dropTable", "foreign_info");
-			System.out.println("drop ft");
 		}
 		sqlSession.update("mapper.confirmed.createKtable");
 		sqlSession.update("mapper.confirmed.createFtable");
-		System.out.println("초기화 성공");
 	}
 	
 	@Override
-	public Map graph() {
+	public Map graph(int dataDate) {
 		Map map = new HashMap();
 		List<KoreaVO> list = new ArrayList();
 		List<Integer> listDate = new ArrayList();
-		List<Integer> listHeight = new ArrayList();
-		list = sqlSession.selectList("mapper.confirmed.graph");
+		if(dataDate == 365) {
+			list = sqlSession.selectList("mapper.confirmed.graphh", dataDate);
+		}else {
+			list = sqlSession.selectList("mapper.confirmed.graph", dataDate);
+		}
 		
 		for(int i=0; i<list.size()-1; i++) {
 			int tmp = list.get(i).getKoreaLocalInfo() - list.get(i+1).getKoreaLocalInfo();
@@ -156,15 +152,12 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 		for(int i=0; i<list.size(); i++) {
 			tot += list.get(i).getKoreaLocalInfo(); 
 		}
-		for(int i=0; i<list.size(); i++) {
-			listHeight.add( (int)((double)list.get(i).getKoreaLocalInfo()/tot*100));
-		}
 		map.put("vo", list);
 		map.put("dis", listDate);
-		map.put("height", listHeight);
 		
 		return map;
 	}
+	
 	
 
 	
@@ -194,38 +187,38 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 
 			Document doc = builder.parse(is);
 
-			NodeList nodeList = doc.getElementsByTagName("item");
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				Element el = (Element) nodeList.item(i);
+			NodeList nodes1 = doc.getElementsByTagName("defCnt");
+			NodeList nodes2 = doc.getElementsByTagName("gubun");
+			NodeList nodes3 = doc.getElementsByTagName("deathCnt");
+			NodeList nodes4 = doc.getElementsByTagName("localOccCnt");
+			NodeList nodes5 = doc.getElementsByTagName("createDt");
+			
+//			NodeList nodeItems = ((Document) nodeList).getElementsByTagName("defCnt");
+			for (int i = 0; i < nodes1.getLength(); i++) {
 				KoreaVO vo = new KoreaVO();
 
-				NodeList nodes = el.getChildNodes();
-				Node node2 = nodes.item(2);
+				Node node2 = nodes1.item(i);
 				Element childElement2 = (Element) node2;
 				vo.setKoreaAccumulate(Integer.parseInt(childElement2.getTextContent()));
-				System.out.println(childElement2.getTextContent());
 				
-				Node node3 = nodes.item(3);
+				Node node3 = nodes2.item(i);
 				Element childElement3 = (Element) node3;
 				vo.setKoreaLocal(childElement3.getTextContent());
-				System.out.println(childElement3.getTextContent());
 
-				Node node1 = nodes.item(1);
+				Node node1 = nodes3.item(i);
 				Element childElement1 = (Element) node1;
 				vo.setKoreaDeath(Integer.parseInt(childElement1.getTextContent()));
-				System.out.println(childElement1.getTextContent());
 
-				Node node7 = nodes.item(7);
+
+				Node node7 = nodes4.item(i);
 				Element childElement7 = (Element) node7;
 				vo.setKoreaLocalInfo(Integer.parseInt(childElement7.getTextContent()));
-				System.out.println(childElement7.getTextContent());
 
-				Node node0 = nodes.item(0);
+				Node node0 = nodes5.item(i);
 				Element childElement0 = (Element) node0;
 				String timeBefore = childElement0.getTextContent();
 				String time = timeBefore.substring(2, 10).replace("-", "/");
 				vo.setKoreaTime(time);
-				System.out.println(time);
 
 //		Date type 삽입
 //		Node node0 = nodes.item(0);
@@ -269,31 +262,26 @@ public class ConfirmedDAOImpl implements ConfirmedDAO {
 				Node node0 = nodes.item(0);
 				Element childElement0 = (Element) node0;
 				vo.setForeignLocalO(childElement0.getTextContent());
-				System.out.println(childElement0.getTextContent());
 
 				if (childElement0.getTextContent().equals("아시아")) {
 					Node node7 = nodes.item(7);
 					Element childElement7 = (Element) node7;
 					vo.setForeignLocalI(childElement7.getTextContent());
-					System.out.println(childElement7.getTextContent());
 
 					Node node4 = nodes.item(4);
 					Element childElement4 = (Element) node4;
 					vo.setForeignDeath(Integer.parseInt(childElement4.getTextContent()));
-					System.out.println(childElement4.getTextContent());
 
 					Node node6 = nodes.item(6);
 					Element childElement6 = (Element) node6;
 					vo.setForeignLocalInfo(Integer.parseInt(childElement6.getTextContent()));
-					System.out.println(childElement6.getTextContent());
 
 					Node node3 = nodes.item(3);
 					Element childElement3 = (Element) node3;
 					String timeBefore = childElement3.getTextContent();
-					System.out.println(timeBefore);
+					
 					String time = timeBefore.substring(2, 10).replace("-", "/");
 					vo.setForeignTime(time);
-					System.out.println(time);
 
 //				Date type 삽입
 //				Node node0 = nodes.item(0);

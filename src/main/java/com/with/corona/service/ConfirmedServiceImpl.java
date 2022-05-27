@@ -46,8 +46,8 @@ public class ConfirmedServiceImpl implements ConfirmedService {
 	}
 	
 	@Override
-	public Map graph() {
-		return confirmedDAO.graph();
+	public Map graph(int dataDate) {
+		return confirmedDAO.graph(dataDate);
 	}
 	
 }

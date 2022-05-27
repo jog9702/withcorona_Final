@@ -19,34 +19,34 @@ import com.with.corona.vo.KoreaVO;
 
 @Controller
 public class ConfirmedController {
-	
+
 	@Autowired
 	ConfirmedService confirmedService;
-	
-	@RequestMapping(value="/covidHomepage", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/covidHomepage", method = RequestMethod.GET)
 	String homePage(Model model, HttpServletRequest request, HttpServletResponse response) {
-		
+
+		confirmedService.kUpdateToAuto();
+		System.out.println("controller in : "+confirmedService.kConfirm().get("today"));
 		try {
-			confirmedService.kUpdateToAuto();
-			
+
 			DecimalFormat fmt = new DecimalFormat("###,###");
 			model.addAttribute("todayCount", fmt.format(confirmedService.kConfirm().get("today")));
 			model.addAttribute("monthCount", fmt.format(confirmedService.kConfirm().get("month")));
 			model.addAttribute("yearCount", fmt.format(confirmedService.kConfirm().get("year")));
 			model.addAttribute("todayDeath", fmt.format(confirmedService.kConfirm().get("death")));
-		}catch(Exception e) {
+		} catch (Exception e) {
 			model.addAttribute("todayCount", -999);
 			model.addAttribute("monthCount", -999);
 			model.addAttribute("yearCount", -999);
 			model.addAttribute("todayDeath", -999);
 			model.addAttribute("glgl", "테이블을 초기화 하거나 관리자에게 문의해주세요 박정희 : 010-2373-6719");
 		}
-		
-		
+
 		return "homepage";
 	}
-	
-	@RequestMapping(value="/covidKorea", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/covidKorea", method = RequestMethod.GET)
 	String korea(Model model) {
 		try {
 			DecimalFormat fmt = new DecimalFormat("###,###");
@@ -54,64 +54,78 @@ public class ConfirmedController {
 			model.addAttribute("monthCount", fmt.format(confirmedService.kConfirm().get("month")));
 			model.addAttribute("yearCount", fmt.format(confirmedService.kConfirm().get("year")));
 			model.addAttribute("todayDeath", fmt.format(confirmedService.kConfirm().get("death")));
-		}catch(Exception e) {
+		} catch (Exception e) {
 			model.addAttribute("todayCount", -999);
 			model.addAttribute("monthCount", -999);
 			model.addAttribute("yearCount", -999);
 			model.addAttribute("todayDeath", -999);
 			model.addAttribute("glgl", "테이블을 초기화 하거나 관리자에게 문의해주세요 박정희 : 010-2373-6719");
 		}
-		
-		
+
 		return "covidKorea";
 	}
-	
-	@RequestMapping(value="/covidKoreaDetail", method=RequestMethod.GET)
-	@ResponseBody KoreaVO koreaDetail(HttpServletRequest request) {
-		String loc = (String)request.getParameter("loc");
+
+	@RequestMapping(value = "/covidKoreaDetail", method = RequestMethod.GET)
+	@ResponseBody
+	KoreaVO koreaDetail(HttpServletRequest request) {
+		String loc = (String) request.getParameter("loc");
 		
 		KoreaVO vo = confirmedService.kLocCon(loc);
-		System.out.println("vo : "+vo.getKoreaDeath());
+		
+		System.out.println("vo : " + vo.getKoreaDeath());
 		return vo;
 	}
-	
-	@RequestMapping(value="/covidForeignDetail", method=RequestMethod.GET)
-	@ResponseBody ForeignVO ForeignDetail(HttpServletRequest request) {
-		String loc = (String)request.getParameter("loc");
-		
+
+	@RequestMapping(value = "/covidForeignDetail", method = RequestMethod.GET)
+	@ResponseBody
+	ForeignVO ForeignDetail(HttpServletRequest request) {
+		String loc = (String) request.getParameter("loc");
+
 		ForeignVO vo = confirmedService.fLocCon(loc);
 		vo.setForeignLocalI(loc);
 		return vo;
 	}
-	
-	@RequestMapping(value="/covidForeign", method=RequestMethod.GET)
-	String foreign(Model model,  HttpServletRequest request) {
+
+	@RequestMapping(value = "/covidForeign", method = RequestMethod.GET)
+	String foreign(Model model, HttpServletRequest request) {
 		try {
 			confirmedService.fUpdateToAuto();
 			DecimalFormat fmt = new DecimalFormat("###,###");
 			model.addAttribute("kor", fmt.format(confirmedService.fLocCon("한국").getForeignLocalInfo()));
 			model.addAttribute("chi", fmt.format(confirmedService.fLocCon("중국").getForeignLocalInfo()));
 			model.addAttribute("jap", fmt.format(confirmedService.fLocCon("일본").getForeignLocalInfo()));
-		}catch(Exception e) {
+		} catch (Exception e) {
 			model.addAttribute("kor", -999);
 			model.addAttribute("chi", -999);
 			model.addAttribute("jap", -999);
 			model.addAttribute("glgl", "테이블을 초기화 하거나 관리자에게 문의해주세요 박정희 : 010-2373-6719");
 		}
-		
+
 		return "covidForeign";
 	}
-	
-	@RequestMapping(value="/reset", method=RequestMethod.GET)
-	@ResponseBody void reset() {
+
+	@RequestMapping(value = "/reset", method = RequestMethod.GET)
+	@ResponseBody
+	void reset() {
 		confirmedService.reset();
 	}
-	
-	@RequestMapping(value="/graph", method=RequestMethod.GET)
-	@ResponseBody Map graph(HttpServletRequest request) {
+
+	@RequestMapping(value = "/graph", method = RequestMethod.GET)
+	@ResponseBody
+	Map graph(HttpServletRequest request) {
+		String dataDate = request.getParameter("dataDate");
+		int date = Integer.parseInt(dataDate);
 		
-		return confirmedService.graph();
 		
+		
+		return confirmedService.graph(date);
+
 	}
 	
+	@RequestMapping(value = "/chartTest", method = RequestMethod.GET)
+	String chartTest() {
+
+		return "chartTest";
+	}
+
 }

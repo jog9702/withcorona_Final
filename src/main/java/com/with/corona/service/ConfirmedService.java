@@ -14,6 +14,6 @@ public interface ConfirmedService {
 	public KoreaVO kLocCon(String loc);
 	public ForeignVO fLocCon(String loc);
 	public void reset();
-	public Map graph();
+	public Map graph(int dataDate);
 	
 }
