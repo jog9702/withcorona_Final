@@ -1,5 +1,7 @@
 package com.with.corona.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.with.corona.service.LoginService;
+import com.with.corona.service.Sha256;
 import com.with.corona.vo.UserVO;
 
 @Controller
@@ -37,8 +40,22 @@ public class LoginController {
 		UserVO userVO = new UserVO();
 		HttpSession session = request.getSession();
 		
-		userVO.setUserId(userId);
-		userVO.setUserPassword(userPassword);
+		try {
+			//암호화 SHA-256
+			Sha256 sha256 = new Sha256();
+			String cryptogram;
+			cryptogram = sha256.encrypt(userPassword);
+			System.out.println("암호화 결과: " + cryptogram.equals(sha256.encrypt(userPassword)));
+			
+			userVO.setUserId(userId);
+			System.out.println(userVO.getUserId());
+			userVO.setUserPassword(cryptogram);
+			System.out.println(userVO.getUserPassword());
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		System.out.println("userVO.getUserAuth : " + userVO.getUserAuth());
 		
 		UserVO result = loginService.login(userVO);

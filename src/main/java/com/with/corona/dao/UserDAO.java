@@ -9,4 +9,6 @@ public interface UserDAO {
 	public UserVO edit(UserVO userVO);
 	
 	void userDelete(String id);
+	
+	boolean checkPw(UserVO userVO);
 }

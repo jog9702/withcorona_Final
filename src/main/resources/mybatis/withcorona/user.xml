@@ -47,6 +47,15 @@
 			user_id = #{userId}
 	</select>
 	
-	
+	<select id="checkPw" resultType="UserVO" parameterType="UserVO">
+		select
+			*
+		from
+			user_info
+		where
+			user_id = #{userId}
+		and
+			user_password = #{userPassword}
+	</select>
 	
 </mapper>

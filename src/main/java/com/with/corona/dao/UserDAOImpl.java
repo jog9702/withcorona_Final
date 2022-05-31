@@ -34,6 +34,29 @@ public class UserDAOImpl implements UserDAO {
 		
 	}
 
+	@Override
+	public boolean checkPw(UserVO userVO) {
+		
+		System.out.println("UserDAO: " + userVO.getUserId() + ", " + userVO.getUserPassword());
+		
+		boolean check = false;
+		
+		try {
+			
+			UserVO result = sqlSession.selectOne("mapper.user.checkPw", userVO);
+			
+			if(result == null) {
+				check = false;
+			} else {
+				check = true;
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("DAO return: " + check);
+		return check;
+	}
 	
 	
 }

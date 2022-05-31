@@ -230,7 +230,7 @@ body {
 			</c:if>
         	<c:if test="${ userVO.userAuth != null }">
 				<a href="/withcorona/logout"><input type="button" value="로그아웃"></a>
-				<a href="/withcorona/mypage"><input type="button" value="회원정보"></a>
+				<a href="/withcorona/checkMypage"><input type="button" value="회원정보"></a>
 			</c:if>
         </div>
         <div class="flex">

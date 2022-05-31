@@ -30,4 +30,13 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
+	@Override
+	public boolean checkPw(UserVO userVO) {
+		
+		System.out.println("UserService: " + userVO.getUserId() + ", " + userVO.getUserPassword());
+		boolean result = userDAO.checkPw(userVO);
+		return result;
+		
+	}
+	
 }

@@ -26,11 +26,11 @@ public class LoginDAOImpl implements LoginDAO{
 		
 		try {
 			UserVO result = sqlSession.selectOne("mapper.login.loginCheck", userVO);
-			System.out.println("LoginDAO: " + result.getUserAuth());
 			
 			if(result == null) {
 				check = false;
 			} else {
+				System.out.println("LoginDAO: " + result.getUserAuth());
 				check = true;
 			}
 			

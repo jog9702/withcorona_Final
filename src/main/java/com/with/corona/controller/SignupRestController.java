@@ -1,16 +1,13 @@
 package com.with.corona.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.with.corona.service.Sha256;
 import com.with.corona.service.SignupService;
 import com.with.corona.vo.UserVO;
 
@@ -41,9 +38,15 @@ public class SignupRestController {
 			
 			UserVO userVO = new UserVO();
 			try {
+				
+				//암호화 SHA-256
+				Sha256 sha256 = new Sha256();
+				String cryptogram = sha256.encrypt(userPassword);
+				System.out.println("암호화 결과: " + cryptogram.equals(sha256.encrypt(userPassword)));
+				
 				System.out.println("checkResult: " + checkResult);
 				userVO.setUserId(userId);
-				userVO.setUserPassword(userPassword);
+				userVO.setUserPassword(cryptogram);
 				userVO.setUserName(userName);
 				userVO.setUserGender(userGender);
 				userVO.setUserEmail(userEmail);
@@ -68,3 +71,4 @@ public class SignupRestController {
 	}
 	
 }
+

@@ -1,5 +1,7 @@
 package com.with.corona.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -7,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.with.corona.service.Sha256;
 import com.with.corona.service.UserService;
 import com.with.corona.vo.UserVO;
 
@@ -17,9 +21,43 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@RequestMapping("/checkMypage")
+	public String checkMypage() {
+		
+		return "checkMypage";
+		
+	}
+	
+	@RequestMapping("/resultMypage")
+	@ResponseBody public boolean mypage(
+			@RequestParam("pwd") String pwd,
+			HttpSession session) {
+		
+		UserVO userVO = new UserVO();
+		
+		String id = (String) session.getAttribute("userId");
+		
+		//암호화 SHA-256
+		try {
+			Sha256 sha256 = new Sha256();
+			String cryptogram;
+			cryptogram = sha256.encrypt(pwd);
+			System.out.println("암호화 결과: " + cryptogram.equals(sha256.encrypt(pwd)));
+			
+			userVO.setUserId(id);
+			userVO.setUserPassword(cryptogram);
+			System.out.println("UserCtrl: " + userVO.getUserId() + ", " + userVO.getUserPassword());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		boolean result = userService.checkPw(userVO);
+		
+		return result;
+		
+	}
+	
 	@RequestMapping("/mypage")
 	public String mypage() {
-		
 		return "mypage";
 		
 	}
@@ -37,12 +75,25 @@ public class UserController {
 		System.out.println("UserCtrl: " + id + ", " + pwd + ", " + name + ", " + email + ", " + gender + ", " + address);
 		
 		UserVO userVO = new UserVO();
-		userVO.setUserId(id);
-		userVO.setUserPassword(pwd);
-		userVO.setUserName(name);
-		userVO.setUserEmail(email);
-		userVO.setUserGender(gender);
-		userVO.setUserAddress(address);
+		
+		try {
+			//암호화 SHA-256
+			Sha256 sha256 = new Sha256();
+			String cryptogram;
+			cryptogram = sha256.encrypt(pwd);
+			System.out.println("암호화 결과: " + cryptogram.equals(sha256.encrypt(pwd)));
+			
+			userVO.setUserId(id);
+			userVO.setUserPassword(cryptogram);
+			userVO.setUserName(name);
+			userVO.setUserEmail(email);
+			userVO.setUserGender(gender);
+			userVO.setUserAddress(address);
+			
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		UserVO returnUserVO = userService.edit(userVO);
 		
