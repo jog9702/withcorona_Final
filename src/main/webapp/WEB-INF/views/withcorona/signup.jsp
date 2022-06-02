@@ -170,25 +170,25 @@
 			    	</div>
 			    	<div class="hide red fs_12">아이디를 꼭 입력하세요</div>
 			    	<div class="textForm">
-			    		<span class="red">* </span>
+			    		<span class="red fs_12">* 비밀번호는 8~16자 영문, 숫자, 특수문자가 포함되어야 합니다. </span>
 			    		<input type="password" class="input_text" id="pwd" placeholder="비밀번호">
 			    	</div>
-			    	<div class="hide red fs_12">비밀번호는 필수입니다</div>
+			    	<div class="hide red fs_12">유효하지 않은 비밀번호입니다.</div>
 			    	<div class="textForm">
 			    		<span class="red">* </span>
 			    		<input type="password" class="input_text" id="pwdCheck" placeholder="비밀번호 확인">
 			    	</div>
-			    	<div class="hide red fs_12">일치하지 않습니다.</div>
+			    	<div class="hide red fs_12">비밀번호가 일치하지 않습니다.</div>
 			    	<div class="textForm">
 			    		<span class="red">* </span>
 			    		<input type="text" class="input_text" id="name" placeholder="이름">
 			    	</div>
 			    	<div class="hide red fs_12">이름은 필수입니다</div>
 			    	<div class="textForm">
-			    		<span class="red">* </span>
+			    		<span class="red fs_12">* 이메일 양식에 맞게 작성해 주세요.</span>
 			    		<input type="email" class="input_text" id="email" placeholder="이메일">
 			    	</div>
-			    	<div class="hide red fs_12">이메일은 필수입니다</div>
+			    	<div class="hide red fs_12">이메일 양식이 맞지 않습니다.</div>
 			    	<div class="textForm">
 			    		<span class="red">* </span>
 			    		<input type="text" class="input_text" id="addr" placeholder="주소" readonly>
@@ -304,9 +304,9 @@
     			
     			if(evt.keyCode == 13){
     				$("#pwdCheck").trigger("focus");
-    			} else {
+    			} /* else {
     				$(this).parent().next().addClass("hide");
-    			}
+    			} */
     		});
     		
     		$("#pwd").off("blur").on("blur", function(evt){
@@ -324,6 +324,17 @@
     			
     			console.log("pwd keyup: ", pwd);
     			console.log("pwd keyup: ", pwdCheck);
+    			
+    			let regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+    			
+    			if(regExp.test(pwd)){
+    				console.log("ok");
+    				$(this).parent().next().addClass("hide");
+    			} else {
+    				console.log("no");
+    				$(this).parent().next().removeClass("hide");
+    			}
+    			
     			
     			if(pwd == pwdCheck){
     				$(this).parent().next().next().next().addClass("hide");
@@ -378,17 +389,31 @@
     			
     			if(evt.keyCode == 13){
     				$(".gender").trigger("focus");
-    			} else {
+    			} /* else {
     				$(this).parent().next().addClass("hide");
-    			}
+    			} */
     		});
-    		
+			
     		$("#email").off("blur").on("blur", function(evt){
 
     			if( $(this).val() == "" ){
     				$(this).parent().next().removeClass("hide");
     			}
     			
+    		});
+    		
+			$("#email").off("keyup").on("keyup", function(evt){
+
+				let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+				
+				let email = $("#email").val();
+				
+				if(regExp.test(email)){
+					$(this).parent().next().addClass("hide");
+				} else {
+					$(this).parent().next().removeClass("hide");
+				}
+				
     		});
     		
 			$("#addr").off("click").on("click", function(){
